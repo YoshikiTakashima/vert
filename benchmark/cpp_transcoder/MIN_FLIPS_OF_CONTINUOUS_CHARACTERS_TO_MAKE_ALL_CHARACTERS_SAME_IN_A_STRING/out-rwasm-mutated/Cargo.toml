@@ -1,0 +1,13 @@
+
+[package]
+name = "cpp_transcoder_min_flips_of_continuous_characters_to_make_all_characters_same_in_a_string_out-rwasm-mutated"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

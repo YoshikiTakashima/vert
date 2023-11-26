@@ -1,0 +1,15 @@
+
+[package]
+name = "cpp_transcoder_check_whether_given_degrees_vertices_represent_graph_tree_out-rwasm-bolero"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            
+[dev-dependencies]
+bolero = "0.10.0"

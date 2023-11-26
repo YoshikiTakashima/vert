@@ -1,0 +1,18 @@
+--- original
++++ mutated
+@@ -1181,7 +1181,7 @@
+ local_0 = v0.try_as_i32()?;
+
+ v0 = TaggedVal::from(1i32);
+
+ local_1 = v0.try_as_i32()?;
+
+-v0 = TaggedVal::from(2i32);
+
++v0 = TaggedVal::from(29i32);
+
+ local_2 = v0.try_as_i32()?;
+
+ v0 = TaggedVal::from(local_1);
+
+ v1 = TaggedVal::from(local_2);

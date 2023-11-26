@@ -1,0 +1,13 @@
+
+[package]
+name = "cpp_transcoder_fast_multiplication_method_without_using_multiplication_operator_russian_peasants_algorithm_out-rwasm-mutated"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

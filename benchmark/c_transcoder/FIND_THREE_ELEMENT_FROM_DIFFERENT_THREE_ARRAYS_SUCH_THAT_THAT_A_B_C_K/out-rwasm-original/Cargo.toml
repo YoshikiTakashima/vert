@@ -1,0 +1,13 @@
+
+[package]
+name = "c_transcoder_find_three_element_from_different_three_arrays_such_that_that_a_b_c_k_out-rwasm-original"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

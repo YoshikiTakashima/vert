@@ -1,0 +1,18 @@
+--- original
++++ mutated
+@@ -423,7 +423,7 @@
+ local_1 = v0.try_as_i64()?;
+
+ v0 = TaggedVal::from(2i64);
+
+ local_2 = v0.try_as_i64()?;
+
+-v0 = TaggedVal::from(3i64);
+
++v0 = TaggedVal::from(29i64);
+
+ local_3 = v0.try_as_i64()?;
+
+ v0 = TaggedVal::from(local_1);
+
+ v1 = TaggedVal::from(local_2);

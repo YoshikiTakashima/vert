@@ -1,0 +1,13 @@
+
+[package]
+name = "c_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-original"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

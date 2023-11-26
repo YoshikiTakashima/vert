@@ -1,0 +1,8 @@
+--- original
++++ mutated
+@@ -169,7 +169,7 @@
+                  m.globals.resize_with(1, Default::default);
+
+                  m.globals[0] = TaggedVal::from(66576i32);
+
+                  

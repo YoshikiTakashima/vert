@@ -1,0 +1,13 @@
+
+[package]
+name = "cpp_transcoder_minimum_number_of_bracket_reversals_needed_to_make_an_expression_balanced_out-rwasm-mutated"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

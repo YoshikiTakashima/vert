@@ -1,0 +1,8 @@
+--- original
++++ mutated
+@@ -172,7 +172,7 @@
+ m.indirect_call_table[1] = Some(104);
+
+ m.indirect_call_table[2] = Some(102);
+
+ m.indirect_call_table[3] = Some(98);

@@ -1,0 +1,18 @@
+--- original
++++ mutated
+@@ -267,7 +267,7 @@
+ let mut local_0 : i32 = 0i32;
+
+ let mut local_1 : f64 = 0f64;let mut v0: TaggedVal;v0 = TaggedVal::from(0i32);
+
+ local_0 = v0.try_as_i32()?;
+
+-v0 = TaggedVal::from(1f64);
+
++v0 = TaggedVal::from(29f64);
+
+ local_1 = v0.try_as_f64()?;
+
+ v0 = TaggedVal::from(local_1);
+
+ v0 = TaggedVal::from(self.func_3(v0.try_as_f64()?)?);

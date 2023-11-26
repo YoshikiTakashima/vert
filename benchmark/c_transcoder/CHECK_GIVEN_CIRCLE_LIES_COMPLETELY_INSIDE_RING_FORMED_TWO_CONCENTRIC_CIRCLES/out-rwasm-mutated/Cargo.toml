@@ -1,0 +1,13 @@
+
+[package]
+name = "c_transcoder_check_given_circle_lies_completely_inside_ring_formed_two_concentric_circles_out-rwasm-mutated"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

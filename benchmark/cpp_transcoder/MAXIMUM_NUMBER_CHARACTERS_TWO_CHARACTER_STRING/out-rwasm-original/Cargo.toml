@@ -1,0 +1,13 @@
+
+[package]
+name = "cpp_transcoder_maximum_number_characters_two_character_string_out-rwasm-original"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

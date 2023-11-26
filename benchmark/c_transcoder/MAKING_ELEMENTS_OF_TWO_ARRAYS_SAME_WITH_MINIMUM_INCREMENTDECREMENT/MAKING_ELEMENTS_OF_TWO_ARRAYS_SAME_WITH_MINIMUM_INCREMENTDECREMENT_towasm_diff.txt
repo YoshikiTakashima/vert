@@ -1,0 +1,18 @@
+--- original
++++ mutated
+@@ -575,7 +575,7 @@
+ self.globals[0] = TaggedVal::from(v0.try_as_i32()?);
+
+ v0 = TaggedVal::from(0i32);
+
+ local_3 = v0.try_as_i32()?;
+
+-v0 = TaggedVal::from(3i32);
+
++v0 = TaggedVal::from(29i32);
+
+ local_4 = v0.try_as_i32()?;
+
+ v0 = TaggedVal::from(local_2);
+
+ local_5 = v0.try_as_i32()?;

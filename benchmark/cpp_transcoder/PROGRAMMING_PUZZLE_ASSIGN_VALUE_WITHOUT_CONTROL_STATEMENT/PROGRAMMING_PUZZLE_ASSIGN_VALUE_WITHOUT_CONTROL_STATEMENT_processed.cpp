@@ -1,0 +1,16 @@
+
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+int f_gold ( int a, int b, bool x ) {
+  int arr [ ] = {
+    a, b };
+    return ( arr [ x ] );
+  }
+  
+

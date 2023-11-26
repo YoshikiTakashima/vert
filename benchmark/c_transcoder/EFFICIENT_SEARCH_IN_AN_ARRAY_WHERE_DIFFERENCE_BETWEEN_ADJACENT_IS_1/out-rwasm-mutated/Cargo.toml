@@ -1,0 +1,13 @@
+
+[package]
+name = "c_transcoder_efficient_search_in_an_array_where_difference_between_adjacent_is_1_out-rwasm-mutated"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            

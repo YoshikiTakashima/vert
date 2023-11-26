@@ -1,0 +1,15 @@
+
+[package]
+name = "cpp_transcoder_count_of_sub_strings_that_do_not_contain_all_the_characters_from_the_set_a_b_c_at_the_same_time_out-rwasm-bolero"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+
+            
+[dev-dependencies]
+bolero = "0.10.0"

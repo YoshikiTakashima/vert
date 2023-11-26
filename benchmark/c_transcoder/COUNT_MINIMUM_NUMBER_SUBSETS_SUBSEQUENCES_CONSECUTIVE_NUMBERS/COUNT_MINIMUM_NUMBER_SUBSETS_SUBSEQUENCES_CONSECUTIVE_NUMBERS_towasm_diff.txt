@@ -1,0 +1,8 @@
+--- original
++++ mutated
+@@ -170,7 +170,7 @@
+                  m.globals[0] = TaggedVal::from(66576i32);
+
+                  if m.indirect_call_table.len() < 2 { m.indirect_call_table.resize(2, None) }
+
+ m.indirect_call_table[1] = Some(3);
