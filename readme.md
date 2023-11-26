@@ -31,7 +31,7 @@ cargo bolero reduce bolero_wasm_eq
 cd benchmark/c_transcoder/BIRTHDAY_PARADOX/out-rwasm-mutated
 cargo kani --no-unwinding-checks --default-unwind 10
 ```
-## Bolero
+## Full Kani
 ```
 cd benchmark/c_transcoder/BIRTHDAY_PARADOX/out-rwasm-mutated
 cargo kani
