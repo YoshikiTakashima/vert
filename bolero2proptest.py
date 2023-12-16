@@ -1,5 +1,8 @@
 # bolero2proptest.py --- converts a bolero harness into a proptest harness. Run
 # from the root of the crate that has bolero harneses.
+import subprocess
+
+
 def split_prefix_suffix(raw: str) -> tuple[str, str]:
     """Split the code into 2 pieces, with the second piece being the test harness."""
     split = raw.rfind("use bolero::check;")
@@ -31,6 +34,7 @@ def get_arg_ty_pair(suffix: str) -> list[tuple[str, str]]:
 def codegen_proptest(body: str, arg_ty_pairs: list[tuple[str, str]]) -> str:
     input_str = ", ".join([f"{a}: {t}" for (a, t) in arg_ty_pairs])
     return f"""
+use proptest::prelude::*;
 proptest!{{
   #[test]
   fn check_eq(
@@ -43,6 +47,7 @@ proptest!{{
 
 
 SRC_FILE = "src/main.rs"
+CARGO_TOML_FILE = "Cargo.toml"
 
 if __name__ == "__main__":
     raw = None
@@ -55,3 +60,8 @@ if __name__ == "__main__":
         arg_ty_pairs = get_arg_ty_pair(suffix)
         proptest_code = codegen_proptest(body, arg_ty_pairs)
         print(proptest_code)
+
+        with open(SRC_FILE, "w") as foutput:
+            foutput.write(prefix + proptest_code)
+        subprocess.run(["sed", "-i", 's/^bolero.*/proptest = "1.0.0"/g', CARGO_TOML_FILE])
+        subprocess.run(["sed", "-i", 's/rwasm-bolero/rwasm-proptest/g', CARGO_TOML_FILE])
