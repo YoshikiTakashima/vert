@@ -51,7 +51,7 @@ GRCOV_ENV = os.environ.copy()
 GRCOV_ENV["CARGO_INCREMENTAL"] = "0"
 GRCOV_ENV["RUSTFLAGS"] = (
     "-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code "
-    + "-Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+    + "-Coverflow-checks=off"
 )
 GRCOV_ENV["RUSTDOCFLAGS"] = "-Cpanic=abort"
 GRCOV_ENV["PROPTEST_CASES"] = "100000"
