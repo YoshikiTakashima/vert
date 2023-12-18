@@ -86,5 +86,6 @@ if __name__ == "__main__":
         )
         subprocess.run(
             "grcov ../../../target/debug -s . --binary-path ../../../target/debug "
-            + "-t lcov --branch --keep-only src/main.rs --ignore-not-existing -o coverage.lcov"
+            + "-t lcov --branch --keep-only src/main.rs --ignore-not-existing -o coverage.lcov",
+            shell=True,
         )
