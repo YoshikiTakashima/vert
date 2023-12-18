@@ -1,6 +1,7 @@
 # bolero2proptest.py --- converts a bolero harness into a proptest harness. Run
 # from the root of the crate that has bolero harneses.
 import subprocess
+import os
 
 
 def split_prefix_suffix(raw: str) -> tuple[str, str]:
@@ -46,6 +47,15 @@ proptest!{{
 """
 
 
+GRCOV_ENV = os.environ.copy()
+GRCOV_ENV["CARGO_INCREMENTAL"] = "0"
+GRCOV_ENV["RUSTFLAGS"] = (
+    "-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code "
+    + "-Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+)
+GRCOV_ENV["RUSTDOCFLAGS"] = "-Cpanic=abort"
+GRCOV_ENV["PROPTEST_CASES"] = "100000"
+
 SRC_FILE = "src/main.rs"
 CARGO_TOML_FILE = "Cargo.toml"
 
@@ -63,5 +73,18 @@ if __name__ == "__main__":
 
         with open(SRC_FILE, "w") as foutput:
             foutput.write(prefix + proptest_code)
-        subprocess.run(["sed", "-i", 's/^bolero.*/proptest = "1.0.0"/g', CARGO_TOML_FILE])
-        subprocess.run(["sed", "-i", 's/rwasm-bolero/rwasm-proptest/g', CARGO_TOML_FILE])
+        subprocess.run(
+            ["sed", "-i", 's/^bolero.*/proptest = "1.0.0"/g', CARGO_TOML_FILE]
+        )
+        subprocess.run(
+            ["sed", "-i", "s/rwasm-bolero/rwasm-proptest/g", CARGO_TOML_FILE]
+        )
+        subprocess.run(
+            "timeout --signal=KILL 2m cargo test",
+            shell=True,
+            env=GRCOV_ENV,
+        )
+        subprocess.run(
+            "grcov ../../../target/debug -s . --binary-path ../../../target/debug "
+            + "-t lcov --branch --keep-only src/main.rs --ignore-not-existing -o coverage.lcov"
+        )
