@@ -89,3 +89,5 @@ if __name__ == "__main__":
             + "-t lcov --branch --keep-only src/main.rs --ignore-not-existing -o coverage.lcov",
             shell=True,
         )
+        subprocess.run("cargo clean", shell=True)
+
