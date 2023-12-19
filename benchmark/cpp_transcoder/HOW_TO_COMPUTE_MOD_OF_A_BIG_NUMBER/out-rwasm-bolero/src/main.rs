@@ -12000,10 +12000,14 @@ for i in 0..num.len() {
 res
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<(String, i32)>().cloned().for_each(|(PARAM_1,PARAM_2)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: String, PARAM_2: i32
+  ) {
+     
 		if let Some(param1_0) = PARAM_1.chars().nth(0){
 		unsafe {
 		PARAM1 = param1_0;
@@ -12013,5 +12017,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold(unsafe{PARAM1}.into(),unsafe{PARAM2}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	}});
+	}
+  }
 }

@@ -13226,10 +13226,14 @@ fn f_gold(mut str: String) -> i32 {
     return dp[0][N-1]; 
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<(String)>().cloned().for_each(|(PARAM_1)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: String
+  ) {
+     
 		if let Some(param1_0) = PARAM_1.chars().nth(0){
 		unsafe {
 		PARAM1 = param1_0;
@@ -13238,5 +13242,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold(unsafe{PARAM1}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	}});
+	}
+  }
 }

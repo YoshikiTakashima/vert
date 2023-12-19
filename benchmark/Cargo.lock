@@ -24,6 +24,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a4668cab20f66d8d020e1fbc0ebe47217433c1b6c8f2040faf858554e394ace6"
 
 [[package]]
+name = "autocfg"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
+
+[[package]]
 name = "backtrace"
 version = "0.3.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -37,6 +43,21 @@ dependencies = [
  "object",
  "rustc-demangle",
 ]
+
+[[package]]
+name = "bit-set"
+version = "0.5.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0700ddab506f33b20a03b13996eccd309a48e5ff77d0d95926aa0210fb4e95f1"
+dependencies = [
+ "bit-vec",
+]
+
+[[package]]
+name = "bit-vec"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
 
 [[package]]
 name = "bitflags"
@@ -12813,15 +12834,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "cpp_transcoder_add_1_to_a_given_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_add_1_to_a_given_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -12838,10 +12850,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_add_1_to_a_given_number_out-rwasm-bolero"
+name = "cpp_transcoder_add_1_to_a_given_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12863,10 +12875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_add_two_numbers_without_using_arithmetic_operators_out-rwasm-bolero"
+name = "cpp_transcoder_add_1_to_a_given_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12888,10 +12900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_analysis_of_algorithms_set_2_asymptotic_analysis_out-rwasm-bolero"
+name = "cpp_transcoder_add_two_numbers_without_using_arithmetic_operators_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12913,10 +12925,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_area_square_circumscribed_circle_out-rwasm-bolero"
+name = "cpp_transcoder_analysis_of_algorithms_set_2_asymptotic_analysis_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12938,10 +12950,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_array_element_moved_k_using_single_moves_out-rwasm-bolero"
+name = "cpp_transcoder_area_square_circumscribed_circle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12963,10 +12975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_basic_and_extended_euclidean_algorithms_out-rwasm-bolero"
+name = "cpp_transcoder_array_element_moved_k_using_single_moves_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -12988,10 +13000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_bell_numbers_number_of_ways_to_partition_a_set_out-rwasm-bolero"
+name = "cpp_transcoder_basic_and_extended_euclidean_algorithms_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13008,6 +13020,15 @@ dependencies = [
 name = "cpp_transcoder_bell_numbers_number_of_ways_to_partition_a_set_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_bell_numbers_number_of_ways_to_partition_a_set_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13113,15 +13134,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_c_program_factorial_number_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_c_program_factorial_number_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13133,6 +13145,15 @@ dependencies = [
 name = "cpp_transcoder_c_program_factorial_number_2_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_c_program_factorial_number_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13213,15 +13234,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_calculate_maximum_value_using_sign_two_numbers_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_calculate_maximum_value_using_sign_two_numbers_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13238,10 +13250,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_calculate_sum_of_all_numbers_present_in_a_string_out-rwasm-bolero"
+name = "cpp_transcoder_calculate_maximum_value_using_sign_two_numbers_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13263,10 +13275,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_cassinis_identity_out-rwasm-bolero"
+name = "cpp_transcoder_calculate_sum_of_all_numbers_present_in_a_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13283,6 +13295,15 @@ dependencies = [
 name = "cpp_transcoder_cassinis_identity_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_cassinis_identity_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13363,15 +13384,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_change_bits_can_made_one_flip_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_change_bits_can_made_one_flip_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13383,6 +13395,15 @@ dependencies = [
 name = "cpp_transcoder_change_bits_can_made_one_flip_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_change_bits_can_made_one_flip_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13413,15 +13434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13438,10 +13450,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_characters_given_string_can_rearranged_form_palindrome_1_out-rwasm-bolero"
+name = "cpp_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13458,6 +13470,15 @@ dependencies = [
 name = "cpp_transcoder_check_characters_given_string_can_rearranged_form_palindrome_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_characters_given_string_can_rearranged_form_palindrome_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13538,15 +13559,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_given_string_can_split_four_distinct_strings_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_given_string_can_split_four_distinct_strings_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13563,10 +13575,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_given_string_rotation_palindrome_out-rwasm-bolero"
+name = "cpp_transcoder_check_given_string_can_split_four_distinct_strings_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13583,6 +13595,15 @@ dependencies = [
 name = "cpp_transcoder_check_given_string_rotation_palindrome_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_given_string_rotation_palindrome_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13613,15 +13634,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13633,6 +13645,15 @@ dependencies = [
 name = "cpp_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13663,15 +13684,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13688,10 +13700,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-bolero"
+name = "cpp_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13708,6 +13720,15 @@ dependencies = [
 name = "cpp_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13738,15 +13759,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_integer_overflow_multiplication_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_integer_overflow_multiplication_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13763,10 +13775,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_large_number_divisible_11_not_out-rwasm-bolero"
+name = "cpp_transcoder_check_integer_overflow_multiplication_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13788,10 +13800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_large_number_divisible_13_not_out-rwasm-bolero"
+name = "cpp_transcoder_check_large_number_divisible_11_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13808,6 +13820,15 @@ dependencies = [
 name = "cpp_transcoder_check_large_number_divisible_13_not_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_large_number_divisible_13_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13863,15 +13884,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_large_number_divisible_6_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_large_number_divisible_6_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13888,10 +13900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_large_number_divisible_9_not_out-rwasm-bolero"
+name = "cpp_transcoder_check_large_number_divisible_6_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13908,6 +13920,15 @@ dependencies = [
 name = "cpp_transcoder_check_large_number_divisible_9_not_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_large_number_divisible_9_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13938,15 +13959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -13958,6 +13970,15 @@ dependencies = [
 name = "cpp_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -13988,15 +14009,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_occurrences_character_appear_together_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_occurrences_character_appear_together_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14008,6 +14020,15 @@ dependencies = [
 name = "cpp_transcoder_check_occurrences_character_appear_together_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_occurrences_character_appear_together_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14138,15 +14159,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14158,6 +14170,15 @@ dependencies = [
 name = "cpp_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14238,15 +14259,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_whether_given_number_even_odd_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_check_whether_given_number_even_odd_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14263,10 +14275,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_whether_given_number_even_odd_out-rwasm-bolero"
+name = "cpp_transcoder_check_whether_given_number_even_odd_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14288,10 +14300,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-bolero"
+name = "cpp_transcoder_check_whether_given_number_even_odd_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14308,6 +14320,15 @@ dependencies = [
 name = "cpp_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14338,15 +14359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_coin_game_winner_every_player_three_choices_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_coin_game_winner_every_player_three_choices_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14363,10 +14375,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_composite_number_out-rwasm-bolero"
+name = "cpp_transcoder_coin_game_winner_every_player_three_choices_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14388,10 +14400,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_compute_average_two_numbers_without_overflow_1_out-rwasm-bolero"
+name = "cpp_transcoder_composite_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14413,10 +14425,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-bolero"
+name = "cpp_transcoder_compute_average_two_numbers_without_overflow_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14433,6 +14445,15 @@ dependencies = [
 name = "cpp_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14463,15 +14484,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_compute_n_under_modulo_p_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_compute_n_under_modulo_p_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14488,10 +14500,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_compute_ncr_p_set_1_introduction_and_dynamic_programming_solution_out-rwasm-bolero"
+name = "cpp_transcoder_compute_n_under_modulo_p_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14508,6 +14520,15 @@ dependencies = [
 name = "cpp_transcoder_compute_ncr_p_set_1_introduction_and_dynamic_programming_solution_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_compute_ncr_p_set_1_introduction_and_dynamic_programming_solution_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14613,15 +14634,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_characters_position_english_alphabets_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_characters_position_english_alphabets_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14633,6 +14645,15 @@ dependencies = [
 name = "cpp_transcoder_count_characters_position_english_alphabets_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_characters_position_english_alphabets_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14663,15 +14684,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_derangements_permutation_such_that_no_element_appears_in_its_original_position_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_derangements_permutation_such_that_no_element_appears_in_its_original_position_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14688,10 +14700,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_1_out-rwasm-bolero"
+name = "cpp_transcoder_count_derangements_permutation_such_that_no_element_appears_in_its_original_position_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14713,10 +14725,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_out-rwasm-bolero"
+name = "cpp_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14733,6 +14745,15 @@ dependencies = [
 name = "cpp_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14763,15 +14784,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14783,6 +14795,15 @@ dependencies = [
 name = "cpp_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14813,15 +14834,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14838,10 +14850,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_frequency_k_matrix_size_n_matrixi_j_ij_out-rwasm-bolero"
+name = "cpp_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14863,10 +14875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_index_pairs_equal_elements_array_out-rwasm-bolero"
+name = "cpp_transcoder_count_frequency_k_matrix_size_n_matrixi_j_ij_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14883,6 +14895,15 @@ dependencies = [
 name = "cpp_transcoder_count_index_pairs_equal_elements_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_index_pairs_equal_elements_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -14963,15 +14984,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_natural_numbers_whose_permutation_greater_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_natural_numbers_whose_permutation_greater_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -14988,10 +15000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_binary_strings_without_consecutive_1s_out-rwasm-bolero"
+name = "cpp_transcoder_count_natural_numbers_whose_permutation_greater_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15008,6 +15020,15 @@ dependencies = [
 name = "cpp_transcoder_count_number_binary_strings_without_consecutive_1s_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_number_binary_strings_without_consecutive_1s_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15038,15 +15059,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_of_occurrences_or_frequency_in_a_sorted_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_number_of_occurrences_or_frequency_in_a_sorted_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15063,10 +15075,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_of_ways_to_cover_a_distance_1_out-rwasm-bolero"
+name = "cpp_transcoder_count_number_of_occurrences_or_frequency_in_a_sorted_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15088,10 +15100,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_of_ways_to_fill_a_n_x_4_grid_using_1_x_4_tiles_out-rwasm-bolero"
+name = "cpp_transcoder_count_number_of_ways_to_cover_a_distance_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15113,10 +15125,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_pairs_n_b_n_gcd_b_b_out-rwasm-bolero"
+name = "cpp_transcoder_count_number_of_ways_to_fill_a_n_x_4_grid_using_1_x_4_tiles_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15138,10 +15150,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_ways_reach_given_score_game_out-rwasm-bolero"
+name = "cpp_transcoder_count_number_pairs_n_b_n_gcd_b_b_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15163,10 +15175,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_number_ways_tile_floor_size_n_x_m_using_1_x_m_size_tiles_out-rwasm-bolero"
+name = "cpp_transcoder_count_number_ways_reach_given_score_game_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15183,6 +15195,15 @@ dependencies = [
 name = "cpp_transcoder_count_number_ways_tile_floor_size_n_x_m_using_1_x_m_size_tiles_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_number_ways_tile_floor_size_n_x_m_using_1_x_m_size_tiles_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15213,15 +15234,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_numbers_that_dont_contain_3_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_numbers_that_dont_contain_3_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15238,10 +15250,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_obtuse_angles_circle_k_equidistant_points_2_given_points_out-rwasm-bolero"
+name = "cpp_transcoder_count_numbers_that_dont_contain_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15263,10 +15275,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_of_occurrences_of_a_101_pattern_in_a_string_out-rwasm-bolero"
+name = "cpp_transcoder_count_obtuse_angles_circle_k_equidistant_points_2_given_points_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15288,10 +15300,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_of_pairs_satisfying_the_given_condition_out-rwasm-bolero"
+name = "cpp_transcoder_count_of_occurrences_of_a_101_pattern_in_a_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15308,6 +15320,15 @@ dependencies = [
 name = "cpp_transcoder_count_of_pairs_satisfying_the_given_condition_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_of_pairs_satisfying_the_given_condition_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15338,15 +15359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_ofdifferent_ways_express_n_sum_1_3_4_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_ofdifferent_ways_express_n_sum_1_3_4_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15358,6 +15370,15 @@ dependencies = [
 name = "cpp_transcoder_count_ofdifferent_ways_express_n_sum_1_3_4_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_ofdifferent_ways_express_n_sum_1_3_4_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15413,15 +15434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15438,10 +15450,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_out-rwasm-bolero"
+name = "cpp_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15463,10 +15475,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_pairs_whose_products_exist_in_array_out-rwasm-bolero"
+name = "cpp_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15483,6 +15495,15 @@ dependencies = [
 name = "cpp_transcoder_count_pairs_whose_products_exist_in_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_pairs_whose_products_exist_in_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15513,15 +15534,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_palindromic_subsequence_given_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_palindromic_subsequence_given_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15533,6 +15545,15 @@ dependencies = [
 name = "cpp_transcoder_count_palindromic_subsequence_given_string_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_palindromic_subsequence_given_string_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15563,15 +15584,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15588,10 +15600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_3_out-rwasm-bolero"
+name = "cpp_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15613,10 +15625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_possible_ways_to_construct_buildings_out-rwasm-bolero"
+name = "cpp_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15638,10 +15650,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_rotations_divisible_4_out-rwasm-bolero"
+name = "cpp_transcoder_count_possible_ways_to_construct_buildings_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15663,10 +15675,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_rotations_divisible_8_out-rwasm-bolero"
+name = "cpp_transcoder_count_rotations_divisible_4_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15688,10 +15700,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_set_bits_in_an_integer_1_out-rwasm-bolero"
+name = "cpp_transcoder_count_rotations_divisible_8_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15713,10 +15725,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_set_bits_in_an_integer_3_out-rwasm-bolero"
+name = "cpp_transcoder_count_set_bits_in_an_integer_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15733,6 +15745,15 @@ dependencies = [
 name = "cpp_transcoder_count_set_bits_in_an_integer_3_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_set_bits_in_an_integer_3_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15763,15 +15784,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_strings_adjacent_characters_difference_one_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_strings_adjacent_characters_difference_one_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15788,10 +15800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-bolero"
+name = "cpp_transcoder_count_strings_adjacent_characters_difference_one_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15808,6 +15820,15 @@ dependencies = [
 name = "cpp_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15838,15 +15859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_subarrays_with_same_even_and_odd_elements_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_count_subarrays_with_same_even_and_odd_elements_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15863,10 +15875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_substrings_with_same_first_and_last_characters_out-rwasm-bolero"
+name = "cpp_transcoder_count_subarrays_with_same_even_and_odd_elements_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15888,10 +15900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_total_set_bits_in_all_numbers_from_1_to_n_out-rwasm-bolero"
+name = "cpp_transcoder_count_substrings_with_same_first_and_last_characters_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15913,10 +15925,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-bolero"
+name = "cpp_transcoder_count_total_set_bits_in_all_numbers_from_1_to_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15933,6 +15945,15 @@ dependencies = [
 name = "cpp_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -15963,15 +15984,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_counting_pairs_person_can_form_pair_one_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_counting_pairs_person_can_form_pair_one_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -15988,10 +16000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_counts_paths_point_reach_origin_1_out-rwasm-bolero"
+name = "cpp_transcoder_counting_pairs_person_can_form_pair_one_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16013,10 +16025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_decimal_representation_given_binary_string_divisible_10_not_out-rwasm-bolero"
+name = "cpp_transcoder_counts_paths_point_reach_origin_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16033,6 +16045,15 @@ dependencies = [
 name = "cpp_transcoder_decimal_representation_given_binary_string_divisible_10_not_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_decimal_representation_given_binary_string_divisible_10_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16088,15 +16109,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_delannoy_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_delannoy_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16108,6 +16120,15 @@ dependencies = [
 name = "cpp_transcoder_delannoy_number_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_delannoy_number_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16138,15 +16159,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_dice_throw_problem_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_dice_throw_problem_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16158,6 +16170,15 @@ dependencies = [
 name = "cpp_transcoder_dice_throw_problem_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_dice_throw_problem_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16213,15 +16234,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_different_ways_sum_n_using_numbers_greater_equal_m_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_different_ways_sum_n_using_numbers_greater_equal_m_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16233,6 +16245,15 @@ dependencies = [
 name = "cpp_transcoder_different_ways_sum_n_using_numbers_greater_equal_m_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_different_ways_sum_n_using_numbers_greater_equal_m_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16263,15 +16284,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16283,6 +16295,15 @@ dependencies = [
 name = "cpp_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16313,15 +16334,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_divisibility_9_using_bitwise_operators_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_divisibility_9_using_bitwise_operators_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16338,10 +16350,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_divisibility_by_12_for_a_large_number_out-rwasm-bolero"
+name = "cpp_transcoder_divisibility_9_using_bitwise_operators_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16363,10 +16375,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_divisibility_by_7_out-rwasm-bolero"
+name = "cpp_transcoder_divisibility_by_12_for_a_large_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16383,6 +16395,15 @@ dependencies = [
 name = "cpp_transcoder_divisibility_by_7_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_divisibility_by_7_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16513,15 +16534,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_dynamic_programming_set_11_egg_dropping_puzzle_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_dynamic_programming_set_11_egg_dropping_puzzle_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16538,10 +16550,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_dynamic_programming_set_13_cutting_a_rod_out-rwasm-bolero"
+name = "cpp_transcoder_dynamic_programming_set_11_egg_dropping_puzzle_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16558,6 +16570,15 @@ dependencies = [
 name = "cpp_transcoder_dynamic_programming_set_13_cutting_a_rod_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_dynamic_programming_set_13_cutting_a_rod_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16588,15 +16609,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_dynamic_programming_set_15_longest_bitonic_subsequence_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_dynamic_programming_set_15_longest_bitonic_subsequence_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16608,6 +16620,15 @@ dependencies = [
 name = "cpp_transcoder_dynamic_programming_set_15_longest_bitonic_subsequence_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_dynamic_programming_set_15_longest_bitonic_subsequence_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16638,15 +16659,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16658,6 +16670,15 @@ dependencies = [
 name = "cpp_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16788,15 +16809,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_efficient_search_in_an_array_where_difference_between_adjacent_is_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_efficient_search_in_an_array_where_difference_between_adjacent_is_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16808,6 +16820,15 @@ dependencies = [
 name = "cpp_transcoder_efficient_search_in_an_array_where_difference_between_adjacent_is_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_efficient_search_in_an_array_where_difference_between_adjacent_is_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16838,15 +16859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16858,6 +16870,15 @@ dependencies = [
 name = "cpp_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16938,15 +16959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_eulerian_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_eulerian_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -16963,10 +16975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_eulers_criterion_check_if_square_root_under_modulo_p_exists_out-rwasm-bolero"
+name = "cpp_transcoder_eulerian_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -16988,10 +17000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_even_fibonacci_numbers_sum_out-rwasm-bolero"
+name = "cpp_transcoder_eulers_criterion_check_if_square_root_under_modulo_p_exists_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17008,6 +17020,15 @@ dependencies = [
 name = "cpp_transcoder_even_fibonacci_numbers_sum_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_even_fibonacci_numbers_sum_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17038,15 +17059,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_fibonacci_modulo_p_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_fibonacci_modulo_p_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17058,6 +17070,15 @@ dependencies = [
 name = "cpp_transcoder_fibonacci_modulo_p_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_fibonacci_modulo_p_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17088,15 +17109,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17108,6 +17120,15 @@ dependencies = [
 name = "cpp_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17213,15 +17234,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_equal_point_string_brackets_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_equal_point_string_brackets_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17233,6 +17245,15 @@ dependencies = [
 name = "cpp_transcoder_find_equal_point_string_brackets_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_equal_point_string_brackets_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17263,15 +17284,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17288,10 +17300,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-bolero"
+name = "cpp_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17308,6 +17320,15 @@ dependencies = [
 name = "cpp_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17338,15 +17359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17358,6 +17370,15 @@ dependencies = [
 name = "cpp_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17388,15 +17409,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_last_digit_factorial_divides_factorial_b_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_last_digit_factorial_divides_factorial_b_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17408,6 +17420,15 @@ dependencies = [
 name = "cpp_transcoder_find_last_digit_factorial_divides_factorial_b_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_last_digit_factorial_divides_factorial_b_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17488,15 +17509,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17513,10 +17525,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_maximum_product_of_a_triplet_in_array_1_out-rwasm-bolero"
+name = "cpp_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17533,6 +17545,15 @@ dependencies = [
 name = "cpp_transcoder_find_maximum_product_of_a_triplet_in_array_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_maximum_product_of_a_triplet_in_array_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17663,15 +17684,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_minimum_number_of_coins_that_make_a_change_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_minimum_number_of_coins_that_make_a_change_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17688,10 +17700,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_minimum_radius_atleast_k_point_lie_inside_circle_out-rwasm-bolero"
+name = "cpp_transcoder_find_minimum_number_of_coins_that_make_a_change_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17713,10 +17725,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_minimum_sum_factors_number_out-rwasm-bolero"
+name = "cpp_transcoder_find_minimum_radius_atleast_k_point_lie_inside_circle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17738,10 +17750,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_n_th_element_from_sterns_diatomic_series_out-rwasm-bolero"
+name = "cpp_transcoder_find_minimum_sum_factors_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17758,6 +17770,15 @@ dependencies = [
 name = "cpp_transcoder_find_n_th_element_from_sterns_diatomic_series_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_n_th_element_from_sterns_diatomic_series_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17788,15 +17809,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17808,6 +17820,15 @@ dependencies = [
 name = "cpp_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17838,15 +17859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -17863,10 +17875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_patterns_101_given_string_out-rwasm-bolero"
+name = "cpp_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17888,10 +17900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_perimeter_cylinder_out-rwasm-bolero"
+name = "cpp_transcoder_find_patterns_101_given_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17913,10 +17925,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_position_given_number_among_numbers_made_4_7_out-rwasm-bolero"
+name = "cpp_transcoder_find_perimeter_cylinder_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17933,6 +17945,15 @@ dependencies = [
 name = "cpp_transcoder_find_position_given_number_among_numbers_made_4_7_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_position_given_number_among_numbers_made_4_7_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -17988,15 +18009,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18008,6 +18020,15 @@ dependencies = [
 name = "cpp_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18063,15 +18084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18083,6 +18095,15 @@ dependencies = [
 name = "cpp_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18113,15 +18134,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_subarray_with_given_sum_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_subarray_with_given_sum_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18138,10 +18150,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_sum_even_index_binomial_coefficients_1_out-rwasm-bolero"
+name = "cpp_transcoder_find_subarray_with_given_sum_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18163,10 +18175,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_sum_even_index_binomial_coefficients_out-rwasm-bolero"
+name = "cpp_transcoder_find_sum_even_index_binomial_coefficients_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18188,10 +18200,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_sum_modulo_k_first_n_natural_number_1_out-rwasm-bolero"
+name = "cpp_transcoder_find_sum_even_index_binomial_coefficients_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18213,10 +18225,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_sum_modulo_k_first_n_natural_number_out-rwasm-bolero"
+name = "cpp_transcoder_find_sum_modulo_k_first_n_natural_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18233,6 +18245,15 @@ dependencies = [
 name = "cpp_transcoder_find_sum_modulo_k_first_n_natural_number_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_sum_modulo_k_first_n_natural_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18263,15 +18284,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_the_element_that_appears_once_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_the_element_that_appears_once_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18283,6 +18295,15 @@ dependencies = [
 name = "cpp_transcoder_find_the_element_that_appears_once_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_the_element_that_appears_once_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18338,15 +18359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18358,6 +18370,15 @@ dependencies = [
 name = "cpp_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18438,15 +18459,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_the_missing_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_the_missing_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18463,10 +18475,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_the_missing_number_2_out-rwasm-bolero"
+name = "cpp_transcoder_find_the_missing_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18488,10 +18500,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-bolero"
+name = "cpp_transcoder_find_the_missing_number_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18508,6 +18520,15 @@ dependencies = [
 name = "cpp_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18563,15 +18584,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_unit_digit_x_raised_power_y_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_unit_digit_x_raised_power_y_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18588,10 +18600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-bolero"
+name = "cpp_transcoder_find_unit_digit_x_raised_power_y_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18608,6 +18620,15 @@ dependencies = [
 name = "cpp_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18688,15 +18709,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_find_whether_given_integer_power_3_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_find_whether_given_integer_power_3_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18713,10 +18725,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_finding_power_prime_number_p_n_1_out-rwasm-bolero"
+name = "cpp_transcoder_find_whether_given_integer_power_3_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18738,10 +18750,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_finding_power_prime_number_p_n_out-rwasm-bolero"
+name = "cpp_transcoder_finding_power_prime_number_p_n_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18758,6 +18770,15 @@ dependencies = [
 name = "cpp_transcoder_finding_power_prime_number_p_n_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_finding_power_prime_number_p_n_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18938,15 +18959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_friends_pairing_problem_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_friends_pairing_problem_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -18963,10 +18975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_friends_pairing_problem_out-rwasm-bolero"
+name = "cpp_transcoder_friends_pairing_problem_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -18983,6 +18995,15 @@ dependencies = [
 name = "cpp_transcoder_friends_pairing_problem_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_friends_pairing_problem_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19013,15 +19034,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_gcd_elements_given_range_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_gcd_elements_given_range_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19033,6 +19045,15 @@ dependencies = [
 name = "cpp_transcoder_gcd_elements_given_range_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_gcd_elements_given_range_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19063,15 +19084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19088,10 +19100,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_given_large_number_check_subsequence_digits_divisible_8_1_out-rwasm-bolero"
+name = "cpp_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19108,6 +19120,15 @@ dependencies = [
 name = "cpp_transcoder_given_large_number_check_subsequence_digits_divisible_8_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_given_large_number_check_subsequence_digits_divisible_8_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19188,15 +19209,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_hexagonal_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_hexagonal_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19213,10 +19225,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_highway_billboard_problem_out-rwasm-bolero"
+name = "cpp_transcoder_hexagonal_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19233,6 +19245,15 @@ dependencies = [
 name = "cpp_transcoder_highway_billboard_problem_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_highway_billboard_problem_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19338,15 +19359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19363,10 +19375,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_how_to_print_maximum_number_of_a_using_given_four_keys_out-rwasm-bolero"
+name = "cpp_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19388,10 +19400,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-bolero"
+name = "cpp_transcoder_how_to_print_maximum_number_of_a_using_given_four_keys_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19408,6 +19420,15 @@ dependencies = [
 name = "cpp_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19463,15 +19484,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_k_numbers_difference_maximum_minimum_k_number_minimized_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_k_numbers_difference_maximum_minimum_k_number_minimized_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19483,6 +19495,15 @@ dependencies = [
 name = "cpp_transcoder_k_numbers_difference_maximum_minimum_k_number_minimized_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_k_numbers_difference_maximum_minimum_k_number_minimized_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19538,15 +19559,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19563,10 +19575,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_largest_subsequence_gcd_greater_1_out-rwasm-bolero"
+name = "cpp_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19583,6 +19595,15 @@ dependencies = [
 name = "cpp_transcoder_largest_subsequence_gcd_greater_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_largest_subsequence_gcd_greater_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19688,15 +19709,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_length_longest_sub_string_can_make_removed_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_length_longest_sub_string_can_make_removed_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19708,6 +19720,15 @@ dependencies = [
 name = "cpp_transcoder_length_longest_sub_string_can_make_removed_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_length_longest_sub_string_can_make_removed_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19738,15 +19759,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_leonardo_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_leonardo_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19758,6 +19770,15 @@ dependencies = [
 name = "cpp_transcoder_leonardo_number_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_leonardo_number_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19838,15 +19859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_longest_common_increasing_subsequence_lcs_lis_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_longest_common_increasing_subsequence_lcs_lis_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19858,6 +19870,15 @@ dependencies = [
 name = "cpp_transcoder_longest_common_increasing_subsequence_lcs_lis_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_longest_common_increasing_subsequence_lcs_lis_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19938,15 +19959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_longest_palindrome_subsequence_space_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_longest_palindrome_subsequence_space_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -19963,10 +19975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_longest_prefix_also_suffix_1_out-rwasm-bolero"
+name = "cpp_transcoder_longest_palindrome_subsequence_space_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -19983,6 +19995,15 @@ dependencies = [
 name = "cpp_transcoder_longest_prefix_also_suffix_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_longest_prefix_also_suffix_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20188,15 +20209,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximize_sum_arrii_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximize_sum_arrii_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20208,6 +20220,15 @@ dependencies = [
 name = "cpp_transcoder_maximize_sum_arrii_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximize_sum_arrii_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20238,15 +20259,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20263,10 +20275,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_out-rwasm-bolero"
+name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20283,6 +20295,15 @@ dependencies = [
 name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximize_volume_cuboid_given_sum_sides_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20313,15 +20334,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_binomial_coefficient_term_value_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_binomial_coefficient_term_value_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20333,6 +20345,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_binomial_coefficient_term_value_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_binomial_coefficient_term_value_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20488,15 +20509,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_length_subsequence_difference_adjacent_elements_either_0_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_length_subsequence_difference_adjacent_elements_either_0_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20513,10 +20525,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-bolero"
+name = "cpp_transcoder_maximum_length_subsequence_difference_adjacent_elements_either_0_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20533,6 +20545,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20563,15 +20584,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_number_of_squares_that_can_be_fit_in_a_right_angle_isosceles_triangle_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_number_of_squares_that_can_be_fit_in_a_right_angle_isosceles_triangle_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20588,10 +20600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_number_segments_lengths_b_c_out-rwasm-bolero"
+name = "cpp_transcoder_maximum_number_of_squares_that_can_be_fit_in_a_right_angle_isosceles_triangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20613,10 +20625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_points_intersection_n_circles_out-rwasm-bolero"
+name = "cpp_transcoder_maximum_number_segments_lengths_b_c_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20633,6 +20645,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_points_intersection_n_circles_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_points_intersection_n_circles_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20763,15 +20784,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_k_times_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_k_times_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20788,10 +20800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_twice_out-rwasm-bolero"
+name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_k_times_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20808,6 +20820,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_twice_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_profit_by_buying_and_selling_a_share_at_most_twice_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -20938,15 +20959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_sum_alternating_subsequence_sum_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_sum_alternating_subsequence_sum_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -20958,6 +20970,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_sum_alternating_subsequence_sum_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_sum_alternating_subsequence_sum_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21013,15 +21034,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_sum_iarri_among_rotations_given_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_sum_iarri_among_rotations_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21033,6 +21045,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_sum_iarri_among_rotations_given_array_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_sum_iarri_among_rotations_given_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21063,15 +21084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_sum_pairs_specific_difference_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_sum_pairs_specific_difference_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21083,6 +21095,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_sum_pairs_specific_difference_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_sum_pairs_specific_difference_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21138,15 +21159,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_triplet_sum_array_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_triplet_sum_array_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21158,6 +21170,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_triplet_sum_array_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_triplet_sum_array_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21188,15 +21209,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_triplet_sum_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_maximum_triplet_sum_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21213,10 +21225,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_maximum_value_choice_either_dividing_considering_out-rwasm-bolero"
+name = "cpp_transcoder_maximum_triplet_sum_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21233,6 +21245,15 @@ dependencies = [
 name = "cpp_transcoder_maximum_value_choice_either_dividing_considering_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_maximum_value_choice_either_dividing_considering_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21288,15 +21309,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21313,10 +21325,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-bolero"
+name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21333,6 +21345,15 @@ dependencies = [
 name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21363,15 +21384,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimal_operations_make_number_magical_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimal_operations_make_number_magical_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21383,6 +21395,15 @@ dependencies = [
 name = "cpp_transcoder_minimal_operations_make_number_magical_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimal_operations_make_number_magical_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21438,15 +21459,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21463,10 +21475,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-bolero"
+name = "cpp_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21483,6 +21495,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21538,15 +21559,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_cost_make_array_size_1_removing_larger_pairs_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_cost_make_array_size_1_removing_larger_pairs_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21563,10 +21575,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_difference_max_min_k_size_subsets_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_cost_make_array_size_1_removing_larger_pairs_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21588,10 +21600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_increment_k_operations_make_elements_equal_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_difference_max_min_k_size_subsets_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21613,10 +21625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_insertions_sort_array_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_increment_k_operations_make_elements_equal_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21638,10 +21650,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_insertions_to_form_a_palindrome_with_permutations_allowed_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_insertions_sort_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21658,6 +21670,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_insertions_to_form_a_palindrome_with_permutations_allowed_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_insertions_to_form_a_palindrome_with_permutations_allowed_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21688,15 +21709,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21708,6 +21720,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21738,15 +21759,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_number_of_jumps_to_reach_end_of_a_given_array_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_number_of_jumps_to_reach_end_of_a_given_array_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21763,10 +21775,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_number_of_jumps_to_reach_end_of_a_given_array_2_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_number_of_jumps_to_reach_end_of_a_given_array_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21788,10 +21800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_number_of_jumps_to_reach_end_of_a_given_array_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21808,6 +21820,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21838,15 +21859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21858,6 +21870,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21888,15 +21909,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_rotations_required_get_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_rotations_required_get_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21908,6 +21920,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_rotations_required_get_string_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_rotations_required_get_string_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21938,15 +21959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_steps_minimize_n_per_given_condition_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_steps_minimize_n_per_given_condition_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -21963,10 +21975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_steps_to_delete_a_string_after_repeated_deletion_of_palindrome_substrings_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_steps_minimize_n_per_given_condition_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -21983,6 +21995,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_steps_to_delete_a_string_after_repeated_deletion_of_palindrome_substrings_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_steps_to_delete_a_string_after_repeated_deletion_of_palindrome_substrings_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22163,15 +22184,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_minimum_time_write_characters_using_insert_delete_copy_operation_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_minimum_time_write_characters_using_insert_delete_copy_operation_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22183,6 +22195,15 @@ dependencies = [
 name = "cpp_transcoder_minimum_time_write_characters_using_insert_delete_copy_operation_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_minimum_time_write_characters_using_insert_delete_copy_operation_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22263,15 +22284,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22288,10 +22300,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_modulus_two_float_double_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22313,10 +22325,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_multiply_an_integer_with_3_5_out-rwasm-bolero"
+name = "cpp_transcoder_modulus_two_float_double_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22338,10 +22350,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_multiply_large_integers_under_large_modulo_out-rwasm-bolero"
+name = "cpp_transcoder_multiply_an_integer_with_3_5_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22358,6 +22370,15 @@ dependencies = [
 name = "cpp_transcoder_multiply_large_integers_under_large_modulo_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_multiply_large_integers_under_large_modulo_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22388,15 +22409,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_n_th_number_whose_sum_of_digits_is_ten_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_n_th_number_whose_sum_of_digits_is_ten_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22413,10 +22425,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_n_th_number_whose_sum_of_digits_is_ten_out-rwasm-bolero"
+name = "cpp_transcoder_n_th_number_whose_sum_of_digits_is_ten_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22438,10 +22450,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_n_th_term_series_2_12_36_80_150_out-rwasm-bolero"
+name = "cpp_transcoder_n_th_number_whose_sum_of_digits_is_ten_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22463,10 +22475,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_newman_conway_sequence_1_out-rwasm-bolero"
+name = "cpp_transcoder_n_th_term_series_2_12_36_80_150_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22483,6 +22495,15 @@ dependencies = [
 name = "cpp_transcoder_newman_conway_sequence_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_newman_conway_sequence_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22588,15 +22609,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_nth_non_fibonacci_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_nth_non_fibonacci_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22613,10 +22625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_nth_pentagonal_number_out-rwasm-bolero"
+name = "cpp_transcoder_nth_non_fibonacci_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22638,10 +22650,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_digits_product_two_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_nth_pentagonal_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22658,6 +22670,15 @@ dependencies = [
 name = "cpp_transcoder_number_digits_product_two_numbers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_number_digits_product_two_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22713,15 +22734,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22738,10 +22750,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_n_digit_stepping_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22763,10 +22775,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_n_digits_non_decreasing_integers_out-rwasm-bolero"
+name = "cpp_transcoder_number_n_digit_stepping_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22788,10 +22800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_non_negative_integral_solutions_b_c_n_1_out-rwasm-bolero"
+name = "cpp_transcoder_number_n_digits_non_decreasing_integers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22813,10 +22825,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_non_negative_integral_solutions_b_c_n_out-rwasm-bolero"
+name = "cpp_transcoder_number_non_negative_integral_solutions_b_c_n_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22838,10 +22850,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_of_binary_trees_for_given_preorder_sequence_length_out-rwasm-bolero"
+name = "cpp_transcoder_number_non_negative_integral_solutions_b_c_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22863,10 +22875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_of_pairs_in_an_array_having_sum_equal_to_product_out-rwasm-bolero"
+name = "cpp_transcoder_number_of_binary_trees_for_given_preorder_sequence_length_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22888,10 +22900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-bolero"
+name = "cpp_transcoder_number_of_pairs_in_an_array_having_sum_equal_to_product_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22908,6 +22920,15 @@ dependencies = [
 name = "cpp_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22938,15 +22959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_rectangles_nm_grid_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_number_rectangles_nm_grid_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -22963,10 +22975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_subsequences_ab_string_repeated_k_times_out-rwasm-bolero"
+name = "cpp_transcoder_number_rectangles_nm_grid_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -22988,10 +23000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_subsequences_form_ai_bj_ck_out-rwasm-bolero"
+name = "cpp_transcoder_number_subsequences_ab_string_repeated_k_times_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23013,10 +23025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_subsequences_string_divisible_n_out-rwasm-bolero"
+name = "cpp_transcoder_number_subsequences_form_ai_bj_ck_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23033,6 +23045,15 @@ dependencies = [
 name = "cpp_transcoder_number_subsequences_string_divisible_n_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_number_subsequences_string_divisible_n_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23063,15 +23084,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_substrings_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_number_substrings_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23088,10 +23100,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_number_which_has_the_maximum_number_of_distinct_prime_factors_in_range_m_to_n_out-rwasm-bolero"
+name = "cpp_transcoder_number_substrings_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23113,10 +23125,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_one_line_function_for_factorial_of_a_number_out-rwasm-bolero"
+name = "cpp_transcoder_number_which_has_the_maximum_number_of_distinct_prime_factors_in_range_m_to_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23138,10 +23150,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_padovan_sequence_out-rwasm-bolero"
+name = "cpp_transcoder_one_line_function_for_factorial_of_a_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23158,6 +23170,15 @@ dependencies = [
 name = "cpp_transcoder_padovan_sequence_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_padovan_sequence_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23238,15 +23259,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_paper_cut_minimum_number_squares_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_paper_cut_minimum_number_squares_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23258,6 +23270,15 @@ dependencies = [
 name = "cpp_transcoder_paper_cut_minimum_number_squares_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_paper_cut_minimum_number_squares_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23288,15 +23309,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_perfect_reversible_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_perfect_reversible_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23308,6 +23320,15 @@ dependencies = [
 name = "cpp_transcoder_perfect_reversible_string_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_perfect_reversible_string_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23338,15 +23359,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23358,6 +23370,15 @@ dependencies = [
 name = "cpp_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23413,15 +23434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_position_of_rightmost_set_bit_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_position_of_rightmost_set_bit_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23433,6 +23445,15 @@ dependencies = [
 name = "cpp_transcoder_position_of_rightmost_set_bit_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_position_of_rightmost_set_bit_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23513,15 +23534,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23538,10 +23550,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_primality_test_set_1_introduction_and_school_method_out-rwasm-bolero"
+name = "cpp_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23563,10 +23575,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_prime_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_primality_test_set_1_introduction_and_school_method_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23583,6 +23595,15 @@ dependencies = [
 name = "cpp_transcoder_prime_numbers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_prime_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23663,15 +23684,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23683,6 +23695,15 @@ dependencies = [
 name = "cpp_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23738,15 +23759,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23763,10 +23775,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_area_square_out-rwasm-bolero"
+name = "cpp_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23788,10 +23800,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_binary_decimal_conversion_1_out-rwasm-bolero"
+name = "cpp_transcoder_program_area_square_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23813,10 +23825,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_binary_decimal_conversion_out-rwasm-bolero"
+name = "cpp_transcoder_program_binary_decimal_conversion_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23833,6 +23845,15 @@ dependencies = [
 name = "cpp_transcoder_program_binary_decimal_conversion_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_binary_decimal_conversion_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23913,15 +23934,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_check_input_integer_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_check_input_integer_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -23933,6 +23945,15 @@ dependencies = [
 name = "cpp_transcoder_program_check_input_integer_string_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_check_input_integer_string_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -23988,15 +24009,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_count_occurrence_given_character_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_count_occurrence_given_character_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24013,10 +24025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-bolero"
+name = "cpp_transcoder_program_count_occurrence_given_character_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24033,6 +24045,15 @@ dependencies = [
 name = "cpp_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24113,15 +24134,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24133,6 +24145,15 @@ dependencies = [
 name = "cpp_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24163,15 +24184,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_for_factorial_of_a_number_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_for_factorial_of_a_number_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24183,6 +24195,15 @@ dependencies = [
 name = "cpp_transcoder_program_for_factorial_of_a_number_2_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_for_factorial_of_a_number_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24213,15 +24234,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_octal_decimal_conversion_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_octal_decimal_conversion_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24238,10 +24250,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_print_sum_given_nth_term_out-rwasm-bolero"
+name = "cpp_transcoder_program_octal_decimal_conversion_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24258,6 +24270,15 @@ dependencies = [
 name = "cpp_transcoder_program_print_sum_given_nth_term_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_print_sum_given_nth_term_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24288,15 +24309,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24313,10 +24325,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_2_out-rwasm-bolero"
+name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24338,10 +24350,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-bolero"
+name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24358,6 +24370,15 @@ dependencies = [
 name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24413,15 +24434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_pythagorean_quadruple_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_pythagorean_quadruple_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24438,10 +24450,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_python_program_find_perimeter_circumference_square_rectangle_1_out-rwasm-bolero"
+name = "cpp_transcoder_pythagorean_quadruple_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24463,10 +24475,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_python_program_find_perimeter_circumference_square_rectangle_out-rwasm-bolero"
+name = "cpp_transcoder_python_program_find_perimeter_circumference_square_rectangle_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24488,10 +24500,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_queries_counts_array_elements_values_given_range_out-rwasm-bolero"
+name = "cpp_transcoder_python_program_find_perimeter_circumference_square_rectangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24513,10 +24525,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_quick_way_check_characters_string_out-rwasm-bolero"
+name = "cpp_transcoder_queries_counts_array_elements_values_given_range_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24533,6 +24545,15 @@ dependencies = [
 name = "cpp_transcoder_quick_way_check_characters_string_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_quick_way_check_characters_string_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24588,15 +24609,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_recursive_c_program_linearly_search_element_given_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_recursive_c_program_linearly_search_element_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24613,10 +24625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_recursive_program_prime_number_out-rwasm-bolero"
+name = "cpp_transcoder_recursive_c_program_linearly_search_element_given_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24638,10 +24650,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_recursively_break_number_3_parts_get_maximum_sum_1_out-rwasm-bolero"
+name = "cpp_transcoder_recursive_program_prime_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24663,10 +24675,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_recursively_break_number_3_parts_get_maximum_sum_out-rwasm-bolero"
+name = "cpp_transcoder_recursively_break_number_3_parts_get_maximum_sum_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24688,10 +24700,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_remainder_7_large_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_recursively_break_number_3_parts_get_maximum_sum_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24708,6 +24720,15 @@ dependencies = [
 name = "cpp_transcoder_remainder_7_large_numbers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_remainder_7_large_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24763,15 +24784,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24783,6 +24795,15 @@ dependencies = [
 name = "cpp_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24888,15 +24909,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_search_an_element_in_an_array_where_difference_between_adjacent_elements_is_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_search_an_element_in_an_array_where_difference_between_adjacent_elements_is_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -24908,6 +24920,15 @@ dependencies = [
 name = "cpp_transcoder_search_an_element_in_an_array_where_difference_between_adjacent_elements_is_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_search_an_element_in_an_array_where_difference_between_adjacent_elements_is_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -24988,15 +25009,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_searching_array_adjacent_differ_k_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_searching_array_adjacent_differ_k_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25013,10 +25025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sequences_given_length_every_element_equal_twice_previous_1_out-rwasm-bolero"
+name = "cpp_transcoder_searching_array_adjacent_differ_k_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25038,10 +25050,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-bolero"
+name = "cpp_transcoder_sequences_given_length_every_element_equal_twice_previous_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25058,6 +25070,15 @@ dependencies = [
 name = "cpp_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25113,15 +25134,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25138,10 +25150,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-bolero"
+name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25158,6 +25170,15 @@ dependencies = [
 name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25238,15 +25259,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_smallest_subset_sum_greater_elements_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_smallest_subset_sum_greater_elements_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25258,6 +25270,15 @@ dependencies = [
 name = "cpp_transcoder_smallest_subset_sum_greater_elements_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_smallest_subset_sum_greater_elements_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25413,15 +25434,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25438,10 +25450,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_out-rwasm-bolero"
+name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25458,6 +25470,15 @@ dependencies = [
 name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_space_optimized_dp_solution_0_1_knapsack_problem_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25513,15 +25534,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_split_n_maximum_composite_numbers_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_split_n_maximum_composite_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25538,10 +25550,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_square_pyramidal_number_sum_squares_out-rwasm-bolero"
+name = "cpp_transcoder_split_n_maximum_composite_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25563,10 +25575,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_square_root_of_an_integer_1_out-rwasm-bolero"
+name = "cpp_transcoder_square_pyramidal_number_sum_squares_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25588,10 +25600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_square_root_of_an_integer_out-rwasm-bolero"
+name = "cpp_transcoder_square_root_of_an_integer_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25613,10 +25625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_squared_triangular_number_sum_cubes_out-rwasm-bolero"
+name = "cpp_transcoder_square_root_of_an_integer_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25638,10 +25650,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-bolero"
+name = "cpp_transcoder_squared_triangular_number_sum_cubes_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25658,6 +25670,15 @@ dependencies = [
 name = "cpp_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25838,15 +25859,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_binomial_coefficients_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_sum_binomial_coefficients_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -25863,10 +25875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_binomial_coefficients_out-rwasm-bolero"
+name = "cpp_transcoder_sum_binomial_coefficients_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25888,10 +25900,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_divisors_1_n_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_binomial_coefficients_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25913,10 +25925,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_fibonacci_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_sum_divisors_1_n_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25938,10 +25950,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_k_th_group_odd_positive_numbers_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_fibonacci_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25963,10 +25975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_k_th_group_odd_positive_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_sum_k_th_group_odd_positive_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -25988,10 +26000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_largest_prime_factor_number_less_equal_n_out-rwasm-bolero"
+name = "cpp_transcoder_sum_k_th_group_odd_positive_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26008,6 +26020,15 @@ dependencies = [
 name = "cpp_transcoder_sum_largest_prime_factor_number_less_equal_n_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_sum_largest_prime_factor_number_less_equal_n_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26038,15 +26059,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26063,10 +26075,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_2_out-rwasm-bolero"
+name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26088,10 +26100,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26113,10 +26125,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_matrix_element_element_integer_division_row_column_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26138,10 +26150,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_matrix_element_element_integer_division_row_column_out-rwasm-bolero"
+name = "cpp_transcoder_sum_matrix_element_element_integer_division_row_column_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26163,10 +26175,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_nodes_k_th_level_tree_represented_string_out-rwasm-bolero"
+name = "cpp_transcoder_sum_matrix_element_element_integer_division_row_column_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26188,10 +26200,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_of_all_elements_up_to_nth_row_in_a_pascals_triangle_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_nodes_k_th_level_tree_represented_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26213,10 +26225,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_of_all_elements_up_to_nth_row_in_a_pascals_triangle_out-rwasm-bolero"
+name = "cpp_transcoder_sum_of_all_elements_up_to_nth_row_in_a_pascals_triangle_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26238,10 +26250,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_pairwise_products_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_of_all_elements_up_to_nth_row_in_a_pascals_triangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26263,10 +26275,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_pairwise_products_2_out-rwasm-bolero"
+name = "cpp_transcoder_sum_pairwise_products_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26288,10 +26300,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_pairwise_products_out-rwasm-bolero"
+name = "cpp_transcoder_sum_pairwise_products_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26313,10 +26325,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_series_12_32_52_2n_12_1_out-rwasm-bolero"
+name = "cpp_transcoder_sum_pairwise_products_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26338,10 +26350,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_series_12_32_52_2n_12_out-rwasm-bolero"
+name = "cpp_transcoder_sum_series_12_32_52_2n_12_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26358,6 +26370,15 @@ dependencies = [
 name = "cpp_transcoder_sum_series_12_32_52_2n_12_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_sum_series_12_32_52_2n_12_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26438,15 +26459,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_sum_squares_binomial_coefficients_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_sum_squares_binomial_coefficients_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26458,6 +26470,15 @@ dependencies = [
 name = "cpp_transcoder_sum_squares_binomial_coefficients_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_sum_squares_binomial_coefficients_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26563,15 +26584,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_swap_two_nibbles_byte_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_swap_two_nibbles_byte_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26588,10 +26600,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_tail_recursion_fibonacci_out-rwasm-bolero"
+name = "cpp_transcoder_swap_two_nibbles_byte_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26608,6 +26620,15 @@ dependencies = [
 name = "cpp_transcoder_tail_recursion_fibonacci_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_tail_recursion_fibonacci_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26688,15 +26709,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26708,6 +26720,15 @@ dependencies = [
 name = "cpp_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26738,15 +26759,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_triangular_matchstick_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_triangular_matchstick_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26763,10 +26775,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_triangular_numbers_out-rwasm-bolero"
+name = "cpp_transcoder_triangular_matchstick_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26783,6 +26795,15 @@ dependencies = [
 name = "cpp_transcoder_triangular_numbers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_triangular_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26813,15 +26834,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_unbounded_knapsack_repetition_items_allowed_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_unbounded_knapsack_repetition_items_allowed_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26838,10 +26850,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-bolero"
+name = "cpp_transcoder_unbounded_knapsack_repetition_items_allowed_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26863,10 +26875,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_ways_to_write_n_as_sum_of_two_or_more_positive_integers_out-rwasm-bolero"
+name = "cpp_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26883,6 +26895,15 @@ dependencies = [
 name = "cpp_transcoder_ways_to_write_n_as_sum_of_two_or_more_positive_integers_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_ways_to_write_n_as_sum_of_two_or_more_positive_integers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26938,15 +26959,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "cpp_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -26963,10 +26975,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_write_one_line_c_function_to_find_whether_a_no_is_power_of_two_out-rwasm-bolero"
+name = "cpp_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -26988,10 +27000,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_write_you_own_power_without_using_multiplication_and_division_out-rwasm-bolero"
+name = "cpp_transcoder_write_one_line_c_function_to_find_whether_a_no_is_power_of_two_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27013,10 +27025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cpp_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-bolero"
+name = "cpp_transcoder_write_you_own_power_without_using_multiplication_and_division_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27033,6 +27045,15 @@ dependencies = [
 name = "cpp_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-original"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "cpp_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27089,6 +27110,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5"
 
 [[package]]
+name = "errno"
+version = "0.3.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a258e46cdc063eb8519c00b9fc845fc47bcfca4130e2f08e88665ceda8474245"
+dependencies = [
+ "libc",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "fastrand"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25cbce373ec4653f1a01a31e8a5e5ec0c622dc27ff9c4e6606eefef5cbbed4a5"
+
+[[package]]
 name = "filetime"
 version = "0.2.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -27097,8 +27134,14 @@ dependencies = [
  "cfg-if 1.0.0",
  "libc",
  "redox_syscall 0.3.5",
- "windows-sys",
+ "windows-sys 0.48.0",
 ]
+
+[[package]]
+name = "fnv"
+version = "1.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 
 [[package]]
 name = "getrandom"
@@ -33003,6 +33046,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89d92a4743f9a61002fae18374ed11e7973f530cb3a3255fb354818118b2203c"
 
 [[package]]
+name = "libm"
+version = "0.2.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4ec2a862134d2a7d32d7983ddcdd1c4923530833c9f2ea1a44fc5fa473989058"
+
+[[package]]
 name = "libredox"
 version = "0.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -33012,6 +33061,12 @@ dependencies = [
  "libc",
  "redox_syscall 0.4.1",
 ]
+
+[[package]]
+name = "linux-raw-sys"
+version = "0.4.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c4cd1a83af159aa67994778be9070f0ae1bd732942279cabb14f86f986a21456"
 
 [[package]]
 name = "log"
@@ -33032,6 +33087,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7810e0be55b428ada41041c41f32c9f1a42817901b4ccf45fa3d4b6561e74c7"
 dependencies = [
  "adler",
+]
+
+[[package]]
+name = "num-traits"
+version = "0.2.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "39e3200413f237f41ab11ad6d161bc7239c84dcb631773ccd7de3dfe4b5c267c"
+dependencies = [
+ "autocfg",
+ "libm",
 ]
 
 [[package]]
@@ -33087,6 +33152,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "proptest"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "31b476131c3c86cb68032fdc5cb6d5a1045e3e42d96b69fa599fd77701e1f5bf"
+dependencies = [
+ "bit-set",
+ "bit-vec",
+ "bitflags 2.4.1",
+ "lazy_static",
+ "num-traits",
+ "rand",
+ "rand_chacha",
+ "rand_xorshift",
+ "regex-syntax",
+ "rusty-fork",
+ "tempfile",
+ "unarray",
+]
+
+[[package]]
+name = "quick-error"
+version = "1.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
+
+[[package]]
 name = "quote"
 version = "1.0.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -33126,6 +33217,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand_xorshift"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d25bf25ec5ae4a3f1b92f929810509a2f53d7dca2f50b794ff57e3face536c8f"
+dependencies = [
+ "rand_core",
+]
+
+[[package]]
 name = "redox_syscall"
 version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -33155,10 +33255,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "regex-syntax"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c08c74e62047bb2de4ff487b251e4a92e24f48745648451635cec7d591162d9f"
+
+[[package]]
 name = "rustc-demangle"
 version = "0.1.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d626bb9dae77e28219937af045c257c28bfd3f69333c512553507f5f9798cb76"
+
+[[package]]
+name = "rustix"
+version = "0.38.28"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72e572a5e8ca657d7366229cdde4bd14c4eb5499a9573d4d366fe1b599daa316"
+dependencies = [
+ "bitflags 2.4.1",
+ "errno",
+ "libc",
+ "linux-raw-sys",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "rusty-fork"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb3dcc6e454c328bb824492db107ab7c0ae8fcffe4ad210136ef014458c1bc4f"
+dependencies = [
+ "fnv",
+ "quick-error",
+ "tempfile",
+ "wait-timeout",
+]
 
 [[package]]
 name = "shellexpand"
@@ -33189,6 +33320,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "tempfile"
+version = "3.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7ef1adac450ad7f4b3c28589471ade84f25f731a7a0fe30d71dfa9f60fd808e5"
+dependencies = [
+ "cfg-if 1.0.0",
+ "fastrand",
+ "redox_syscall 0.4.1",
+ "rustix",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]
@@ -33261,6 +33405,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "unarray"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480ab9a94"
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -33275,6 +33425,15 @@ checksum = "1dd624098567895118886609431a7c3b8f516e41d30e0643f03d94592a147e36"
 [[package]]
 name = "vert_benchmark"
 version = "0.1.0"
+
+[[package]]
+name = "wait-timeout"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f200f5b12eb75f8c1ed65abd4b2db8a6e1b138a20de009dacee265a2498f3f6"
+dependencies = [
+ "libc",
+]
 
 [[package]]
 name = "wasi"
@@ -33398,7 +33557,16 @@ version = "0.48.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "677d2418bec65e3338edb076e806bc1ec15693c5d0104683f2efe857f61056a9"
 dependencies = [
- "windows-targets",
+ "windows-targets 0.48.5",
+]
+
+[[package]]
+name = "windows-sys"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
+dependencies = [
+ "windows-targets 0.52.0",
 ]
 
 [[package]]
@@ -33407,13 +33575,28 @@ version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9a2fa6e2155d7247be68c096456083145c183cbbbc2764150dda45a87197940c"
 dependencies = [
- "windows_aarch64_gnullvm",
- "windows_aarch64_msvc",
- "windows_i686_gnu",
- "windows_i686_msvc",
- "windows_x86_64_gnu",
- "windows_x86_64_gnullvm",
- "windows_x86_64_msvc",
+ "windows_aarch64_gnullvm 0.48.5",
+ "windows_aarch64_msvc 0.48.5",
+ "windows_i686_gnu 0.48.5",
+ "windows_i686_msvc 0.48.5",
+ "windows_x86_64_gnu 0.48.5",
+ "windows_x86_64_gnullvm 0.48.5",
+ "windows_x86_64_msvc 0.48.5",
+]
+
+[[package]]
+name = "windows-targets"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8a18201040b24831fbb9e4eb208f8892e1f50a37feb53cc7ff887feb8f50e7cd"
+dependencies = [
+ "windows_aarch64_gnullvm 0.52.0",
+ "windows_aarch64_msvc 0.52.0",
+ "windows_i686_gnu 0.52.0",
+ "windows_i686_msvc 0.52.0",
+ "windows_x86_64_gnu 0.52.0",
+ "windows_x86_64_gnullvm 0.52.0",
+ "windows_x86_64_msvc 0.52.0",
 ]
 
 [[package]]
@@ -33423,10 +33606,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
 
 [[package]]
+name = "windows_aarch64_gnullvm"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb7764e35d4db8a7921e09562a0304bf2f93e0a51bfccee0bd0bb0b666b015ea"
+
+[[package]]
 name = "windows_aarch64_msvc"
 version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
+
+[[package]]
+name = "windows_aarch64_msvc"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bbaa0368d4f1d2aaefc55b6fcfee13f41544ddf36801e793edbbfd7d7df075ef"
 
 [[package]]
 name = "windows_i686_gnu"
@@ -33435,10 +33630,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
 
 [[package]]
+name = "windows_i686_gnu"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a28637cb1fa3560a16915793afb20081aba2c92ee8af57b4d5f28e4b3e7df313"
+
+[[package]]
 name = "windows_i686_msvc"
 version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
+
+[[package]]
+name = "windows_i686_msvc"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ffe5e8e31046ce6230cc7215707b816e339ff4d4d67c65dffa206fd0f7aa7b9a"
 
 [[package]]
 name = "windows_x86_64_gnu"
@@ -33447,16 +33654,34 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
 
 [[package]]
+name = "windows_x86_64_gnu"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3d6fa32db2bc4a2f5abeacf2b69f7992cd09dca97498da74a151a3132c26befd"
+
+[[package]]
 name = "windows_x86_64_gnullvm"
 version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
 
 [[package]]
+name = "windows_x86_64_gnullvm"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1a657e1e9d3f514745a572a6846d3c7aa7dbe1658c056ed9c3344c4109a6949e"
+
+[[package]]
 name = "windows_x86_64_msvc"
 version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
+
+[[package]]
+name = "windows_x86_64_msvc"
+version = "0.52.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04"
 
 [[package]]
 name = "winnow"

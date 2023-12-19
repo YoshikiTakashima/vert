@@ -1,6 +1,6 @@
 
 [package]
-name = "cpp_transcoder_minimum_cost_make_array_size_1_removing_larger_pairs_out-rwasm-bolero"
+name = "cpp_transcoder_minimum_cost_make_array_size_1_removing_larger_pairs_out-rwasm-proptest"
 version = "1.0.1"
 authors = ["generated-by-rwasm-1.0.1"]
 edition = "2018"
@@ -12,4 +12,4 @@ wiggle = "0.20.0"
 
             
 [dev-dependencies]
-bolero = "0.10.0"
+proptest = "1.0.0"
