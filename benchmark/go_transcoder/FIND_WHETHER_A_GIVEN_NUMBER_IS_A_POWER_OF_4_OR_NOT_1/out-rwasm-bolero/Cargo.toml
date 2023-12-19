@@ -1,6 +1,6 @@
 
 [package]
-name = "go_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-bolero"
+name = "go_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-proptest"
 version = "1.0.1"
 authors = ["generated-by-rwasm-1.0.1"]
 edition = "2018"
@@ -12,4 +12,4 @@ wiggle = "0.20.0"
 
             
 [dev-dependencies]
-bolero = "0.10.0"
+proptest = "1.0.0"

@@ -684,10 +684,14 @@ if n == 1 {return 0}
     f_gold(odd_count - even_count)
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<(i32)>().cloned().for_each(|(PARAM_1)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: i32
+  ) {
+     
 		unsafe {
 		PARAM1 = PARAM_1;
 
@@ -695,5 +699,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold(unsafe{PARAM1}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	});
+	
+  }
 }

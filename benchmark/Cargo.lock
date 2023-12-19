@@ -27172,15 +27172,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4271d37baee1b8c7e4b708028c57d816cf9d2434acb33a549475f78c181f6253"
 
 [[package]]
-name = "go_transcoder_add_1_to_a_given_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_add_1_to_a_given_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27189,10 +27180,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_add_1_to_a_given_number_out-rwasm-bolero"
+name = "go_transcoder_add_1_to_a_given_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27206,10 +27197,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_add_two_numbers_without_using_arithmetic_operators_out-rwasm-bolero"
+name = "go_transcoder_add_1_to_a_given_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27223,10 +27214,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_analysis_of_algorithms_set_2_asymptotic_analysis_out-rwasm-bolero"
+name = "go_transcoder_add_two_numbers_without_using_arithmetic_operators_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27240,10 +27231,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_area_of_a_hexagon_out-rwasm-bolero"
+name = "go_transcoder_analysis_of_algorithms_set_2_asymptotic_analysis_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27252,6 +27243,15 @@ dependencies = [
 name = "go_transcoder_area_of_a_hexagon_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_area_of_a_hexagon_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27274,15 +27274,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_area_square_circumscribed_circle_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_area_square_circumscribed_circle_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27291,10 +27282,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_array_element_moved_k_using_single_moves_out-rwasm-bolero"
+name = "go_transcoder_area_square_circumscribed_circle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27308,10 +27299,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_basic_and_extended_euclidean_algorithms_out-rwasm-bolero"
+name = "go_transcoder_array_element_moved_k_using_single_moves_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27320,6 +27311,15 @@ dependencies = [
 name = "go_transcoder_basic_and_extended_euclidean_algorithms_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_basic_and_extended_euclidean_algorithms_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27359,18 +27359,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_birthday_paradox_out-rwasm-bolero"
+name = "go_transcoder_birthday_paradox_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_birthday_paradox_out-rwasm-mutated"
+name = "go_transcoder_birthday_paradox_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27393,18 +27393,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_c_program_factorial_number_2_out-rwasm-bolero"
+name = "go_transcoder_c_program_factorial_number_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_c_program_factorial_number_2_out-rwasm-mutated"
+name = "go_transcoder_c_program_factorial_number_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27461,15 +27461,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_calculate_volume_dodecahedron_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_calculate_volume_dodecahedron_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27478,10 +27469,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_calculating_factorials_using_stirling_approximation_out-rwasm-bolero"
+name = "go_transcoder_calculate_volume_dodecahedron_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27495,10 +27486,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_cassinis_identity_out-rwasm-bolero"
+name = "go_transcoder_calculating_factorials_using_stirling_approximation_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27507,6 +27498,15 @@ dependencies = [
 name = "go_transcoder_cassinis_identity_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_cassinis_identity_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27563,18 +27563,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-bolero"
+name = "go_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-mutated"
+name = "go_transcoder_check_array_represents_inorder_binary_search_tree_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27597,15 +27597,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_given_string_rotation_palindrome_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_check_given_string_rotation_palindrome_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27614,10 +27605,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-bolero"
+name = "go_transcoder_check_given_string_rotation_palindrome_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27626,6 +27617,15 @@ dependencies = [
 name = "go_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_check_if_a_number_is_jumbled_or_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27665,15 +27665,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27682,10 +27673,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-bolero"
+name = "go_transcoder_check_if_all_the_elements_can_be_made_of_same_parity_by_inverting_adjacent_elements_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27694,6 +27685,15 @@ dependencies = [
 name = "go_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_check_if_string_remains_palindrome_after_removing_given_number_of_characters_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27716,15 +27716,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_integer_overflow_multiplication_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_check_integer_overflow_multiplication_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27733,10 +27724,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_large_number_divisible_11_not_out-rwasm-bolero"
+name = "go_transcoder_check_integer_overflow_multiplication_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27745,6 +27736,15 @@ dependencies = [
 name = "go_transcoder_check_large_number_divisible_11_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_check_large_number_divisible_11_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27784,18 +27784,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_large_number_divisible_9_not_out-rwasm-bolero"
+name = "go_transcoder_check_large_number_divisible_9_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_check_large_number_divisible_9_not_out-rwasm-mutated"
+name = "go_transcoder_check_large_number_divisible_9_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27818,18 +27818,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-bolero"
+name = "go_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-mutated"
+name = "go_transcoder_check_number_is_perfect_square_using_additionsubtraction_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27852,15 +27852,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_occurrences_character_appear_together_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_check_occurrences_character_appear_together_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27869,10 +27860,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-bolero"
+name = "go_transcoder_check_occurrences_character_appear_together_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27881,6 +27872,15 @@ dependencies = [
 name = "go_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_check_string_follows_anbn_pattern_not_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27903,15 +27903,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_whether_given_number_even_odd_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_check_whether_given_number_even_odd_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27920,10 +27911,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_whether_given_number_even_odd_out-rwasm-bolero"
+name = "go_transcoder_check_whether_given_number_even_odd_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27937,10 +27928,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-bolero"
+name = "go_transcoder_check_whether_given_number_even_odd_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27949,6 +27940,15 @@ dependencies = [
 name = "go_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -27971,15 +27971,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_circle_lattice_points_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_circle_lattice_points_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -27988,10 +27979,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_composite_number_out-rwasm-bolero"
+name = "go_transcoder_circle_lattice_points_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28005,10 +27996,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_compute_average_two_numbers_without_overflow_1_out-rwasm-bolero"
+name = "go_transcoder_composite_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28022,10 +28013,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-bolero"
+name = "go_transcoder_compute_average_two_numbers_without_overflow_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28034,6 +28025,15 @@ dependencies = [
 name = "go_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_compute_average_two_numbers_without_overflow_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28056,18 +28056,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_compute_n_under_modulo_p_out-rwasm-bolero"
+name = "go_transcoder_compute_n_under_modulo_p_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_compute_n_under_modulo_p_out-rwasm-mutated"
+name = "go_transcoder_compute_n_under_modulo_p_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28090,15 +28090,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_digits_factorial_set_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_count_digits_factorial_set_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28107,10 +28098,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_1_out-rwasm-bolero"
+name = "go_transcoder_count_digits_factorial_set_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28124,10 +28115,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_out-rwasm-bolero"
+name = "go_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28141,10 +28132,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-bolero"
+name = "go_transcoder_count_distinct_non_negative_pairs_x_y_satisfy_inequality_xx_yy_n_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28153,6 +28144,15 @@ dependencies = [
 name = "go_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_count_even_length_binary_sequences_with_same_sum_of_first_and_second_half_bits_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28175,15 +28175,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28192,10 +28183,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_frequency_k_matrix_size_n_matrixi_j_ij_out-rwasm-bolero"
+name = "go_transcoder_count_fibonacci_numbers_given_range_log_time_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28209,10 +28200,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_index_pairs_equal_elements_array_out-rwasm-bolero"
+name = "go_transcoder_count_frequency_k_matrix_size_n_matrixi_j_ij_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28221,6 +28212,15 @@ dependencies = [
 name = "go_transcoder_count_index_pairs_equal_elements_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_count_index_pairs_equal_elements_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28277,15 +28277,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_number_pairs_n_b_n_gcd_b_b_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_count_number_pairs_n_b_n_gcd_b_b_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28294,10 +28285,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_numbers_that_dont_contain_3_out-rwasm-bolero"
+name = "go_transcoder_count_number_pairs_n_b_n_gcd_b_b_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28311,10 +28302,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_obtuse_angles_circle_k_equidistant_points_2_given_points_out-rwasm-bolero"
+name = "go_transcoder_count_numbers_that_dont_contain_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28323,6 +28314,15 @@ dependencies = [
 name = "go_transcoder_count_obtuse_angles_circle_k_equidistant_points_2_given_points_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_count_obtuse_angles_circle_k_equidistant_points_2_given_points_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28362,15 +28362,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28379,10 +28370,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_out-rwasm-bolero"
+name = "go_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28396,10 +28387,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_pairs_whose_products_exist_in_array_out-rwasm-bolero"
+name = "go_transcoder_count_pairs_two_sorted_arrays_whose_sum_equal_given_value_x_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28413,10 +28404,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_3_out-rwasm-bolero"
+name = "go_transcoder_count_pairs_whose_products_exist_in_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28430,10 +28421,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_possible_ways_to_construct_buildings_out-rwasm-bolero"
+name = "go_transcoder_count_possible_paths_top_left_bottom_right_nxm_matrix_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28447,10 +28438,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_set_bits_in_an_integer_1_out-rwasm-bolero"
+name = "go_transcoder_count_possible_ways_to_construct_buildings_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28464,10 +28455,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_set_bits_in_an_integer_3_out-rwasm-bolero"
+name = "go_transcoder_count_set_bits_in_an_integer_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28476,6 +28467,15 @@ dependencies = [
 name = "go_transcoder_count_set_bits_in_an_integer_3_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_count_set_bits_in_an_integer_3_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28498,15 +28498,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28515,10 +28506,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_substrings_with_same_first_and_last_characters_out-rwasm-bolero"
+name = "go_transcoder_count_strings_can_formed_using_b_c_given_constraints_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28532,10 +28523,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-bolero"
+name = "go_transcoder_count_substrings_with_same_first_and_last_characters_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28544,6 +28535,15 @@ dependencies = [
 name = "go_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_count_trailing_zeroes_factorial_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28600,15 +28600,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28617,10 +28608,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_divisibility_9_using_bitwise_operators_out-rwasm-bolero"
+name = "go_transcoder_distributing_m_items_circle_size_n_starting_k_th_position_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28634,10 +28625,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_divisibility_by_7_out-rwasm-bolero"
+name = "go_transcoder_divisibility_9_using_bitwise_operators_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28646,6 +28637,15 @@ dependencies = [
 name = "go_transcoder_divisibility_by_7_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_divisibility_by_7_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28719,18 +28719,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-bolero"
+name = "go_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-mutated"
+name = "go_transcoder_dynamic_programming_set_36_cut_a_rope_to_maximize_product_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28770,15 +28770,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_efficient_way_to_multiply_with_7_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_efficient_way_to_multiply_with_7_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28787,10 +28778,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-bolero"
+name = "go_transcoder_efficient_way_to_multiply_with_7_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28799,6 +28790,15 @@ dependencies = [
 name = "go_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_efficiently_find_first_repeated_character_string_without_using_additional_data_structure_one_traversal_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28855,15 +28855,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_eulers_criterion_check_if_square_root_under_modulo_p_exists_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_eulers_criterion_check_if_square_root_under_modulo_p_exists_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28872,10 +28863,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_even_fibonacci_numbers_sum_out-rwasm-bolero"
+name = "go_transcoder_eulers_criterion_check_if_square_root_under_modulo_p_exists_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28884,6 +28875,15 @@ dependencies = [
 name = "go_transcoder_even_fibonacci_numbers_sum_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_even_fibonacci_numbers_sum_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28906,15 +28906,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_fibonacci_modulo_p_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_fibonacci_modulo_p_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28923,10 +28914,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-bolero"
+name = "go_transcoder_fibonacci_modulo_p_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28935,6 +28926,15 @@ dependencies = [
 name = "go_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_a_fixed_point_in_a_given_array_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28957,15 +28957,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -28974,10 +28965,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_harmonic_mean_using_arithmetic_mean_geometric_mean_out-rwasm-bolero"
+name = "go_transcoder_find_first_natural_number_whose_factorial_divisible_x_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -28991,10 +28982,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_index_given_fibonacci_number_constant_time_1_out-rwasm-bolero"
+name = "go_transcoder_find_harmonic_mean_using_arithmetic_mean_geometric_mean_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29008,10 +28999,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-bolero"
+name = "go_transcoder_find_index_given_fibonacci_number_constant_time_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29020,6 +29011,15 @@ dependencies = [
 name = "go_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_index_given_fibonacci_number_constant_time_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29042,18 +29042,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-bolero"
+name = "go_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-mutated"
+name = "go_transcoder_find_index_of_an_extra_element_present_in_one_sorted_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29076,18 +29076,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-bolero"
+name = "go_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-mutated"
+name = "go_transcoder_find_maximum_height_pyramid_from_the_given_array_of_objects_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29161,18 +29161,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_minimum_sum_factors_number_out-rwasm-bolero"
+name = "go_transcoder_find_minimum_sum_factors_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_minimum_sum_factors_number_out-rwasm-mutated"
+name = "go_transcoder_find_minimum_sum_factors_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29195,18 +29195,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-bolero"
+name = "go_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-mutated"
+name = "go_transcoder_find_number_perfect_squares_two_given_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29229,15 +29229,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29246,10 +29237,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_perimeter_cylinder_out-rwasm-bolero"
+name = "go_transcoder_find_pair_with_greatest_product_in_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29258,6 +29249,15 @@ dependencies = [
 name = "go_transcoder_find_perimeter_cylinder_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_perimeter_cylinder_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29280,18 +29280,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-bolero"
+name = "go_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-mutated"
+name = "go_transcoder_find_repetitive_element_1_n_1_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29331,18 +29331,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-bolero"
+name = "go_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-mutated"
+name = "go_transcoder_find_smallest_value_represented_sum_subset_given_array_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29365,15 +29365,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_sum_even_index_binomial_coefficients_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_sum_even_index_binomial_coefficients_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29382,10 +29373,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_sum_modulo_k_first_n_natural_number_1_out-rwasm-bolero"
+name = "go_transcoder_find_sum_even_index_binomial_coefficients_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29399,10 +29390,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_sum_modulo_k_first_n_natural_number_out-rwasm-bolero"
+name = "go_transcoder_find_sum_modulo_k_first_n_natural_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29416,10 +29407,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_sum_odd_factors_number_out-rwasm-bolero"
+name = "go_transcoder_find_sum_modulo_k_first_n_natural_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29433,10 +29424,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_the_element_that_appears_once_out-rwasm-bolero"
+name = "go_transcoder_find_sum_odd_factors_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29445,6 +29436,15 @@ dependencies = [
 name = "go_transcoder_find_the_element_that_appears_once_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_the_element_that_appears_once_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29484,18 +29484,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-bolero"
+name = "go_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-mutated"
+name = "go_transcoder_find_the_maximum_element_in_an_array_which_is_first_increasing_and_then_decreasing_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29535,15 +29535,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_the_missing_number_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_the_missing_number_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29552,10 +29543,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_the_missing_number_2_out-rwasm-bolero"
+name = "go_transcoder_find_the_missing_number_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29569,10 +29560,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-bolero"
+name = "go_transcoder_find_the_missing_number_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29581,6 +29572,15 @@ dependencies = [
 name = "go_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_the_number_occurring_odd_number_of_times_2_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29620,15 +29620,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_unit_digit_x_raised_power_y_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_unit_digit_x_raised_power_y_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29637,10 +29628,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_unit_digit_x_raised_power_y_out-rwasm-bolero"
+name = "go_transcoder_find_unit_digit_x_raised_power_y_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29654,10 +29645,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-bolero"
+name = "go_transcoder_find_unit_digit_x_raised_power_y_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29666,6 +29657,15 @@ dependencies = [
 name = "go_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_find_whether_a_given_number_is_a_power_of_4_or_not_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29688,15 +29688,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_find_whether_given_integer_power_3_not_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_find_whether_given_integer_power_3_not_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29705,10 +29696,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_finding_power_prime_number_p_n_1_out-rwasm-bolero"
+name = "go_transcoder_find_whether_given_integer_power_3_not_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29722,10 +29713,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_finding_power_prime_number_p_n_out-rwasm-bolero"
+name = "go_transcoder_finding_power_prime_number_p_n_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29734,6 +29725,15 @@ dependencies = [
 name = "go_transcoder_finding_power_prime_number_p_n_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_finding_power_prime_number_p_n_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29773,15 +29773,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_friends_pairing_problem_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_friends_pairing_problem_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29790,10 +29781,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_gcd_elements_given_range_out-rwasm-bolero"
+name = "go_transcoder_friends_pairing_problem_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29802,6 +29793,15 @@ dependencies = [
 name = "go_transcoder_gcd_elements_given_range_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_gcd_elements_given_range_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29824,18 +29824,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-bolero"
+name = "go_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-mutated"
+name = "go_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29858,15 +29858,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_height_complete_binary_tree_heap_n_nodes_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_height_complete_binary_tree_heap_n_nodes_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29875,10 +29866,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_hexagonal_number_out-rwasm-bolero"
+name = "go_transcoder_height_complete_binary_tree_heap_n_nodes_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29887,6 +29878,15 @@ dependencies = [
 name = "go_transcoder_hexagonal_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_hexagonal_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29960,15 +29960,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -29977,10 +29968,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-bolero"
+name = "go_transcoder_how_to_compute_mod_of_a_big_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -29989,6 +29980,15 @@ dependencies = [
 name = "go_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_how_to_turn_off_a_particular_bit_in_a_number_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30079,18 +30079,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-bolero"
+name = "go_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-mutated"
+name = "go_transcoder_largest_subarray_with_equal_number_of_0s_and_1s_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30147,18 +30147,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximize_sum_arrii_out-rwasm-bolero"
+name = "go_transcoder_maximize_sum_arrii_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_maximize_sum_arrii_out-rwasm-mutated"
+name = "go_transcoder_maximize_sum_arrii_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30181,15 +30181,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30198,10 +30189,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximize_volume_cuboid_given_sum_sides_out-rwasm-bolero"
+name = "go_transcoder_maximize_volume_cuboid_given_sum_sides_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30215,10 +30206,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximum_height_of_triangular_arrangement_of_array_values_1_out-rwasm-bolero"
+name = "go_transcoder_maximize_volume_cuboid_given_sum_sides_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30227,6 +30218,15 @@ dependencies = [
 name = "go_transcoder_maximum_height_of_triangular_arrangement_of_array_values_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_maximum_height_of_triangular_arrangement_of_array_values_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30249,15 +30249,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30266,10 +30257,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximum_number_of_squares_that_can_be_fit_in_a_right_angle_isosceles_triangle_out-rwasm-bolero"
+name = "go_transcoder_maximum_number_2x2_squares_can_fit_inside_right_isosceles_triangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30283,10 +30274,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximum_points_intersection_n_circles_out-rwasm-bolero"
+name = "go_transcoder_maximum_number_of_squares_that_can_be_fit_in_a_right_angle_isosceles_triangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30295,6 +30286,15 @@ dependencies = [
 name = "go_transcoder_maximum_points_intersection_n_circles_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_maximum_points_intersection_n_circles_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30368,18 +30368,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_maximum_triplet_sum_array_1_out-rwasm-bolero"
+name = "go_transcoder_maximum_triplet_sum_array_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_maximum_triplet_sum_array_1_out-rwasm-mutated"
+name = "go_transcoder_maximum_triplet_sum_array_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30419,15 +30419,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30436,10 +30427,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-bolero"
+name = "go_transcoder_middle_of_three_using_minimum_comparisons_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30448,6 +30439,15 @@ dependencies = [
 name = "go_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_middle_of_three_using_minimum_comparisons_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30470,15 +30470,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30487,10 +30478,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-bolero"
+name = "go_transcoder_minimize_the_sum_of_digits_of_a_and_b_such_that_a_b_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30499,6 +30490,15 @@ dependencies = [
 name = "go_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_minimum_characters_added_front_make_string_palindrome_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30521,15 +30521,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_cost_for_acquiring_all_coins_with_k_extra_coins_allowed_with_every_coin_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_minimum_cost_for_acquiring_all_coins_with_k_extra_coins_allowed_with_every_coin_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30538,10 +30529,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_difference_max_min_k_size_subsets_out-rwasm-bolero"
+name = "go_transcoder_minimum_cost_for_acquiring_all_coins_with_k_extra_coins_allowed_with_every_coin_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30550,6 +30541,15 @@ dependencies = [
 name = "go_transcoder_minimum_difference_max_min_k_size_subsets_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_minimum_difference_max_min_k_size_subsets_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30572,15 +30572,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30589,10 +30580,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-bolero"
+name = "go_transcoder_minimum_length_subarray_sum_greater_given_value_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30601,6 +30592,15 @@ dependencies = [
 name = "go_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_minimum_number_platforms_required_railwaybus_station_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30623,15 +30623,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30640,10 +30631,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_minimum_perimeter_n_blocks_out-rwasm-bolero"
+name = "go_transcoder_minimum_operations_make_gcd_array_multiple_k_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30652,6 +30643,15 @@ dependencies = [
 name = "go_transcoder_minimum_perimeter_n_blocks_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_minimum_perimeter_n_blocks_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30776,15 +30776,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30793,10 +30784,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_modulus_two_float_double_numbers_out-rwasm-bolero"
+name = "go_transcoder_modular_exponentiation_power_in_modular_arithmetic_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30810,10 +30801,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_multiply_an_integer_with_3_5_out-rwasm-bolero"
+name = "go_transcoder_modulus_two_float_double_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30827,10 +30818,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_1_out-rwasm-bolero"
+name = "go_transcoder_multiply_an_integer_with_3_5_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30844,10 +30835,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_2_out-rwasm-bolero"
+name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30861,10 +30852,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_out-rwasm-bolero"
+name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30878,10 +30869,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_n_th_term_series_2_12_36_80_150_out-rwasm-bolero"
+name = "go_transcoder_n_th_number_whose_sum_of_digits_is_ten_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30890,6 +30881,15 @@ dependencies = [
 name = "go_transcoder_n_th_term_series_2_12_36_80_150_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_n_th_term_series_2_12_36_80_150_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30963,15 +30963,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_nth_non_fibonacci_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_nth_non_fibonacci_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -30980,10 +30971,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_nth_pentagonal_number_out-rwasm-bolero"
+name = "go_transcoder_nth_non_fibonacci_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -30997,10 +30988,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_digits_product_two_numbers_1_out-rwasm-bolero"
+name = "go_transcoder_nth_pentagonal_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31014,10 +31005,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_digits_product_two_numbers_out-rwasm-bolero"
+name = "go_transcoder_number_digits_product_two_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31026,6 +31017,15 @@ dependencies = [
 name = "go_transcoder_number_digits_product_two_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_number_digits_product_two_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31048,15 +31048,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31065,10 +31056,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_non_negative_integral_solutions_b_c_n_1_out-rwasm-bolero"
+name = "go_transcoder_number_jump_required_given_length_reach_point_form_d_0_origin_2d_plane_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31082,10 +31073,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_non_negative_integral_solutions_b_c_n_out-rwasm-bolero"
+name = "go_transcoder_number_non_negative_integral_solutions_b_c_n_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31099,10 +31090,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_of_pairs_in_an_array_having_sum_equal_to_product_out-rwasm-bolero"
+name = "go_transcoder_number_non_negative_integral_solutions_b_c_n_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31116,10 +31107,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-bolero"
+name = "go_transcoder_number_of_pairs_in_an_array_having_sum_equal_to_product_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31128,6 +31119,15 @@ dependencies = [
 name = "go_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_number_of_triangles_in_a_plane_if_no_more_than_two_points_are_collinear_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31150,15 +31150,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_rectangles_nm_grid_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_number_rectangles_nm_grid_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31167,10 +31158,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_subsequences_ab_string_repeated_k_times_out-rwasm-bolero"
+name = "go_transcoder_number_rectangles_nm_grid_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31184,10 +31175,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_substrings_string_out-rwasm-bolero"
+name = "go_transcoder_number_subsequences_ab_string_repeated_k_times_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31201,10 +31192,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_triangles_n_moves_1_out-rwasm-bolero"
+name = "go_transcoder_number_substrings_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31218,10 +31209,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_unique_rectangles_formed_using_n_unit_squares_out-rwasm-bolero"
+name = "go_transcoder_number_triangles_n_moves_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31235,10 +31226,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_number_ways_node_make_loop_size_k_undirected_complete_connected_graph_n_nodes_out-rwasm-bolero"
+name = "go_transcoder_number_unique_rectangles_formed_using_n_unit_squares_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31252,10 +31243,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_one_line_function_for_factorial_of_a_number_out-rwasm-bolero"
+name = "go_transcoder_number_ways_node_make_loop_size_k_undirected_complete_connected_graph_n_nodes_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31269,10 +31260,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_padovan_sequence_out-rwasm-bolero"
+name = "go_transcoder_one_line_function_for_factorial_of_a_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31281,6 +31272,15 @@ dependencies = [
 name = "go_transcoder_padovan_sequence_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_padovan_sequence_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31320,15 +31320,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_perfect_reversible_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_perfect_reversible_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31337,10 +31328,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-bolero"
+name = "go_transcoder_perfect_reversible_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31349,6 +31340,15 @@ dependencies = [
 name = "go_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_pizza_cut_problem_circle_division_lines_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31371,18 +31371,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_position_of_rightmost_set_bit_1_out-rwasm-bolero"
+name = "go_transcoder_position_of_rightmost_set_bit_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_position_of_rightmost_set_bit_1_out-rwasm-mutated"
+name = "go_transcoder_position_of_rightmost_set_bit_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31405,15 +31405,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31422,10 +31413,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_primality_test_set_1_introduction_and_school_method_out-rwasm-bolero"
+name = "go_transcoder_primality_test_set_1_introduction_and_school_method_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31439,10 +31430,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_prime_numbers_out-rwasm-bolero"
+name = "go_transcoder_primality_test_set_1_introduction_and_school_method_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31456,10 +31447,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-bolero"
+name = "go_transcoder_prime_numbers_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31468,6 +31459,15 @@ dependencies = [
 name = "go_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_probability_three_randomly_chosen_numbers_ap_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31490,15 +31490,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31507,10 +31498,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_area_square_out-rwasm-bolero"
+name = "go_transcoder_product_nodes_k_th_level_tree_represented_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31524,10 +31515,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_binary_decimal_conversion_out-rwasm-bolero"
+name = "go_transcoder_program_area_square_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31541,10 +31532,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_calculate_area_octagon_out-rwasm-bolero"
+name = "go_transcoder_program_binary_decimal_conversion_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31553,6 +31544,15 @@ dependencies = [
 name = "go_transcoder_program_calculate_area_octagon_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_program_calculate_area_octagon_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31575,18 +31575,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_calculate_volume_octahedron_out-rwasm-bolero"
+name = "go_transcoder_program_calculate_volume_octahedron_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_program_calculate_volume_octahedron_out-rwasm-mutated"
+name = "go_transcoder_program_calculate_volume_octahedron_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31660,15 +31660,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_count_occurrence_given_character_string_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_program_count_occurrence_given_character_string_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31677,10 +31668,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-bolero"
+name = "go_transcoder_program_count_occurrence_given_character_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31689,6 +31680,15 @@ dependencies = [
 name = "go_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_program_find_remainder_large_number_divided_11_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31728,18 +31728,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-bolero"
+name = "go_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-mutated"
+name = "go_transcoder_program_for_deadlock_free_condition_in_operating_system_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31762,18 +31762,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_for_factorial_of_a_number_2_out-rwasm-bolero"
+name = "go_transcoder_program_for_factorial_of_a_number_2_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_program_for_factorial_of_a_number_2_out-rwasm-mutated"
+name = "go_transcoder_program_for_factorial_of_a_number_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31796,15 +31796,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_for_surface_area_of_octahedron_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_program_for_surface_area_of_octahedron_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31813,10 +31804,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_octal_decimal_conversion_out-rwasm-bolero"
+name = "go_transcoder_program_for_surface_area_of_octahedron_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31830,10 +31821,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_print_sum_given_nth_term_1_out-rwasm-bolero"
+name = "go_transcoder_program_octal_decimal_conversion_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31847,10 +31838,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_print_sum_given_nth_term_out-rwasm-bolero"
+name = "go_transcoder_program_print_sum_given_nth_term_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31864,10 +31855,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_to_find_remainder_without_using_modulo_or_operator_2_out-rwasm-bolero"
+name = "go_transcoder_program_print_sum_given_nth_term_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31881,10 +31872,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-bolero"
+name = "go_transcoder_program_to_find_remainder_without_using_modulo_or_operator_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31893,6 +31884,15 @@ dependencies = [
 name = "go_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_program_to_find_remainder_without_using_modulo_or_operator_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31932,15 +31932,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_pythagorean_quadruple_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_pythagorean_quadruple_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -31949,10 +31940,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_python_program_find_perimeter_circumference_square_rectangle_1_out-rwasm-bolero"
+name = "go_transcoder_pythagorean_quadruple_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31966,10 +31957,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_python_program_find_perimeter_circumference_square_rectangle_out-rwasm-bolero"
+name = "go_transcoder_python_program_find_perimeter_circumference_square_rectangle_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -31983,10 +31974,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_queries_counts_array_elements_values_given_range_out-rwasm-bolero"
+name = "go_transcoder_python_program_find_perimeter_circumference_square_rectangle_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32000,10 +31991,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_quick_way_check_characters_string_out-rwasm-bolero"
+name = "go_transcoder_queries_counts_array_elements_values_given_range_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32017,10 +32008,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_recursively_break_number_3_parts_get_maximum_sum_out-rwasm-bolero"
+name = "go_transcoder_quick_way_check_characters_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32034,10 +32025,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-bolero"
+name = "go_transcoder_recursively_break_number_3_parts_get_maximum_sum_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32046,6 +32037,15 @@ dependencies = [
 name = "go_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_round_the_given_number_to_nearest_multiple_of_10_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32102,15 +32102,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_searching_array_adjacent_differ_k_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_searching_array_adjacent_differ_k_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32119,10 +32110,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-bolero"
+name = "go_transcoder_searching_array_adjacent_differ_k_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32131,6 +32122,15 @@ dependencies = [
 name = "go_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_sequences_given_length_every_element_equal_twice_previous_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32153,15 +32153,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32170,10 +32161,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-bolero"
+name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32182,6 +32173,15 @@ dependencies = [
 name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_smallest_of_three_integers_without_comparison_operators_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32255,15 +32255,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_square_pyramidal_number_sum_squares_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_square_pyramidal_number_sum_squares_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32272,10 +32263,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_square_root_of_an_integer_1_out-rwasm-bolero"
+name = "go_transcoder_square_pyramidal_number_sum_squares_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32289,10 +32280,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_square_root_of_an_integer_out-rwasm-bolero"
+name = "go_transcoder_square_root_of_an_integer_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32306,10 +32297,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_squared_triangular_number_sum_cubes_out-rwasm-bolero"
+name = "go_transcoder_square_root_of_an_integer_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32323,10 +32314,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-bolero"
+name = "go_transcoder_squared_triangular_number_sum_cubes_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32335,6 +32326,15 @@ dependencies = [
 name = "go_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_steins_algorithm_for_finding_gcd_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32357,15 +32357,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_binomial_coefficients_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_sum_binomial_coefficients_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32374,10 +32365,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_divisors_1_n_1_out-rwasm-bolero"
+name = "go_transcoder_sum_binomial_coefficients_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32386,6 +32377,15 @@ dependencies = [
 name = "go_transcoder_sum_divisors_1_n_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_sum_divisors_1_n_1_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32408,15 +32408,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_factors_number_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_sum_factors_number_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32425,10 +32416,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_k_th_group_odd_positive_numbers_1_out-rwasm-bolero"
+name = "go_transcoder_sum_factors_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32442,10 +32433,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_k_th_group_odd_positive_numbers_out-rwasm-bolero"
+name = "go_transcoder_sum_k_th_group_odd_positive_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32454,6 +32445,15 @@ dependencies = [
 name = "go_transcoder_sum_k_th_group_odd_positive_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_sum_k_th_group_odd_positive_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32476,15 +32476,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32493,10 +32484,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_2_out-rwasm-bolero"
+name = "go_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32510,10 +32501,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_matrix_element_element_integer_division_row_column_1_out-rwasm-bolero"
+name = "go_transcoder_sum_matrix_element_absolute_difference_row_column_numbers_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32527,10 +32518,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_matrix_element_element_integer_division_row_column_out-rwasm-bolero"
+name = "go_transcoder_sum_matrix_element_element_integer_division_row_column_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32544,10 +32535,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_nodes_k_th_level_tree_represented_string_out-rwasm-bolero"
+name = "go_transcoder_sum_matrix_element_element_integer_division_row_column_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32561,10 +32552,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_of_all_proper_divisors_of_a_natural_number_out-rwasm-bolero"
+name = "go_transcoder_sum_nodes_k_th_level_tree_represented_string_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32578,10 +32569,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_pairwise_products_1_out-rwasm-bolero"
+name = "go_transcoder_sum_of_all_proper_divisors_of_a_natural_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32595,10 +32586,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_pairwise_products_2_out-rwasm-bolero"
+name = "go_transcoder_sum_pairwise_products_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32612,10 +32603,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_pairwise_products_out-rwasm-bolero"
+name = "go_transcoder_sum_pairwise_products_2_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32624,6 +32615,15 @@ dependencies = [
 name = "go_transcoder_sum_pairwise_products_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_sum_pairwise_products_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32646,15 +32646,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_series_12_32_52_2n_12_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_sum_series_12_32_52_2n_12_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32663,10 +32654,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_series_12_32_52_2n_12_out-rwasm-bolero"
+name = "go_transcoder_sum_series_12_32_52_2n_12_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32675,6 +32666,15 @@ dependencies = [
 name = "go_transcoder_sum_series_12_32_52_2n_12_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_sum_series_12_32_52_2n_12_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32697,18 +32697,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_sum_series_555555_n_terms_out-rwasm-bolero"
+name = "go_transcoder_sum_series_555555_n_terms_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_sum_series_555555_n_terms_out-rwasm-mutated"
+name = "go_transcoder_sum_series_555555_n_terms_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32765,18 +32765,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_swap_two_nibbles_byte_out-rwasm-bolero"
+name = "go_transcoder_swap_two_nibbles_byte_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_swap_two_nibbles_byte_out-rwasm-mutated"
+name = "go_transcoder_swap_two_nibbles_byte_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32816,15 +32816,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32833,10 +32824,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_triangular_matchstick_number_out-rwasm-bolero"
+name = "go_transcoder_total_number_of_non_decreasing_numbers_with_n_digits_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32850,10 +32841,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_triangular_numbers_1_out-rwasm-bolero"
+name = "go_transcoder_triangular_matchstick_number_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32867,10 +32858,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_triangular_numbers_out-rwasm-bolero"
+name = "go_transcoder_triangular_numbers_1_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32879,6 +32870,15 @@ dependencies = [
 name = "go_transcoder_triangular_numbers_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_triangular_numbers_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32901,18 +32901,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-bolero"
+name = "go_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
- "bolero",
  "wasi-common",
  "wiggle",
 ]
 
 [[package]]
-name = "go_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-mutated"
+name = "go_transcoder_ways_remove_one_element_binary_string_xor_becomes_zero_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32935,15 +32935,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-bolero"
-version = "1.0.1"
-dependencies = [
- "bolero",
- "wasi-common",
- "wiggle",
-]
-
-[[package]]
 name = "go_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
@@ -32952,10 +32943,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_write_one_line_c_function_to_find_whether_a_no_is_power_of_two_out-rwasm-bolero"
+name = "go_transcoder_write_an_efficient_method_to_check_if_a_number_is_multiple_of_3_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32969,10 +32960,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_write_you_own_power_without_using_multiplication_and_division_out-rwasm-bolero"
+name = "go_transcoder_write_one_line_c_function_to_find_whether_a_no_is_power_of_two_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32986,10 +32977,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "go_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-bolero"
+name = "go_transcoder_write_you_own_power_without_using_multiplication_and_division_out-rwasm-proptest"
 version = "1.0.1"
 dependencies = [
- "bolero",
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
@@ -32998,6 +32989,15 @@ dependencies = [
 name = "go_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-mutated"
 version = "1.0.1"
 dependencies = [
+ "wasi-common",
+ "wiggle",
+]
+
+[[package]]
+name = "go_transcoder_zeckendorfs_theorem_non_neighbouring_fibonacci_representation_out-rwasm-proptest"
+version = "1.0.1"
+dependencies = [
+ "proptest",
  "wasi-common",
  "wiggle",
 ]
