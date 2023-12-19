@@ -1464,10 +1464,14 @@ fn sort(arr: &mut [i32]) {arr.sort_by(cmpfunc);}
 fn f_gold(arr: [i32;2], n: i32, k: i32) -> i32 {  
        let mut dp = vec![vec![0; n as usize]; k as usize];       for i in 0..n {           dp[0][i as usize] = 1;       }       for l in 1..k {           for i in l..n {               dp[l as usize][i as usize] = 0;               for j in l-1..i {                   if arr[j as usize] < arr[i as usize] {                       dp[l as usize][i as usize] += dp[(l-1) as usize][j as usize];                   }               }           }       }       let mut sum = 0;       for i in (k-1)..n {           sum += dp[(k-1) as usize][i as usize];       }       sum}////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<([i32;2], i32, i32)>().cloned().for_each(|(PARAM_1,PARAM_2,PARAM_3)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: [i32;2], PARAM_2: i32, PARAM_3: i32
+  ) {
+     
 		unsafe {
 		PARAM1 = PARAM_1;
 		PARAM2 = PARAM_2;
@@ -1477,5 +1481,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold([unsafe{PARAM1}[0], unsafe{PARAM1}[1]],unsafe{PARAM2}.into(),unsafe{PARAM3}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	});
+	
+  }
 }

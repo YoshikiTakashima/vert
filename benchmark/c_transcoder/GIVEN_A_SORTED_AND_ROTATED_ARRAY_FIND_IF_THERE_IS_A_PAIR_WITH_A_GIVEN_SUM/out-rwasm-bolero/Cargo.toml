@@ -1,6 +1,6 @@
 
 [package]
-name = "c_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-bolero"
+name = "c_transcoder_given_a_sorted_and_rotated_array_find_if_there_is_a_pair_with_a_given_sum_out-rwasm-proptest"
 version = "1.0.1"
 authors = ["generated-by-rwasm-1.0.1"]
 edition = "2018"
@@ -12,4 +12,4 @@ wiggle = "0.20.0"
 
             
 [dev-dependencies]
-bolero = "0.10.0"
+proptest = "1.0.0"

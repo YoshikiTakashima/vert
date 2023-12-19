@@ -627,10 +627,14 @@ fn f_gold(n: i32) -> i32 {
    cmp::max(f_gold(n / 2) + f_gold(n / 3) + f_gold(n / 4), n)
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<(i32)>().cloned().for_each(|(PARAM_1)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: i32
+  ) {
+     
 		unsafe {
 		PARAM1 = PARAM_1;
 
@@ -638,5 +642,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold(unsafe{PARAM1}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	});
+	
+  }
 }

@@ -1,6 +1,6 @@
 
 [package]
-name = "c_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-bolero"
+name = "c_transcoder_check_whether_triangle_valid_not_sides_given_out-rwasm-proptest"
 version = "1.0.1"
 authors = ["generated-by-rwasm-1.0.1"]
 edition = "2018"
@@ -12,4 +12,4 @@ wiggle = "0.20.0"
 
             
 [dev-dependencies]
-bolero = "0.10.0"
+proptest = "1.0.0"

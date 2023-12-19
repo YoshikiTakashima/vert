@@ -389,10 +389,14 @@ fn f_gold(side: f32) -> f32 {
    (2.0 * (f32::sqrt(3.0)) * (side * side))
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<(f32)>().cloned().for_each(|(PARAM_1)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: f32
+  ) {
+     
 		unsafe {
 		PARAM1 = PARAM_1;
 
@@ -400,5 +404,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold(unsafe{PARAM1}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	});
+	
+  }
 }

@@ -752,10 +752,14 @@ fn f_gold(x: [i32;2], y: [i32;2], n: i32) -> i32 {
     sum
 }////// LLM Output //////
 
-use bolero::check;
-#[test]
-fn bolero_wasm_eq(){
-	bolero::check!().with_type::<([i32;2], [i32;2], i32)>().cloned().for_each(|(PARAM_1,PARAM_2,PARAM_3)|{ 
+
+use proptest::prelude::*;
+proptest!{
+  #[test]
+  fn check_eq(
+    PARAM_1: [i32;2], PARAM_2: [i32;2], PARAM_3: i32
+  ) {
+     
 		unsafe {
 		PARAM1 = PARAM_1;
 		PARAM2 = PARAM_2;
@@ -765,5 +769,6 @@ fn bolero_wasm_eq(){
 		let result = f_gold([unsafe{PARAM1}[0], unsafe{PARAM1}[1]],[unsafe{PARAM2}[0], unsafe{PARAM2}[1]],unsafe{PARAM3}.into());
 		let result_prime = f_gold_wasm_thread_unsafe();
 		assert_eq!(result, result_prime);
-	});
+	
+  }
 }
