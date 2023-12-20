@@ -1,16 +1,17 @@
 # 1. Setup
-## Verification tools
-```
-cargo install -f cargo-bolero
-cargo install --locked kani-verifier
-cargo kani setup
-```
 
 ## Install Rust 
 ```
 apt update
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
+```
+
+## Verification tools
+```
+cargo install -f cargo-bolero
+cargo install --locked kani-verifier
+cargo kani setup
 ```
 
 # 2. Run tool with helper script
