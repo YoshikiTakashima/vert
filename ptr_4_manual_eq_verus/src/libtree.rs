@@ -1,4 +1,4 @@
-//! parseint.rs --- Equivalence checking for `brotli_parseint`.
+//! libtree.rs --- Equivalence checking for benchmark `libtree`.
 use vstd::prelude::*;
 
 verus! {
