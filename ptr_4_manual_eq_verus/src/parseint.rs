@@ -42,19 +42,6 @@ verus! {
         }
     }
 
-    proof fn exp_6_is_1m()
-        ensures
-        exp(6) == 1000000
-    {
-        assert(exp(6) == 10 * exp(5));
-        assert(exp(5) == 10 * exp(4));
-        assert(exp(4) == 10 * exp(3));
-        assert(exp(3) == 10 * exp(2));
-        assert(exp(2) == 10 * exp(1));
-        assert(exp(1) == 10 * exp(0));
-        assert(1 == exp(0));
-    }
-
 // fn crown_parseint(
 //     mut s: &Vec<char>,
 //     mut low: i32,
@@ -108,9 +95,7 @@ verus! {
             assert(value < exp(6)) by {
                 exp_monotone_any(value, i as int, 6);
             };
-            assert(exp(6) == 1000000) by {
-                exp_6_is_1m();
-            };
+            assert(exp(6) == 1000000) by (compute_only);
             value = value * 10 + (c as u32 - '0' as u32) as u32;
             i += 1;
         }
