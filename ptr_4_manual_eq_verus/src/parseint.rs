@@ -42,6 +42,49 @@ verus! {
         }
     }
 
+    spec fn valid_vector(s: &Vec<char>) -> bool {
+        s.len() == 5 &&
+            (('1' as u32) <=  s[0] as u32 <= ('9' as u32)) &&
+            (('1' as u32) <=  s[1] as u32 <= ('9' as u32)) &&
+            (('1' as u32) <=  s[2] as u32 <= ('9' as u32)) &&
+            (('1' as u32) <=  s[3] as u32 <= ('9' as u32)) &&
+            (('1' as u32) <=  s[4] as u32 <= ('9' as u32))
+    }
+
+    spec fn right_parse(s: &Vec<char>, upto: int, value: int) -> bool
+        decreases upto
+    {
+        if 0 <= upto && upto <= s.len() {
+            if upto > 0 {
+                (value % 10 == (s[upto -1] as u32 - '0' as u32)) &&
+                    right_parse(s, upto - 1, value / 10)
+            } else {
+                value == 0
+            }
+        } else {
+            false
+        }
+    }
+
+    proof fn right_parse_continues(s: &Vec<char>, upto: int, value: int)
+        requires
+        valid_vector(s),
+        right_parse(s, upto, value),
+    0 <= upto < s.len()
+        ensures
+        right_parse(s, upto + 1, (value * 10) + ((s[upto] as u32) - ('0' as u32)))
+    {
+        let new_val = (value * 10) + ((s[upto] as u32) - ('0' as u32));
+        let new_upto = upto + 1;
+        assert(new_upto > 0);
+        assert(new_upto <= s.len());
+        assert(new_val % 10 == ((s[new_upto - 1] as u32) - ('0' as u32)));
+        assert(new_val / 10 == value);
+        assert(right_parse(s, new_upto - 1, new_val / 10));
+        assert(right_parse(s, new_upto, new_val));
+    }
+
+
 // fn crown_parseint(
 //     mut s: &Vec<char>,
 //     mut low: i32,
@@ -79,6 +122,8 @@ verus! {
     fn llm_parseint(s: &Vec<char>, low: u32, high: u32) -> (ret: Option<u32>)
         requires
         valid_vector(s)
+        ensures
+        ret.is_some() ==> low <= ret.unwrap() <= high
     {
         let mut value = 0;
         let mut i = 0;
@@ -86,11 +131,12 @@ verus! {
         while i < 5
             invariant
             valid_vector(s),
-        value < exp(i as int)
+            value < exp(i as int),
+            right_parse(s, i as int, value as int)
         {
             let c = s[i];
-            if c == '\0' { break; }
-            if !(c as u32 >= '0' as u32 && c as u32 <= '9' as u32) { return None; }
+            // if c == '\0' { break; }
+            // if !(c as u32 >= '0' as u32 && c as u32 <= '9' as u32) { return None; }
             assert(i < 6);
             assert(value < exp(6)) by {
                 exp_monotone_any(value, i as int, 6);
@@ -99,20 +145,13 @@ verus! {
             value = value * 10 + (c as u32 - '0' as u32) as u32;
             i += 1;
         }
+        assert(
+            right_parse(s, i as int, value as int)
+        );
         if i == 0 { return None; }
         if i > 1 && s[0] ==  '\0' { return None; }
         if s.len() > 5 { return None; }
         if value < low || value > high { return None; }
         Some(value)
     }
-
-    spec fn valid_vector(s: &Vec<char>) -> bool {
-        s.len() == 5 &&
-            (('1' as u32) <=  s[0] as u32 <= ('9' as u32)) &&
-            (('1' as u32) <=  s[1] as u32 <= ('9' as u32)) &&
-            (('1' as u32) <=  s[2] as u32 <= ('9' as u32)) &&
-            (('1' as u32) <=  s[3] as u32 <= ('9' as u32)) &&
-            (('1' as u32) <=  s[4] as u32 <= ('9' as u32))
-    }
-
 } // verus!
