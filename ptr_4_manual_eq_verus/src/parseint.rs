@@ -85,39 +85,53 @@ proof fn right_parse_continues(s: &Vec<char>, upto: int, value: int)
     assert(right_parse(s, new_upto, new_val));
 }
 
-// fn crown_parseint(
-//     mut s: &Vec<char>,
-//     mut low: i32,
-//     mut high: i32,
-// ) -> Option<i32> {
-//     let mut value = 0i32;
-//     let mut i: usize = 0;
-//     while i < 5 {
-//         let mut c: char = s[i];
-//         if c == '\0' {
-//             break;
-//         }
-//         if (c as i32) < ('0' as i32)
-//             || (c as i32) > ('9' as i32)
-//         {
-//             return None;
-//         }
-//         value= 10 * value + (c as i32 - '0' as i32);
-//         i+= 1;
-//     }
-//     if i == 0 {
-//         return None;
-//     }
-//     if i > 1
-//         && s[0] == '\0'
-//     {
-//         return None;
-//     }
-//     if value < low || value > high {
-//         return None;
-//     }
-//     return Some(value);
-// }
+fn crown_parseint(s: &Vec<char>, low: u32, high: u32) -> (ret: Option<u32>)
+    requires
+        valid_vector(s),
+    ensures
+        ret.is_some() ==> right_parse(s, s.len() as int, ret.unwrap() as int),
+        ret.is_some() ==> low <= ret.unwrap() <= high,
+{
+    let mut value = 0u32;
+    let mut i: usize = 0;
+    while i < 5
+        invariant
+            valid_vector(s),
+            value < exp(i as int),
+            right_parse(s, i as int, value as int),
+    {
+        let mut c: char = s[i];
+        // the below code is redundant given
+        // `valid_vector(s)`. Keeping it fools Verus, so its
+        // commented out.
+        //
+        // if c == '\0' {
+        //    break;
+        // }
+        if (c as u32) < ('0' as u32) || (c as u32) > ('9' as u32) {
+            return None;
+        }
+        assert(i < 6);
+        assert(value < exp(6)) by {
+            exp_monotone_any(value, i as int, 6);
+        };
+        assert(exp(6) == 1000000) by (compute_only);
+        value = 10 * value + (c as u32 - '0' as u32);
+        i += 1;
+    }
+    if i == 0 {
+        return None;
+    }
+    if i > 1 && s[0] == '\0'
+    {
+        return None;
+    }
+    if value < low || value > high {
+        return None;
+    }
+    return Some(value);
+}
+
 fn llm_parseint(s: &Vec<char>, low: u32, high: u32) -> (ret: Option<u32>)
     requires
         valid_vector(s),
@@ -140,7 +154,9 @@ fn llm_parseint(s: &Vec<char>, low: u32, high: u32) -> (ret: Option<u32>)
         // commented out.
         //
         // if c == '\0' { break; }
-        if !(c as u32 >= '0' as u32 && c as u32 <= '9' as u32) { return None; }
+        if !(c as u32 >= '0' as u32 && c as u32 <= '9' as u32)  {
+            return None;
+        }
         assert(i < 6);
         assert(value < exp(6)) by {
             exp_monotone_any(value, i as int, 6);
