@@ -1,0 +1,15 @@
+warning: function `utoa` is never used
+ --> libtree_test.rs:4:4
+  |
+4 | fn utoa(string: &mut String, value: usize) {
+  |    ^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: function `is_ascending_order` is never used
+  --> libtree_test.rs:14:4
+   |
+14 | fn is_ascending_order(values: &[usize]) -> bool {
+   |    ^^^^^^^^^^^^^^^^^^
+
+warning: 2 warnings emitted

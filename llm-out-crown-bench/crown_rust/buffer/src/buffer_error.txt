@@ -1,0 +1,43 @@
+warning: unused import: `std::mem`
+ --> buffer_test.rs:2:5
+  |
+2 | use std::mem;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: variable does not need to be mutable
+  --> buffer_test.rs:15:13
+   |
+15 |         let mut data = vec![0; size + 1];
+   |             ----^^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+warning: fields `len` and `data` are never read
+ --> buffer_test.rs:5:5
+  |
+4 | pub struct Buffer {
+  |            ------ fields in this struct
+5 |     len: usize,
+  |     ^^^
+6 |     data: Box<[u8]>, 
+  |     ^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: associated function `new` is never used
+  --> buffer_test.rs:10:8
+   |
+10 |     fn new() -> Buffer {
+   |        ^^^
+
+warning: associated function `with_size` is never used
+  --> buffer_test.rs:14:8
+   |
+14 |     fn with_size(size: usize) -> Buffer {
+   |        ^^^^^^^^^
+
+warning: 5 warnings emitted

@@ -1,0 +1,7 @@
+error: expected one of `!` or `::`, found `:`
+  --> csvinfo_test.rs:28:6
+   |
+28 | Notes:
+   |      ^ expected one of `!` or `::`
+
+error: aborting due to previous error

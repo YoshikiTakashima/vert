@@ -1,0 +1,15 @@
+warning: struct `Node` is never constructed
+ --> minvalue_test.rs:3:8
+  |
+3 | struct Node {
+  |        ^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: function `min_value_node` is never used
+ --> minvalue_test.rs:9:4
+  |
+9 | fn min_value_node(node: Rc<Node>) -> Rc<Node> {
+  |    ^^^^^^^^^^^^^^
+
+warning: 2 warnings emitted

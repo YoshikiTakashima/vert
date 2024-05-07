@@ -1,0 +1,35 @@
+warning: field `entries` is never read
+ --> ht_test.rs:5:5
+  |
+4 | pub struct HashTable {
+  |            --------- field in this struct
+5 |     entries: HashMap<String, usize>
+  |     ^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: associated function `new` is never used
+ --> ht_test.rs:9:8
+  |
+9 |     fn new() -> HashTable {
+  |        ^^^
+
+warning: method `insert` is never used
+  --> ht_test.rs:15:8
+   |
+15 |     fn insert(&mut self, key: &str, value: usize) {
+   |        ^^^^^^
+
+warning: method `get` is never used
+  --> ht_test.rs:19:8
+   |
+19 |     fn get(&self, key: &str) -> Option<usize> {
+   |        ^^^
+
+warning: method `len` is never used
+  --> ht_test.rs:23:8
+   |
+23 |     fn len(&self) -> usize {
+   |        ^^^
+
+warning: 5 warnings emitted

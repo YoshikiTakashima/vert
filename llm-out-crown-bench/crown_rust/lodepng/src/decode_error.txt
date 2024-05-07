@@ -1,0 +1,93 @@
+error[E0428]: the name `main` is defined multiple times
+  --> decode_test.rs:98:1
+   |
+94 | fn main() {
+   | --------- previous definition of the value `main` here
+...
+98 | fn main(){
+   | ^^^^^^^^^ `main` redefined here
+   |
+   = note: `main` must be defined only once in the value namespace of this module
+
+error: argument never used
+  --> decode_test.rs:51:61
+   |
+51 |     if let Ok(_) = url.parse::<String>(&format!("%[^://]s", &mut protocol)) {
+   |                                                             ^^^^^^^^^^^^^ argument never used
+   |
+note: format specifiers use curly braces, and the conversion specifier `[` is unknown or unsupported
+  --> decode_test.rs:51:50
+   |
+51 |     if let Ok(_) = url.parse::<String>(&format!("%[^://]s", &mut protocol)) {
+   |                                                  ^^
+   = note: printf formatting is not supported; see the documentation for `std::fmt`
+
+error: format argument must be a string literal
+  --> decode_test.rs:91:18
+   |
+91 |     Some(format!(fmt, tmp_path))
+   |                  ^^^
+   |
+help: you might be missing a string literal to format with
+   |
+91 |     Some(format!("{} {}", fmt, tmp_path))
+   |                  ++++++++
+
+warning: unused import: `std::ptr`
+ --> decode_test.rs:2:5
+  |
+2 | use std::ptr;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `std::cmp::Ordering`
+ --> decode_test.rs:3:5
+  |
+3 | use std::cmp::Ordering;
+  |     ^^^^^^^^^^^^^^^^^^
+
+error[E0308]: mismatched types
+  --> decode_test.rs:33:15
+   |
+31 |     let mut fmt_url = url.to_string();
+   |                       --------------- expected due to this value
+32 |     
+33 |     fmt_url = &fmt_url[..l];
+   |               ^^^^^^^^^^^^^ expected `String`, found `&str`
+   |
+help: try using a conversion method
+   |
+33 |     fmt_url = (&fmt_url[..l]).to_string();
+   |               +             +++++++++++++
+
+error[E0308]: mismatched types
+  --> decode_test.rs:40:15
+   |
+31 |     let mut fmt_url = url.to_string();
+   |                       --------------- expected due to this value
+...
+40 |     fmt_url = &fmt_url[l..];
+   |               ^^^^^^^^^^^^^ expected `String`, found `&str`
+   |
+help: try using a conversion method
+   |
+40 |     fmt_url = (&fmt_url[l..]).to_string();
+   |               +             +++++++++++++
+
+error[E0061]: this method takes 0 arguments but 1 argument was supplied
+  --> decode_test.rs:51:24
+   |
+51 |     if let Ok(_) = url.parse::<String>(&format!("%[^://]s", &mut protocol)) {
+   |                        ^^^^^^^^^^^^^^^ -----------------------------------
+   |                                        |
+   |                                        unexpected argument of type `&String`
+   |                                        help: remove the extra argument
+   |
+note: method defined here
+  --> /rustc/1716932743a7b3705cbf0c34db0c4e070ed1930d/library/core/src/str/mod.rs:2352:12
+
+error: aborting due to 6 previous errors; 2 warnings emitted
+
+Some errors have detailed explanations: E0061, E0308, E0428.
+For more information about an error, try `rustc --explain E0061`.

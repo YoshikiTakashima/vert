@@ -1,0 +1,104 @@
+error[E0425]: cannot find value `n` in this scope
+  --> delete_test.rs:34:5
+   |
+34 |     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+   |     ^ help: a local variable with a similar name exists: `y`
+
+error[E0425]: cannot find value `n` in this scope
+  --> delete_test.rs:34:33
+   |
+34 |     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+   |                                 ^ help: a local variable with a similar name exists: `y`
+
+error[E0425]: cannot find value `n` in this scope
+  --> delete_test.rs:58:5
+   |
+58 |     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+   |     ^ help: a local variable with a similar name exists: `x`
+
+error[E0425]: cannot find value `n` in this scope
+  --> delete_test.rs:58:33
+   |
+58 |     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+   |                                 ^ help: a local variable with a similar name exists: `x`
+
+error[E0308]: mismatched types
+  --> delete_test.rs:42:5
+   |
+21 | fn left_rotate(node: &mut Node) -> &mut Node {
+   |                                    --------- expected `&mut Node` because of return type
+...
+42 |     y 
+   |     ^
+   |     |
+   |     expected `&mut Node`, found `Box<Node>`
+   |     help: consider mutably borrowing here: `&mut y`
+   |
+   = note: expected mutable reference `&mut Node`
+                         found struct `Box<Node>`
+
+error[E0308]: mismatched types
+  --> delete_test.rs:66:5
+   |
+45 | fn right_rotate(node: &mut Node) -> &mut Node {
+   |                                     --------- expected `&mut Node` because of return type
+...
+66 |     x
+   |     ^
+   |     |
+   |     expected `&mut Node`, found `Box<Node>`
+   |     help: consider mutably borrowing here: `&mut x`
+   |
+   = note: expected mutable reference `&mut Node`
+                         found struct `Box<Node>`
+
+error[E0425]: cannot find function `min_value_node` in this scope
+  --> delete_test.rs:83:40
+   |
+83 |                         let min_node = min_value_node(n.right.as_mut().unwrap());
+   |                                        ^^^^^^^^^^^^^^ not found in this scope
+
+error[E0308]: mismatched types
+   --> delete_test.rs:101:36
+    |
+101 |                     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+    |                               ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Box<Node>`, found `&mut Node`
+    |                               |
+    |                               arguments to this enum variant are incorrect
+    |
+    = note:         expected struct `Box<Node>`
+            found mutable reference `&mut Node`
+help: the type constructed contains `&mut Node` due to the type of the argument passed
+   --> delete_test.rs:101:31
+    |
+101 |                     n.right = Some(right_rotate(n.right.as_mut().unwrap()));
+    |                               ^^^^^---------------------------------------^
+    |                                    |
+    |                                    this argument influences the type of `Some`
+note: tuple variant defined here
+   --> /rustc/1716932743a7b3705cbf0c34db0c4e070ed1930d/library/core/src/option.rs:571:5
+
+error[E0308]: mismatched types
+   --> delete_test.rs:104:36
+    |
+104 |                     n.right = Some(right_rotate(n.right.as_mut().unwrap()));    
+    |                               ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `Box<Node>`, found `&mut Node`
+    |                               |
+    |                               arguments to this enum variant are incorrect
+    |
+    = note:         expected struct `Box<Node>`
+            found mutable reference `&mut Node`
+help: the type constructed contains `&mut Node` due to the type of the argument passed
+   --> delete_test.rs:104:31
+    |
+104 |                     n.right = Some(right_rotate(n.right.as_mut().unwrap()));    
+    |                               ^^^^^---------------------------------------^
+    |                                    |
+    |                                    this argument influences the type of `Some`
+note: tuple variant defined here
+   --> /rustc/1716932743a7b3705cbf0c34db0c4e070ed1930d/library/core/src/option.rs:571:5
+
+error: aborting due to 9 previous errors
+
+Some errors have detailed explanations: E0308, E0425.
+For more information about an error, try `rustc --explain E0308`.

@@ -1,0 +1,109 @@
+warning: unused import: `std::mem`
+ --> csvinfo_test.rs:2:5
+  |
+2 | use std::mem;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused variable: `s`
+  --> csvinfo_test.rs:36:19
+   |
+36 | extern "C" fn cb1(s: *mut std::ffi::c_void, len: usize, data: *...
+   |                   ^ help: if this is intentional, prefix it with an underscore: `_s`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `len`
+  --> csvinfo_test.rs:36:45
+   |
+36 | ...*mut std::ffi::c_void, len: usize, data: *mut std::ffi::c_vo...
+   |                           ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: unused variable: `c`
+  --> csvinfo_test.rs:41:19
+   |
+41 | extern "C" fn cb2(c: i32, data: *mut std::ffi::c_void) {
+   |                   ^ help: if this is intentional, prefix it with an underscore: `_c`
+
+warning: multiple fields are never read
+  --> csvinfo_test.rs:5:5
+   |
+4  | pub struct CSVParser {
+   |            --------- fields in this struct
+5  |     state: CSVState,
+   |     ^^^^^
+6  |     quoted: bool,
+   |     ^^^^^^
+7  |     spaces: usize,
+   |     ^^^^^^
+8  |     entry_buf: Vec<u8>,
+   |     ^^^^^^^^^
+9  |     entry_pos: usize,
+   |     ^^^^^^^^^
+10 |     entry_size: usize,
+   |     ^^^^^^^^^^
+11 |     status: i32,
+   |     ^^^^^^
+12 |     options: u8,
+   |     ^^^^^^^
+13 |     quote_char: u8,
+   |     ^^^^^^^^^^
+14 |     delim_char: u8,
+   |     ^^^^^^^^^^
+15 |     is_space: Option<extern "C" fn(u8) -> i32>,
+   |     ^^^^^^^^
+16 |     is_term: Option<extern "C" fn(u8) -> i32>,
+   |     ^^^^^^^
+17 |     blk_size: usize,
+   |     ^^^^^^^^
+18 |     malloc_func: Option<extern "C" fn(usize) -> *mut std::ffi::...
+   |     ^^^^^^^^^^^
+19 |     realloc_func: Option<extern "C" fn(*mut std::ffi::c_void, u...
+   |     ^^^^^^^^^^^^
+20 |     free_func: Option<extern "C" fn(*mut std::ffi::c_void)>
+   |     ^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: variants `RowNotBegun`, `FieldBegins`, `QuotedField`, `Field`, and `BetweenFields` are never constructed
+  --> csvinfo_test.rs:24:5
+   |
+23 | enum CSVState {
+   |      -------- variants in this enum
+24 |     RowNotBegun,
+   |     ^^^^^^^^^^^
+25 |     FieldBegins,
+   |     ^^^^^^^^^^^
+26 |     QuotedField,
+   |     ^^^^^^^^^^^
+27 |     Field,
+   |     ^^^^^
+28 |     BetweenFields 
+   |     ^^^^^^^^^^^^^
+
+warning: struct `Counts` is never constructed
+  --> csvinfo_test.rs:31:8
+   |
+31 | struct Counts {
+   |        ^^^^^^
+
+warning: function `cb1` is never used
+  --> csvinfo_test.rs:36:15
+   |
+36 | extern "C" fn cb1(s: *mut std::ffi::c_void, len: usize, data: *...
+   |               ^^^
+
+warning: function `cb2` is never used
+  --> csvinfo_test.rs:41:15
+   |
+41 | extern "C" fn cb2(c: i32, data: *mut std::ffi::c_void) {
+   |               ^^^
+
+warning: associated function `new` is never used
+  --> csvinfo_test.rs:47:8
+   |
+47 |     fn new(options: u8) -> CSVParser {
+   |        ^^^
+
+warning: 10 warnings emitted

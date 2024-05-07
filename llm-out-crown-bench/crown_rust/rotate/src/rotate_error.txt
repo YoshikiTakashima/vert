@@ -1,0 +1,31 @@
+warning: variable does not need to be mutable
+  --> rotate_test.rs:12:9
+   |
+12 |     let mut t2 = x.right.take();
+   |         ----^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+warning: struct `Node` is never constructed
+ --> rotate_test.rs:3:8
+  |
+3 | struct Node {
+  |        ^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: function `right_rotate` is never used
+  --> rotate_test.rs:10:4
+   |
+10 | fn right_rotate(mut y: Box<Node>) -> Box<Node> {
+   |    ^^^^^^^^^^^^
+
+warning: function `height` is never used
+  --> rotate_test.rs:22:4
+   |
+22 | fn height(node: &Option<Box<Node>>) -> i32 {
+   |    ^^^^^^
+
+warning: 4 warnings emitted

@@ -1,0 +1,11 @@
+error: unexpected closing delimiter: `}`
+  --> decode_test.rs:38:1
+   |
+37 |     Some(if has {tmp.as_str()} else {None}) 
+   |                                     -    - ...matches this closing brace
+   |                                     |
+   |                                     this opening brace...
+38 | }
+   | ^ unexpected closing delimiter
+
+error: aborting due to previous error

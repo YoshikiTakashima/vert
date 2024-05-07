@@ -1,0 +1,33 @@
+error[E0599]: no method named `seek` found for struct `File` in the current scope
+ --> binn_test.rs:7:18
+  |
+7 |     let size = f.seek(SeekFrom::End(0)).unwrap(); 
+  |                  ^^^^ method not found in `File`
+ --> /rustc/1716932743a7b3705cbf0c34db0c4e070ed1930d/library/std/src/io/mod.rs:1770:8
+  |
+  = note: the method is available for `File` here
+  |
+  = help: items from traits can only be used if the trait is in scope
+help: the following trait is implemented but not in scope; perhaps add a `use` for it:
+  |
+2 | use std::io::Seek;
+  |
+
+error[E0599]: no method named `rewind` found for struct `File` in the current scope
+ --> binn_test.rs:8:7
+  |
+8 |     f.rewind().unwrap();
+  |       ^^^^^^ method not found in `File`
+ --> /rustc/1716932743a7b3705cbf0c34db0c4e070ed1930d/library/std/src/io/mod.rs:1801:8
+  |
+  = note: the method is available for `File` here
+  |
+  = help: items from traits can only be used if the trait is in scope
+help: the following trait is implemented but not in scope; perhaps add a `use` for it:
+  |
+2 | use std::io::Seek;
+  |
+
+error: aborting due to 2 previous errors
+
+For more information about this error, try `rustc --explain E0599`.

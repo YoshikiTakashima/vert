@@ -1,0 +1,14 @@
+error[E0428]: the name `main` is defined multiple times
+  --> insert_test.rs:34:1
+   |
+2  | fn main() {
+   | --------- previous definition of the value `main` here
+...
+34 | fn main(){
+   | ^^^^^^^^^ `main` redefined here
+   |
+   = note: `main` must be defined only once in the value namespace of this module
+
+error: aborting due to previous error
+
+For more information about this error, try `rustc --explain E0428`.

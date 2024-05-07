@@ -1,0 +1,15 @@
+[package]
+name = "brotli_filesize"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[[test]]
+name = "brotli_filesize_test"
+harness = false
+
+[dev-dependencies]
+bolero = "0.9.0"

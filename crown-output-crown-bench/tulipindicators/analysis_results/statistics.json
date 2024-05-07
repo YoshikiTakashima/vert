@@ -1,0 +1,1 @@
+{"num_unsafe_ptrs":866,"num_non_arr_unsafe_ptrs":640,"num_mut_unsafe_ptrs":360,"num_non_arr_mut_unsafe_ptrs":134,"num_unsafe_usages":711,"num_non_arr_unsafe_usages":642,"num_mut_unsafe_usages":635,"num_non_arr_mut_unsafe_usages":625,"num_owning_ptrs_detected":17}

@@ -1,0 +1,17 @@
+warning: unused variable: `result`
+ --> brotli_test.rs:2:44
+  |
+2 | fn parse_int(s: &str, low: i32, high: i32, result: &mut i32) -> bool {
+  |                                            ^^^^^^ help: if this is intentional, prefix it with an underscore: `_result`
+  |
+  = note: `#[warn(unused_variables)]` on by default
+
+warning: function `parse_int` is never used
+ --> brotli_test.rs:2:4
+  |
+2 | fn parse_int(s: &str, low: i32, high: i32, result: &mut i32) -> bool {
+  |    ^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: 2 warnings emitted

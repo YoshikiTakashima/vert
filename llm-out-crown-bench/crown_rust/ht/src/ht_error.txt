@@ -1,0 +1,17 @@
+warning: unused import: `Hash`
+ --> ht_test.rs:3:17
+  |
+3 | use std::hash::{Hash, Hasher};
+  |                 ^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: function `hash_key` is never used
+ --> ht_test.rs:5:4
+  |
+5 | fn hash_key(key: &str) -> u64 {
+  |    ^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: 2 warnings emitted
