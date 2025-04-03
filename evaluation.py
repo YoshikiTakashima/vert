@@ -70,7 +70,7 @@ def evaluate(benchmark_language, test_project, verification):
                         print("Bolero pass")
                 else:
                     print("Bolero timeout")
-                shutil.rmtree(bolero_target_path)
+                shutil.rmtree(bolero_target_path, ignore_errors=True)
             #########################################################################################
             ###################################### BoundedKANI ######################################
             #########################################################################################
@@ -90,7 +90,7 @@ def evaluate(benchmark_language, test_project, verification):
                         print("Kani succesful")
                 else:
                     print("Kani timeout")
-                shutil.rmtree(kani_target_path)
+                shutil.rmtree(kani_target_path, ignore_errors=True)
             #######################################################################################
             ###################################### Full KANI ######################################
             #########################################################################################
@@ -110,7 +110,7 @@ def evaluate(benchmark_language, test_project, verification):
                         print("Kani succesful")
                 else:
                     print("Kani timeout")
-                shutil.rmtree(kani_target_path)
+                shutil.rmtree(kani_target_path, ignore_errors=True)
 
 
 if __name__ == "__main__":
