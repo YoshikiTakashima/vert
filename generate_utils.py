@@ -5,21 +5,43 @@ import os, sys
 from subprocess import STDOUT, check_output
 from pythonds.basic import Stack
 
+import config
+from config import wasi_path, rWasm_path
+
+
+def fix_output(o):
+    if not o:
+        return ""
+    elif isinstance(o, bytes):
+        return o.decode("utf-8")
+    else:
+        assert isinstance(o, str)
+        return o
 
 class VerificationUtils:
-    def verify(self, path_to_run, command):
+    def verify(self, path_to_run, command, stdout_file, stderr_file, timeout_secs):
+        timeout = False
         try:
             process = subprocess.run(
                 command,
                 shell=True,
                 cwd=path_to_run,
-                timeout=200,
+                timeout=timeout_secs,
                 text=True,
                 capture_output=True,
             )
-        except subprocess.TimeoutExpired:
-            return "timeout", 1
-        return process, 0
+            stdout = process.stdout
+            stderr = process.stderr
+        except subprocess.TimeoutExpired as e:
+            process = "timeout"
+            stdout = e.stdout
+            stderr = e.stderr
+            timeout = True
+        with open(stdout_file, "w") as f:
+            f.write(fix_output(stdout))
+        with open(stderr_file, "w") as f:
+            f.write(fix_output(stderr))
+        return process, timeout
 
     def mutate_test(
         self,
@@ -47,50 +69,74 @@ class VerificationUtils:
         # /wasi-sdk-12.0/bin/clang++ -fno-exceptions --sysroot=/wasi-sdk-12.0/share/wasi-sysroot -o main.wasm
 
         # print(file_path)'
+        here = os.getcwd()
         c_to_wasi = subprocess.run(
-            f"/wasi-sdk-12.0/bin/clang{cpp} -fno-exceptions --sysroot=/wasi-sdk-12.0/share/wasi-sysroot -o main.wasm {filename}",
+            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
             shell=True,
             capture_output=True,
             text=True,
             cwd=project_path,
         )
+        if c_to_wasi.returncode != 0:
+            raise Exception("Compile failure: " + c_to_wasi.stderr)
 
         wasi_to_rust = subprocess.run(
-            f"cargo run --manifest-path /rWasm/Cargo.toml --release -- main.wasm out-rwasm-original --prevent-reformat --wasi-executable",
+            f"cargo run --manifest-path {rWasm_path}/Cargo.toml --release -- main.wasm out-rwasm-original --prevent-reformat --wasi-executable",
             shell=True,
             capture_output=True,
             text=True,
             cwd=project_path,
         )
+        if wasi_to_rust.returncode != 0:
+            raise Exception("Compile failure: " + wasi_to_rust.stderr)
 
         c_to_wasi = subprocess.run(
-            f"/wasi-sdk-12.0/bin/clang{cpp} -fno-exceptions --sysroot /wasi-sdk-12.0/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
+            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot {wasi_path}/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
             shell=True,
             capture_output=True,
             text=True,
             cwd=project_path,
         )
+        if c_to_wasi.returncode != 0:
+            raise Exception("Compile failure: " + c_to_wasi.stderr)
+
         wasi_to_rust = subprocess.run(
-            f"cargo run --manifest-path /rWasm/Cargo.toml --release -- main.wasm out-rwasm-mutated --prevent-reformat --wasi-executable",
+            f"cargo run --manifest-path {rWasm_path}/Cargo.toml --release -- main.wasm out-rwasm-mutated --prevent-reformat --wasi-executable",
             shell=True,
             capture_output=True,
             text=True,
             cwd=project_path,
         )
+        if wasi_to_rust.returncode != 0:
+            raise Exception("Compile failure: " + wasi_to_rust.stderr)
+
         wasi_to_rust = subprocess.run(
-            f"cargo run --manifest-path /rWasm/Cargo.toml --release -- main.wasm out-rwasm-bolero --prevent-reformat --wasi-executable",
+            f"cargo run --manifest-path {rWasm_path}/Cargo.toml --release -- main.wasm out-rwasm-bolero --prevent-reformat --wasi-executable",
             shell=True,
             capture_output=True,
             text=True,
             cwd=project_path,
         )
+        if wasi_to_rust.returncode != 0:
+            raise Exception("Compile failure: " + wasi_to_rust.stderr)
+
+        for d in ["out-rwasm-bolero", "out-rwasm-mutated", "out-rwasm-original"]:
+            cargo_toml_path =  project_path + f"/{d}/Cargo.toml"
+            with open(cargo_toml_path, "r") as file:
+                content = file.read()
+            content = content.replace("sandboxed-main", f"{file_ext[1:]}_{package_name.lower()}_{d}")
+            with open(cargo_toml_path, "w") as fd:
+                fd.write(content)
 
         original_rust_path = project_path + "/out-rwasm-original/src/main.rs"
         mutated_rust_path = project_path + "/out-rwasm-mutated/src/main.rs"
         bolero_rust_path = project_path + "/out-rwasm-bolero/src/main.rs"
         bolero_cargo = project_path + "/out-rwasm-bolero/Cargo.toml"
-        with open(bolero_cargo, "a") as file:
-            file.write('\n[dev-dependencies]\nbolero = "0.10.0"')
+        with open(bolero_cargo, "r") as file:
+            content = file.read()
+        if '\n[dev-dependencies]\nbolero = "0.10.0"' not in content:
+            with open(bolero_cargo, "a") as file:
+                file.write('\n[dev-dependencies]\nbolero = "0.10.0"')
 
         with open(original_rust_path, "r") as file:
             original_rust = file.readlines()
@@ -232,29 +278,37 @@ class VerificationUtils:
 
 class GenerateUtils:
     def build_rust_folder(self, rust_folder, package_name):
-        subprocess.run(
+        out = subprocess.run(
             f"rm -rf {rust_folder}/{package_name}",
             shell=True,
             capture_output=True,
         )
-        subprocess.run(
+        if out.returncode != 0:
+            raise Exception("Rust folder build failed: " + out.stderr)
+        out = subprocess.run(
             f"cargo new --lib {package_name}",
             shell=True,
             cwd=rust_folder,
             capture_output=True,
         )
-        subprocess.run(
+        if out.returncode != 0:
+            raise Exception("Rust folder build failed: " + out.stderr)
+        out = subprocess.run(
             f"cargo bolero new {package_name}_test --generator; cargo add --dev bolero",
             shell=True,
             cwd=f"{rust_folder}/{package_name}",
             capture_output=True,
         )
-        subprocess.run(
+        if out.returncode != 0:
+            raise Exception("Rust folder build failed: " + out.stderr.decode("utf-8"))
+        out = subprocess.run(
             f"chmod -R a+rw {package_name}",
             shell=True,
             cwd=rust_folder,
             capture_output=True,
         )
+        if out.returncode != 0:
+            raise Exception("Rust folder build failed: " + out.stderr)
 
     def bracket_adder(self, code_string):
         code_string_split = re.split(r" |\n", code_string)
@@ -549,25 +603,25 @@ class GenerateUtils:
         str_args_names = ", ".join(fn_args_names)
         return fn_name, fn_args_types, str_args_names, return_type, fn_line
 
-    def c_code_process(self, file_dir, package_name, file_name, f_filled, args_types):
-        if "cpp" in file_dir:
-            file_ext = ".cpp"
-        else:
-            file_ext = ".c"
+    def c_code_process(self, file_ext, file_dir, package_name, file_name, f_filled, args_types):
+        # if "cpp" in file_dir:
+        #     file_ext = ".cpp"
+        # else:
+        #     file_ext = ".c"
         c_filepath = f"{file_dir}/{package_name}/{file_name}{file_ext}"
         with open(c_filepath, "r") as file:
             c_output = file.read()
 
         imports = """#include <stdio.h>
-        #include <math.h>
-        #include <stdlib.h>
-        #include <limits.h>
-        #include <stdbool.h>\n"""
+#include <math.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <stdbool.h>\n"""
         helper_funcs = """int min(int x, int y) { return (x < y)? x: y; }
-        int max(int x, int y) { return (x > y)? x: y; }
-        int cmpfunc (const void * a, const void * b) {return ( *(int*)a - *(int*)b );}
-        int len (int arr [ ]) {return ((int) (sizeof (arr) / sizeof (arr)[0]));}
-        void sort (int arr [ ], int n) {qsort (arr, n, sizeof(int), cmpfunc);}\n"""
+int max(int x, int y) { return (x > y)? x: y; }
+int cmpfunc (const void * a, const void * b) {return ( *(int*)a - *(int*)b );}
+int len (int arr [ ]) {return ((int) (sizeof (arr) / sizeof (arr)[0]));}
+void sort (int arr [ ], int n) {qsort (arr, n, sizeof(int), cmpfunc);}\n"""
 
         main_line = 0
         c_lines = c_output.split("\n")
@@ -692,10 +746,13 @@ class GenerateUtils:
             file.write(processed_output)
 
         with open(c_filepath_wasm, "w") as file:
+            wasm_output = ""
+            if imports not in c_output:
+                wasm_output += imports
+            if helper_funcs not in c_output:
+                wasm_output += helper_funcs
             wasm_output = (
-                imports
-                + helper_funcs
-                + c_output
+                c_output
                 + "int main(void) {\n\t"
                 + function_call
                 + "\n}"
@@ -703,13 +760,16 @@ class GenerateUtils:
             file.write(wasm_output)
 
         with open(c_filepath_wasm_mutated, "w") as file:
+            wasm_output = ""
+            if imports not in c_output:
+                wasm_output += imports
+            if helper_funcs not in c_output:
+                wasm_output += helper_funcs
             wasm_output = (
-                imports
-                + helper_funcs
-                + c_output
-                + "int main(void) {\n\t"
-                + function_call_mutated
-                + "\n}"
+                    c_output
+                    + "int main(void) {\n\t"
+                    + function_call_mutated
+                    + "\n}"
             )
             file.write(wasm_output)
 

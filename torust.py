@@ -1,13 +1,19 @@
+import json
 import subprocess
 import os
 import shutil
+import traceback
+
 import anthropic
 import argparse
+
+from config import bolero_timeout, all_timeout
 from generate_utils import GenerateUtils, VerificationUtils
+from llm import LLMQuery, LLMQueryInput, Conversation, make_cached_llm
 
 generate_utils = GenerateUtils()
 verification_utils = VerificationUtils()
-anthropic_client = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
+# anthropic_client = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
 
 
 helper_funcs = """
@@ -34,8 +40,15 @@ def generate(input_text, tokenizer, model, device):
     return generated_code
 
 
+def parse_tag_content(content: str, tag: str) -> str:
+    tag_open = lambda _tag: f"<{_tag}>"
+    tag_close = lambda _tag: f"</{_tag}>"
+    return content.split(tag_open(tag), 1)[1].split(tag_close(tag))[0]
+
+
 def clean_generated_code(generated_code):
-    generated_code = generated_code.replace("<|endoftext|>", "").replace("pub fn", "fn")
+    generated_code = parse_tag_content(generated_code, "rust-code")
+    generated_code = generated_code.replace("pub fn", "fn")
     # 1. only keep first generated function
     # generated_code = generate_utils.keep_first_func(generated_code)
     # 2. remove comments
@@ -60,6 +73,7 @@ def claude_gen(input, max_tokens_to_sample: int = 2000):
 
 
 def claude(
+    llm: LLMQuery,
     source_code,
     package_name,
     rust_dir,
@@ -73,7 +87,10 @@ def claude(
     file_path = f"{rust_dir}/{package_name}/src/{file_name}.rs"
     rust_input = (
         source_code
-        + f"\nRust refactoring of above C{language} code, with code only, no comments. Use the same function name, same argument and return types. Make sure it includes all imports, uses safe rust, and compiles. Give only code, and no main function. Convert i32 types to f32 if necessary. Use mut variables if necessary"
+        + f"\nRust refactoring of above C{language} code, with code only, no comments. Use the same function name, "
+          f"same argument and return types. Make sure it includes all imports, uses safe rust, and compiles. Give "
+          f"only code, and no main function. Convert i32 types to f32 if necessary. Use mut variables if necessary. "
+          f"Enclose the code in <rust-code> tags."
     )
 
     compiles = False
@@ -83,8 +100,13 @@ def claude(
         if tries > number_tries:
             break
         print(f"LLM attempt # {tries}")
-        rust_output = claude_gen(rust_input)
-        rust_output = clean_generated_code(rust_output)
+        response = llm.query(
+            LLMQueryInput.construct_llm_query_input(
+                Conversation.new_convo("", rust_input), 1.0, ["</rust-code>"]
+            )
+        )
+        # rust_output = claude_gen(rust_input)
+        rust_output = clean_generated_code(response.Conversation.last_message())
 
         if not "fn main()" in rust_output:
             rust_output += "\nfn main(){}"
@@ -133,18 +155,32 @@ def claude(
         compiles,
     )
 
+def dump_result(result_file, result):
+    with open(result_file, "w") as fd:
+        fd.write(json.dumps(result, indent='\t'))
 
-if __name__ == "__main__":
+
+def main():
     ap = argparse.ArgumentParser(description="Evaluation for VERT")
     ap.add_argument(
-        "language",
+        "--language",
+        required=True,
         choices=["c", "cpp", "go"],
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
+    ap.add_argument(
+        "--benchmark-dir",
+        required=True,
+        help="Path to benchmark"
+    )
+    ap.add_argument("--aws-profile",
+                    default="dummyprofile",
+                    help="AWS profile to use for credentials")
     args = ap.parse_args()
     language = args.language
-    file_dir = f"/home/program_strings/{language}_transcoder"
-    rust_dir = f"/home/program_strings/rust_{language}_transcoder"
+    home_dir = os.getcwd()
+    file_dir = f"{home_dir}/benchmark/{language}_transcoder"
+    rust_dir = f"{home_dir}/build_dir/rust_{language}_transcoder"
 
     ###################################### Controls which portion to run ######################################
     entry_point = 1  # Compiles rwasm folders and locates entry point
@@ -158,345 +194,271 @@ if __name__ == "__main__":
     ####################################################################################################
 
     valid_project_count = 0
-    for subdir, dirs, files in os.walk(f"{file_dir}/"):
-        for file in files:
-            file_path = os.path.join(subdir, file)
-            package_name = subdir.split("/")[-1]
-            if "out-rwasm" in subdir:
-                continue
-            if (
-                "test" in file
-                or "onefunc" in file
-                or "processed" in file
-                or "mutated" in file
-                or "main" in file
-                or "_diff" in file
-                or "toml" in file
-                or ".rs.c" in file
-                or "_towasm" in file
-                or "Cargo" in file
-                or "CACHEDIR" in file
-            ):
-                continue
-            if "src" in file or "src" in package_name or "out-rwasm" in package_name:
-                continue
-            if testing_on_one and test_project != package_name:
-                continue
-            project_done = 0
-            with open(f"{language}_results.csv", "r") as result_file:
-                existing_results = result_file.readlines()
-            for result_idx, existing_result in enumerate(existing_results):
-                existing_project_name = existing_result.split(",")[0]
-                if existing_project_name == package_name:
-                    project_done = 1
+    subdir = args.benchmark_dir
+    package_name = subdir.split("/")[-1]
+    file = package_name + "." + language
+    # for subdir, dirs, files in os.walk(f"{file_dir}/"):
+    #     for file in files:
+    file_path = os.path.join(subdir, file)
 
-            if not testing_on_one and project_done:
-                continue
-            print(package_name)
+    rust_compiles = True
+    bolero_successful = True
+    kani_successful = True
 
-            rust_compiles = True
-            bolero_successful = True
-            kani_successful = True
+    wasm_bolero_main = f"{file_dir}/{package_name}/out-rwasm-bolero/src/main.rs"
+    wasm_kani_main = f"{file_dir}/{package_name}/out-rwasm-mutated/src/main.rs"
 
-            wasm_bolero_main = f"{file_dir}/{package_name}/out-rwasm-bolero/src/main.rs"
-            wasm_kani_main = f"{file_dir}/{package_name}/out-rwasm-mutated/src/main.rs"
+    result = {
+        "project": package_name, "compile": False, "bolero": False, "bounded_kani": False, "full_kani": False
+    }
+    result_file = f"{file_dir}/{package_name}/result.json"
+    result_string = (
+        f"{package_name}, compile=0, bolero=0, bounded_kani=0, full_kani=0"
+    )
+    file_ext = f".{language}"
 
-            result_string = (
-                f"{package_name}, compile=0, bolero=0, bounded_kani=0, full_kani=0"
-            )
-            if "cpp" in file_dir:
-                file_ext = ".cpp"
-            else:
-                file_ext = ".c"
+    file_name = file.replace(".go", "").replace(".cpp", "").replace(".c", "")
 
-            file_name = file.replace(".go", "").replace(".cpp", "").replace(".c", "")
+    f_filled = ""
+    c_filepath = f"{file_dir}/{package_name}/{file_name}{file_ext}"
+    with open(c_filepath, "r") as cfile:
+        c_output = cfile.read()
 
-            f_filled = ""
-            c_filepath = f"{file_dir}/{package_name}/{file_name}{file_ext}"
-            with open(c_filepath, "r") as cfile:
-                c_output = cfile.read()
+    ###################################### 1. function identifiers ####################################
+    (
+        fn_name,
+        args_types,
+        args_names,
+        fn_out_type,
+        fn_line,
+    ) = generate_utils.get_fn_args(c_output)
+    f_filled = fn_line.replace("{", "{}").replace("f_gold", "f_filled")
+    ####################################################################################################
 
-            ###################################### 1. function identifiers ####################################
-            (
+    source_output, original = generate_utils.c_code_process(
+        file_ext, file_dir, package_name, file_name, f_filled, args_types
+    )
+
+    ###################################### 2. set up wasm file #########################################
+    cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}")
+    if entry_point:
+        try:
+            rwasm_arg_types = verification_utils.mutate_test(
+                file_dir,
+                package_name,
+                cwasm_path,
                 fn_name,
                 args_types,
-                args_names,
+                file_ext,
                 fn_out_type,
-                fn_line,
-            ) = generate_utils.get_fn_args(c_output)
-            f_filled = fn_line.replace("{", "{}").replace("f_gold", "f_filled")
-            ####################################################################################################
-
-            source_output, original = generate_utils.c_code_process(
-                file_dir, package_name, file_name, f_filled, args_types
             )
 
-            benchmark_lines = len(original.splitlines())
-            pointer_variables = original.count(" *")
-            struct_variables = original.count("struct ")
+        except Exception as e:
+            print("Source file failed to compile:", e)
+            traceback.print_exc()
+            dump_result(result_file, result)
+            return
+    ####################################################################################################
 
-            ###################################### 2. set up wasm file #########################################
-            cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}")
-            if entry_point:
-                try:
-                    rwasm_arg_types = verification_utils.mutate_test(
-                        file_dir,
-                        package_name,
-                        cwasm_path,
-                        fn_name,
-                        args_types,
-                        file_ext,
-                        fn_out_type,
-                    )
+    leetcode_name = "_".join(package_name.split("_")[1:])
+    if "transcoder" in file_dir:
+        leetcode_name = package_name
 
-                except:
-                    print("Source file failed to compile")
-                    rust_compiles = False
-                    with open(f"{language}_results.csv", "a") as result_file:
-                        result_file.write("\n" + result_string)
-                    continue
-            ####################################################################################################
+    ###################################### 3. LLM ######################################################
+    if use_claude:
+        generate_utils.build_rust_folder(rust_dir, leetcode_name)
+        llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
+        compiled_rust, rust_compiles = claude(
+            llm,
+            source_output,
+            leetcode_name,
+            rust_dir,
+            file_name,
+            number_tries,
+            file_ext,
+        )
+        if not rust_compiles:
+            print("LLM failed to produce compiling Rust")
+            dump_result(result_file, result)
+            return
+        else:
+            result["compile"] = True
 
-            leetcode_name = "_".join(package_name.split("_")[1:])
-            if "transcoder" in file_dir:
-                leetcode_name = package_name
+        ################################################################################################
+        ###################################### 4. Harness ##############################################
+        ########## 4.1 RWasm Init ############
+        rust_args_types = str(args_types)[1:-1]
+        rust_args_types = (
+            rust_args_types.replace("unsigned int", "u32")
+            .replace("int", "i32")
+            .replace("float", "f32")
+            .replace("i32 []", "[i32;2]")
+            .replace("f32 []", "[f32;2]")
+            .replace("double", "f32")
+            .replace("float", "f32")
+            .replace("long", "i32")
+            .replace("i32 [i32]", "[i32;2]")
+            .replace("string", "String")
+            .replace("&[f32;2]", "[i32;2]")
+            .replace("[f32;2]", "[i32;2]")
+        )
+        rust_fn_out_type = (
+            fn_out_type.replace("unsigned int", "u32")
+            .replace("unsigned", "u32")
+            .replace("int", "i32")
+            .replace("i32 []", "Vec<i32>")
+            .replace("double", "f32")
+            .replace("float", "f32")
+            .replace("long", "i32")
+            .replace("string", "String")
+        )
+        if rust_fn_out_type == "i32" and "-> f32" in compiled_rust:
+            compiled_rust = compiled_rust.replace("-> f32", "-> i32")
+        if rust_fn_out_type == "i32" and "-> u32" in compiled_rust:
+            compiled_rust = compiled_rust.replace("-> u32", "-> i32")
 
-            ###################################### 3. LLM ######################################################
-            if use_claude:
-                generate_utils.build_rust_folder(rust_dir, leetcode_name)
-
-                compiled_rust, rust_compiles = claude(
-                    source_output,
-                    leetcode_name,
-                    rust_dir,
-                    file_name,
-                    number_tries,
-                    file_ext,
+        wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
+        wasm_function = f"\n\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n\n"
+        rwasm_arg_declaration = ""
+        rwasm_harness_args = ""
+        arg_string = ""
+        bolero_argstring = ""
+        bolero_arg_unsafe = "unsafe {\n"
+        kani_arg_string = ""
+        string_bolero_harness = ""
+        string_ending_bracket = ""
+        for i, arg_type in enumerate(args_types):
+            if "[]" in arg_type:
+                arg_string += (
+                    f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
                 )
-                if not rust_compiles:
-                    result_string = f"{package_name}, compile=0, bolero=0, bounded_kani=0, full_kani=0"
-                else:
-                    result_string = f"{package_name}, compile=1, bolero=0, bounded_kani=0, full_kani=0"
-
-                ################################################################################################
-                ###################################### 4. Harness ##############################################
-                ########## 4.1 RWasm Init ############
-                rust_args_types = str(args_types)[1:-1]
-                rust_args_types = (
-                    rust_args_types.replace("unsigned int", "u32")
-                    .replace("int", "i32")
-                    .replace("float", "f32")
-                    .replace("i32 []", "[i32;2]")
-                    .replace("f32 []", "[f32;2]")
-                    .replace("double", "f32")
-                    .replace("float", "f32")
-                    .replace("long", "i32")
-                    .replace("i32 [i32]", "[i32;2]")
-                    .replace("string", "String")
-                    .replace("&[f32;2]", "[i32;2]")
-                    .replace("[f32;2]", "[i32;2]")
+                kani_arg_string += (
+                    f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
                 )
-                rust_fn_out_type = (
-                    fn_out_type.replace("unsigned int", "u32")
-                    .replace("unsigned", "u32")
-                    .replace("int", "i32")
-                    .replace("i32 []", "Vec<i32>")
-                    .replace("double", "f32")
-                    .replace("float", "f32")
-                    .replace("long", "i32")
-                    .replace("string", "String")
-                )
-                if rust_fn_out_type == "i32" and "-> f32" in compiled_rust:
-                    compiled_rust = compiled_rust.replace("-> f32", "-> i32")
-                if rust_fn_out_type == "i32" and "-> u32" in compiled_rust:
-                    compiled_rust = compiled_rust.replace("-> u32", "-> i32")
+                bolero_argstring += f"PARAM_{i+1},"
+                bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+            elif "string" in arg_type:
+                string_bolero_harness = f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
+                string_ending_bracket = "}"
+                arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                bolero_argstring += f"PARAM_{i+1},"
+                bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
+                kani_arg_string += f"PARAM_{i+1}[0],"
 
-                wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
-                wasm_function = f"\n\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n\n"
-                rwasm_arg_declaration = ""
-                rwasm_harness_args = ""
-                arg_string = ""
-                bolero_argstring = ""
-                bolero_arg_unsafe = "unsafe {\n"
-                kani_arg_string = ""
-                string_bolero_harness = ""
-                string_ending_bracket = ""
-                for i, arg_type in enumerate(args_types):
-                    if "[]" in arg_type:
-                        arg_string += (
-                            f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
-                        )
-                        kani_arg_string += (
-                            f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
-                        )
-                        bolero_argstring += f"PARAM_{i+1},"
-                        bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
-                    elif "string" in arg_type:
-                        string_bolero_harness = f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
-                        string_ending_bracket = "}"
-                        arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                        bolero_argstring += f"PARAM_{i+1},"
-                        bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
-                        kani_arg_string += f"PARAM_{i+1}[0],"
+            else:
+                arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                bolero_argstring += f"PARAM_{i+1},"
+                bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
-                    else:
-                        arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                        kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                        bolero_argstring += f"PARAM_{i+1},"
-                        bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+        arg_string = "(" + arg_string[:-1] + ")"
+        kani_arg_string = "(" + kani_arg_string[:-1] + ")"
+        bolero_argstring = "(" + bolero_argstring[:-1] + ")"
+        bolero_arg_unsafe += "\n\t\t}"
+        ##########################################
+        ########## 4.2 Bolero Harness ############
 
-                arg_string = "(" + arg_string[:-1] + ")"
-                kani_arg_string = "(" + kani_arg_string[:-1] + ")"
-                bolero_argstring = "(" + bolero_argstring[:-1] + ")"
-                bolero_arg_unsafe += "\n\t\t}"
-                ##########################################
-                ########## 4.2 Bolero Harness ############
+        bolero_import = "\nuse bolero::check;\n#[test]"
+        bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
+            "'", ""
+        )
+        bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n\t{string_ending_bracket}}});\n}}"
+        final_bolero_harness = (
+            "\n" + bolero_import + bolero_func_decl + bolero_func_body
+        )
+        ########################################
+        ########## 4.3 Kani Harness ############
 
-                bolero_import = "\nuse bolero::check;\n#[test]"
-                bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
-                    "'", ""
-                )
-                bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n\t{string_ending_bracket}}});\n}}"
-                final_bolero_harness = (
-                    "\n" + bolero_import + bolero_func_decl + bolero_func_body
-                )
-                ########################################
-                ########## 4.3 Kani Harness ############
+        kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
+        kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
+        kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
+        final_kani_harness = (
+            "\n" + kani_declare + kani_func_decl + kani_func_body
+        )
+        #######################################
+        bolero_output = wasm_function + compiled_rust + final_bolero_harness
+        kani_output = wasm_function + compiled_rust + final_kani_harness
 
-                kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
-                kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
-                kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
-                final_kani_harness = (
-                    "\n" + kani_declare + kani_func_decl + kani_func_body
-                )
-                #######################################
-                bolero_output = wasm_function + compiled_rust + final_bolero_harness
-                kani_output = wasm_function + compiled_rust + final_kani_harness
+        if "String" in rust_fn_out_type:
+            bolero_output = bolero_output.replace(
+                "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
+            )
+            kani_output = kani_output.replace(
+                "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
+            )
 
-                if "String" in rust_fn_out_type:
-                    bolero_output = bolero_output.replace(
-                        "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
-                    )
-                    kani_output = kani_output.replace(
-                        "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
-                    )
+        with open(wasm_bolero_main, "a") as wasmfile:
+            wasmfile.write(bolero_output)
+        with open(wasm_kani_main, "a") as wasmfile:
+            wasmfile.write(kani_output)
 
-                with open(wasm_bolero_main, "a") as wasmfile:
-                    wasmfile.write(bolero_output)
-                with open(wasm_kani_main, "a") as wasmfile:
-                    wasmfile.write(kani_output)
+    ##############################################################################################
+    ###################################### 5. Verification ######################################
 
-            ##############################################################################################
-            ###################################### 5. Verification ######################################
+    wasm_bolero_path = f"{file_dir}/{package_name}/out-rwasm-bolero/src"
+    wasm_kani_path = f"{file_dir}/{package_name}/out-rwasm-mutated/src"
 
-            wasm_bolero_path = f"{file_dir}/{package_name}/out-rwasm-bolero/src"
-            wasm_kani_path = f"{file_dir}/{package_name}/out-rwasm-mutated/src"
+    bolero_target_path = wasm_bolero_path + "/target"
+    kani_target_path = wasm_kani_path.replace("/src", "/target")
+    ##########################################################################################
+    ###################################### BOLERO ############################################
+    if bolero and rust_compiles:
+        print("Running bolero")
+        command = f"cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq"
+        verification_output, timeout = verification_utils.verify(
+            wasm_bolero_path, command, f"{subdir}/bolero_out.txt", f"{subdir}/bolero_err.txt", 200
+        )
+        if not timeout:
+            err_message = verification_output.stderr
+            stdout_message = verification_output.stdout
 
-            bolero_target_path = wasm_bolero_path + "/target"
-            kani_target_path = wasm_kani_path.replace("/src", "/target")
-            ##########################################################################################
-            ###################################### BOLERO ############################################
-            if bolero and rust_compiles:
-                print("Running bolero")
-                command = "cargo bolero reduce bolero_wasm_eq"
-                verification_output, timeout = verification_utils.verify(
-                    wasm_bolero_path, command
-                )
-                if not timeout:
-                    err_message = verification_output.stderr
-                    stdout_message = verification_output.stdout
+            if "could not compile" in err_message:
+                print("Bolero compilation problem")
+                print(err_message)
+                dump_result(result_file, result)
+                return
+            elif (
+                "Test Failure" in err_message
+                or "Test Failure" in stdout_message
+            ):
+                print(f"Bolero failed")
+                dump_result(result_file, result)
+                return
+            else:
+                assert verification_output.returncode == 0
+                print(f"Bolero pass")
+                result["bolero"] = True
+        else:
+            raise Exception("Command timeout")
 
-                    if "could not compile" in err_message:
-                        print("Compilation problem")
-                        print(err_message)
-                        bolero_successful = False
-                    elif (
-                        "Test Failure" in err_message
-                        or "Test Failure" in stdout_message
-                    ):
-                        print(f"Bolero failed")
-                        result_string = f"{package_name}, compile=1, bolero=0, bounded_kani=0, full_kani=0"
-                        bolero_successful = False
-                    else:
-                        print(f"Bolero pass")
-                        result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=0, full_kani=0"
-                else:
-                    print("Bolero timeout")
-                    result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=0, full_kani=0"
-                    bolero_successful = False
+        if not testing_on_one:
+            shutil.rmtree(bolero_target_path)
 
-                if not testing_on_one:
-                    shutil.rmtree(bolero_target_path)
+    ##########################################################################################
+    ###################################### Bounded KANI ######################################
+    if bounded_kani and rust_compiles and bolero_successful:
+        print("Running Kani")
+        command = "cargo kani --no-unwinding-checks --default-unwind 10"
+        verification_output, timeout = verification_utils.verify(
+            wasm_kani_path, command,  f"{subdir}/kani_out.txt", f"{subdir}/kani_err.txt", all_timeout
+        )
+        if not timeout:
+            err_message = verification_output.stderr
+            stdout_message = verification_output.stdout
+            if (
+                "VERIFICATION:- FAILED" in err_message
+                or "VERIFICATION:- FAILED" in stdout_message
+            ):
+                print("Kani failed")
+                dump_result(result_file, result)
+            else:
+                print("Kani succesful")
+                result["bounded_kani"] = True
+                dump_result(result_file, result)
+        else:
+            print("Kani timeout")
+            dump_result(result_file, result)
 
-            ##########################################################################################
-            ###################################### Bounded KANI ######################################
-            if bounded_kani and rust_compiles and bolero_successful:
-                print("Running Kani")
-                command = "cargo kani --no-unwinding-checks --default-unwind 10"
-                verification_output, timeout = verification_utils.verify(
-                    wasm_kani_path, command
-                )
-                if not timeout:
-                    err_message = verification_output.stderr
-                    stdout_message = verification_output.stdout
-                    if (
-                        "VERIFICATION:- FAILED" in err_message
-                        or "VERIFICATION:- FAILED" in stdout_message
-                    ):
-                        print("Kani failed")
-                        kani_successful = False
-                        result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=0, full_kani=0"
-                    else:
-                        print("Kani succesful")
-                        result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=1, full_kani=0"
-                else:
-                    print("Kani timeout")
-                    kani_successful = False
-                    result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=0, full_kani=0"
 
-            ##########################################################################################
-            ###################################### Full KANI #########################################
-            if full_kani and rust_compiles and bolero_successful and kani_successful:
-                with open(wasm_kani_main, "r") as wasmfile:
-                    wasm_kani = wasmfile.read()
-                wasm_fullkani = wasm_kani.replace("#[kani::unwind(10)]", "")
-                with open(wasm_kani_main, "w") as wasmfile:
-                    wasmfile.write(wasm_fullkani)
-
-                print("Running Full Kani")
-                command = "cargo kani"
-                verification_output, timeout = verification_utils.verify(
-                    wasm_kani_path, command
-                )
-                if not timeout:
-                    err_message = verification_output.stderr
-                    stdout_message = verification_output.stdout
-                    if (
-                        "VERIFICATION:- FAILED" in err_message
-                        or "VERIFICATION:- FAILED" in stdout_message
-                    ):
-                        print("Full Kani failed")
-                        result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=1, full_kani=0"
-                    else:
-                        # print(err_message)
-                        # print(stdout_message)
-                        print("Full Kani succesful")
-                        result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=1, full_kani=1"
-                else:
-                    print("Full Kani timeout")
-                    result_string = f"{package_name}, compile=1, bolero=1, bounded_kani=1, full_kani=0"
-
-                with open(wasm_kani_main, "w") as wasmfile:
-                    wasmfile.write(wasm_kani)
-            if not testing_on_one and bolero_successful and rust_compiles:
-                shutil.rmtree(kani_target_path)
-            ##########################################################################################
-            with open(f"{language}_results.csv", "a") as result_file:
-                result_file.write("\n" + result_string)
-
-    subprocess.run(
-        f"chmod -R a+rw /home",
-        shell=True,
-        cwd="/home",
-        capture_output=True,
-    )
+if __name__ == "__main__":
+    main()
