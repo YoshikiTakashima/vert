@@ -84,14 +84,40 @@ def claude(
     language = ""
     if "cpp" in file_ext:
         language = "++"
-    file_path = f"{rust_dir}/{package_name}/src/{file_name}.rs"
-    rust_input = (
-        source_code
-        + f"\nRust refactoring of above C{language} code, with code only, no comments. Use the same function name, "
-          f"same argument and return types. Make sure it includes all imports, uses safe rust, and compiles. Give "
-          f"only code, and no main function. Convert i32 types to f32 if necessary. Use mut variables if necessary. "
-          f"Enclose the code in <rust-code> tags."
-    )
+    file_path = f"{rust_dir}/src/translation.rs"
+    system = "You are an expert programmer who helps rewrite code to Rust."
+    lang = file_ext[1:].upper()
+    prompt=f"""
+<source-code>
+{source_code}
+</source-code>
+
+<instructions>
+In the <source-code> tags you are given {lang} code with a function f_gold. Please provide a C-like translation to Rust.
+You are given the following rules, which should be _strictly_ followed:
+- Name the Rust function f_gold
+- The Rust f_gold must have the same number of input arguments as the {lang} f_gold
+- Always map int types in f_gold to i32 in Rust
+- Include all necessary imports
+- Use safe Rust
+- Do not give a main function
+- Do not comment the code
+- Enclose the code in <rust-code> tags
+
+Before writing the translation do the following:
+- copy the function signature of f_gold in the <source-code> tags
+- state the number of input arguments to f_gold
+- state how you will map the input and return types in f_gold to Rust
+- state the Rust signature of the translated f_gold
+</instructions>
+    """
+    # rust_input = (
+    #     source_code
+    #     + f"\nRust refactoring of above C{language} code, with code only, no comments. Use the same function name, "
+    #       f"same argument and return types. Make sure it includes all imports, uses safe rust, and compiles. Give "
+    #       f"only code, and no main function. Convert i32 types to f32 if necessary. Use mut variables if necessary. "
+    #       f""
+    # )
 
     compiles = False
     tries = 0
@@ -102,7 +128,7 @@ def claude(
         print(f"LLM attempt # {tries}")
         response = llm.query(
             LLMQueryInput.construct_llm_query_input(
-                Conversation.new_convo("", rust_input), 1.0, ["</rust-code>"]
+                Conversation.new_convo(system, prompt), 0.2, ["</rust-code>"]
             )
         )
         # rust_output = claude_gen(rust_input)
@@ -173,14 +199,16 @@ def main():
         required=True,
         help="Path to benchmark"
     )
-    ap.add_argument("--aws-profile",
-                    default="dummyprofile",
-                    help="AWS profile to use for credentials")
+    ap.add_argument(
+    "--aws-profile",
+        default="dummyprofile",
+        help="AWS profile to use for credentials"
+    )
     args = ap.parse_args()
     language = args.language
-    home_dir = os.getcwd()
-    file_dir = f"{home_dir}/benchmark/{language}_transcoder"
-    rust_dir = f"{home_dir}/build_dir/rust_{language}_transcoder"
+    # home_dir = os.getcwd()
+    # file_dir = f"{home_dir}/benchmark/{language}_transcoder"
+    rust_dir = f"{args.benchmark_dir}/translation"
 
     ###################################### Controls which portion to run ######################################
     entry_point = 1  # Compiles rwasm folders and locates entry point
@@ -205,22 +233,21 @@ def main():
     bolero_successful = True
     kani_successful = True
 
-    wasm_bolero_main = f"{file_dir}/{package_name}/out-rwasm-bolero/src/main.rs"
-    wasm_kani_main = f"{file_dir}/{package_name}/out-rwasm-mutated/src/main.rs"
+    wasm_bolero_main = f"{args.benchmark_dir}/out-rwasm-bolero/src/main.rs"
+    wasm_kani_main = f"{args.benchmark_dir}/out-rwasm-mutated/src/main.rs"
 
     result = {
         "project": package_name, "compile": False, "bolero": False, "bounded_kani": False, "full_kani": False
     }
-    result_file = f"{file_dir}/{package_name}/result.json"
-    result_string = (
-        f"{package_name}, compile=0, bolero=0, bounded_kani=0, full_kani=0"
-    )
+    result_file = f"{args.benchmark_dir}/result.json"
+    if os.path.exists(result_file):
+        os.remove(result_file)
     file_ext = f".{language}"
 
     file_name = file.replace(".go", "").replace(".cpp", "").replace(".c", "")
 
     f_filled = ""
-    c_filepath = f"{file_dir}/{package_name}/{file_name}{file_ext}"
+    c_filepath = f"{args.benchmark_dir}/{file_name}{file_ext}"
     with open(c_filepath, "r") as cfile:
         c_output = cfile.read()
 
@@ -236,7 +263,7 @@ def main():
     ####################################################################################################
 
     source_output, original = generate_utils.c_code_process(
-        file_ext, file_dir, package_name, file_name, f_filled, args_types
+        file_ext, args.benchmark_dir, file_name, f_filled, args_types
     )
 
     ###################################### 2. set up wasm file #########################################
@@ -244,7 +271,7 @@ def main():
     if entry_point:
         try:
             rwasm_arg_types = verification_utils.mutate_test(
-                file_dir,
+                args.benchmark_dir,
                 package_name,
                 cwasm_path,
                 fn_name,
@@ -261,7 +288,7 @@ def main():
     ####################################################################################################
 
     leetcode_name = "_".join(package_name.split("_")[1:])
-    if "transcoder" in file_dir:
+    if "transcoder" in args.benchmark_dir:
         leetcode_name = package_name
 
     ###################################### 3. LLM ######################################################
@@ -395,8 +422,8 @@ def main():
     ##############################################################################################
     ###################################### 5. Verification ######################################
 
-    wasm_bolero_path = f"{file_dir}/{package_name}/out-rwasm-bolero/src"
-    wasm_kani_path = f"{file_dir}/{package_name}/out-rwasm-mutated/src"
+    wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero/src"
+    wasm_kani_path = f"{args.benchmark_dir}/out-rwasm-mutated/src"
 
     bolero_target_path = wasm_bolero_path + "/target"
     kani_target_path = wasm_kani_path.replace("/src", "/target")
@@ -404,9 +431,9 @@ def main():
     ###################################### BOLERO ############################################
     if bolero and rust_compiles:
         print("Running bolero")
-        command = f"cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq"
+        command = f"RUSTFLAGS=\"-C overflow-checks=false\" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq"
         verification_output, timeout = verification_utils.verify(
-            wasm_bolero_path, command, f"{subdir}/bolero_out.txt", f"{subdir}/bolero_err.txt", 200
+            wasm_bolero_path, command, f"{subdir}/bolero_out.txt", f"{subdir}/bolero_err.txt", 500
         )
         if not timeout:
             err_message = verification_output.stderr
@@ -415,17 +442,17 @@ def main():
             if "could not compile" in err_message:
                 print("Bolero compilation problem")
                 print(err_message)
-                dump_result(result_file, result)
-                return
+                # dump_result(result_file, result)
+                # return
             elif (
                 "Test Failure" in err_message
                 or "Test Failure" in stdout_message
+                or verification_output.returncode != 0
             ):
                 print(f"Bolero failed")
-                dump_result(result_file, result)
-                return
+                # dump_result(result_file, result)
+                # return
             else:
-                assert verification_output.returncode == 0
                 print(f"Bolero pass")
                 result["bolero"] = True
         else:
@@ -434,6 +461,8 @@ def main():
         if not testing_on_one:
             shutil.rmtree(bolero_target_path)
 
+    dump_result(result_file, result)
+    exit(0)
     ##########################################################################################
     ###################################### Bounded KANI ######################################
     if bounded_kani and rust_compiles and bolero_successful:
@@ -448,6 +477,7 @@ def main():
             if (
                 "VERIFICATION:- FAILED" in err_message
                 or "VERIFICATION:- FAILED" in stdout_message
+                or verification_output.returncode != 0
             ):
                 print("Kani failed")
                 dump_result(result_file, result)

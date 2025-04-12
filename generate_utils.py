@@ -9,6 +9,27 @@ import config
 from config import wasi_path, rWasm_path
 
 
+def make_cargo_toml(package_name):
+    return f"""
+[package]
+name = "{package_name}"
+version = "1.0.1"
+authors = ["generated-by-rwasm-1.0.1"]
+edition = "2018"
+
+[dependencies]
+wasi-common = "0.20.0"
+wiggle = "0.20.0"
+
+[profile.release]
+debug = true
+
+[profile.fuzz]
+inherits = "dev"
+opt-level = 3 
+incremental = false
+codegen-units = 1"""
+
 def fix_output(o):
     if not o:
         return ""
@@ -65,7 +86,7 @@ class VerificationUtils:
             fn_name = fn_name.split(" ")[-1]
         mutated_list = []
 
-        project_path = f"{file_dir}/{package_name}"
+        project_path = f"{file_dir}"
         # /wasi-sdk-12.0/bin/clang++ -fno-exceptions --sysroot=/wasi-sdk-12.0/share/wasi-sysroot -o main.wasm
 
         # print(file_path)'
@@ -122,21 +143,20 @@ class VerificationUtils:
 
         for d in ["out-rwasm-bolero", "out-rwasm-mutated", "out-rwasm-original"]:
             cargo_toml_path =  project_path + f"/{d}/Cargo.toml"
-            with open(cargo_toml_path, "r") as file:
-                content = file.read()
-            content = content.replace("sandboxed-main", f"{file_ext[1:]}_{package_name.lower()}_{d}")
             with open(cargo_toml_path, "w") as fd:
-                fd.write(content)
+                fd.write(make_cargo_toml(f"{file_ext[1:]}_{package_name.lower()}_{d}"))
+                if d == "out-rwasm-bolero":
+                    fd.write("\n[dev-dependencies]\nbolero = \"0.10.0\"")
 
         original_rust_path = project_path + "/out-rwasm-original/src/main.rs"
         mutated_rust_path = project_path + "/out-rwasm-mutated/src/main.rs"
         bolero_rust_path = project_path + "/out-rwasm-bolero/src/main.rs"
-        bolero_cargo = project_path + "/out-rwasm-bolero/Cargo.toml"
-        with open(bolero_cargo, "r") as file:
-            content = file.read()
-        if '\n[dev-dependencies]\nbolero = "0.10.0"' not in content:
-            with open(bolero_cargo, "a") as file:
-                file.write('\n[dev-dependencies]\nbolero = "0.10.0"')
+        # bolero_cargo = project_path + "/out-rwasm-bolero/Cargo.toml"
+        # with open(bolero_cargo, "r") as file:
+        #     content = file.read()
+        # if '\n[dev-dependencies]\nbolero = "0.10.0"' not in content:
+        #     with open(bolero_cargo, "a") as file:
+        #         file.write('\n[dev-dependencies]\nbolero = "0.10.0"')
 
         with open(original_rust_path, "r") as file:
             original_rust = file.readlines()
@@ -200,14 +220,16 @@ class VerificationUtils:
         result_insertion = "12"
         if "char" in fn_out_type or "string" in fn_out_type:
             result_insertion = "'c'"
-            fn_out_type = "char"            
-        elif "double" in fn_out_type or "float" in fn_out_type:
+            fn_out_type = "char"
+        elif "double" in fn_out_type or "float" in fn_out_type or "f32" in fn_out_type:
             fn_out_type = "f32"
             result_insertion = "12.0"
-        elif "long" in fn_out_type:
+        elif "long" in fn_out_type or "i32" in fn_out_type:
             fn_out_type = "i32"
         elif "unsigned" in fn_out_type:
             fn_out_type = "u32"
+        else:
+            raise Exception("Invalid function output type: " + fn_out_type)
         rwasm_arg_declaration += (
             f"static mut RESULT: {fn_out_type} = {result_insertion};\n"
         )
@@ -239,31 +261,50 @@ class VerificationUtils:
                 for line in target_function:
                     if "TaggedVal::from(self.func" in line:
                         return_line = line
-                if "[]" in args_types[0]:
-                    unsafe_param = "{PARAM1}[0]"
-                    unsafe_param_kani = "PARAM1[0]"
-                elif "char" in args_types[0] or "string" in args_types[0]:
-                    unsafe_param = "{PARAM1 as i32}"
-                    unsafe_param_kani = "PARAM1 as i32"
-                else:
-                    unsafe_param = "{PARAM1}"
-                    unsafe_param_kani = "PARAM1"
+
+                bolero_lines = []
+                kani_lines = []
+                for i, arg_type in enumerate(args_types):
+                    i += 1
+                    if "[]" in arg_type:
+                        unsafe_param = f"{{PARAM{i}}}[0]"
+                        unsafe_param_kani = f"PARAM{i}[0]"
+                    elif "char" in arg_type or "string" in arg_type:
+                        unsafe_param = f"{{PARAM{i} as i32}}"
+                        unsafe_param_kani = f"PARAM{i} as i32"
+                    else:
+                        unsafe_param = f"{{PARAM{i}}}"
+                        unsafe_param_kani = f"PARAM{i}"
+                    bolero_lines.append(f"v{i-1} = TaggedVal::from(unsafe {unsafe_param});\n")
+                    kani_lines.append(
+                        f"v{i-1} = TaggedVal::from(unsafe {{\n\t{unsafe_param_kani} = kani::any();\n"
+                        f"\tkani::assume((0..2).contains(&{unsafe_param_kani}));\n"
+                        f"\t{unsafe_param_kani}\n}});\n"
+                    )
 
 
                 if 'char' in fn_out_type:
                     fn_out_type = 'i32'
-                bolero_entry = str_mutation.replace(
+
+                def rreplace(s, old, new, occurrence):
+                    # replaces last occurrence in a a string
+                    li = s.rsplit(old, occurrence)
+                    return new.join(li)
+
+                bolero_entry = rreplace(str_mutation,
                     return_line,
-                    f"v0 = TaggedVal::from(unsafe {unsafe_param});\n"
+                    "".join(bolero_lines)
                     + return_line
                     + f"\nlet retval = v0.try_as_{fn_out_type}()?;\nunsafe {{\nRESULT = retval;\n}}\n",
+                    1
                 )
 
-                kani_entry = str_mutation.replace(
+                kani_entry = rreplace(str_mutation,
                     return_line,
-                    f"v0 = TaggedVal::from(unsafe {{\n\t{unsafe_param_kani} = kani::any();\n\tkani::assume((0..2).contains(&{unsafe_param_kani}));\n\t{unsafe_param_kani}\n}});\n"
+                    "".join(kani_lines)
                     + return_line
                     + f"\nlet retval = v0.try_as_{fn_out_type}()?;\nunsafe {{\nRESULT = retval;\n}}\n",
+                    1
                 )
         kani_rust = rwasm_arg_declaration + kani_entry
         bolero_rust = rwasm_arg_declaration + bolero_entry
@@ -279,36 +320,36 @@ class VerificationUtils:
 class GenerateUtils:
     def build_rust_folder(self, rust_folder, package_name):
         out = subprocess.run(
-            f"rm -rf {rust_folder}/{package_name}",
+            f"rm -rf {rust_folder}",
             shell=True,
             capture_output=True,
         )
         if out.returncode != 0:
-            raise Exception("Rust folder build failed: " + out.stderr)
+            raise Exception("Rust folder build failed: " + fix_output(out.stderr))
         out = subprocess.run(
-            f"cargo new --lib {package_name}",
+            f"cargo new --lib translation",
             shell=True,
-            cwd=rust_folder,
+            cwd="/".join(rust_folder.split("/")[:-1]),
             capture_output=True,
         )
         if out.returncode != 0:
-            raise Exception("Rust folder build failed: " + out.stderr)
+            raise Exception("Rust folder build failed: " + fix_output(out.stderr))
         out = subprocess.run(
-            f"cargo bolero new {package_name}_test --generator; cargo add --dev bolero",
+            f"cargo bolero new translation_test --generator; cargo add --dev bolero",
             shell=True,
-            cwd=f"{rust_folder}/{package_name}",
+            cwd=f"{rust_folder}",
             capture_output=True,
         )
         if out.returncode != 0:
             raise Exception("Rust folder build failed: " + out.stderr.decode("utf-8"))
         out = subprocess.run(
-            f"chmod -R a+rw {package_name}",
+            f"chmod -R a+rw .",
             shell=True,
             cwd=rust_folder,
             capture_output=True,
         )
         if out.returncode != 0:
-            raise Exception("Rust folder build failed: " + out.stderr)
+            raise Exception("Rust folder build failed: " + fix_output(out.stderr))
 
     def bracket_adder(self, code_string):
         code_string_split = re.split(r" |\n", code_string)
@@ -451,7 +492,7 @@ class GenerateUtils:
         return "\n".join(target_lines)
 
     def error_msg_repair(self, rust_code, package_name, rust_dir, file_name):
-        file_path = f"{rust_dir}/{package_name}/src/{file_name}.rs"
+        file_path = f"{rust_dir}/src/translation.rs"
         # write to test rust file
         with open(file_path.replace(".rs", "_test.rs"), "w") as file:
             file.write(rust_code)
@@ -463,11 +504,11 @@ class GenerateUtils:
             with open(file_path.replace(".rs", "_test.rs"), "r") as file:
                 rust_code = file.readlines()
             rust_output = subprocess.run(
-                f"rustc {file_name}_test.rs",
+                f"rustc translation_test.rs",
                 shell=True,
                 capture_output=True,
                 text=True,
-                cwd=f"{rust_dir}/{package_name}/src",
+                cwd=f"{rust_dir}/src",
             )
 
             # try 10 times
@@ -603,12 +644,12 @@ class GenerateUtils:
         str_args_names = ", ".join(fn_args_names)
         return fn_name, fn_args_types, str_args_names, return_type, fn_line
 
-    def c_code_process(self, file_ext, file_dir, package_name, file_name, f_filled, args_types):
+    def c_code_process(self, file_ext, file_dir, file_name, f_filled, args_types):
         # if "cpp" in file_dir:
         #     file_ext = ".cpp"
         # else:
         #     file_ext = ".c"
-        c_filepath = f"{file_dir}/{package_name}/{file_name}{file_ext}"
+        c_filepath = f"{file_dir}/{file_name}{file_ext}"
         with open(c_filepath, "r") as file:
             c_output = file.read()
 
@@ -736,7 +777,7 @@ void sort (int arr [ ], int n) {qsort (arr, n, sizeof(int), cmpfunc);}\n"""
             .replace("double f_gold", "float f_gold")
             .replace("string &", "string")
         )
-        src_filepath = f"{file_dir}/{package_name}"
+        src_filepath = f"{file_dir}"
         c_filepath_processed = f"{src_filepath}/{file_name}_processed{file_ext}"
         c_filepath_wasm = f"{src_filepath}/{file_name}_towasm{file_ext}"
         c_filepath_wasm_mutated = f"{src_filepath}/{file_name}_towasm_mutated{file_ext}"
