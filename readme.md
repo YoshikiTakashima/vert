@@ -42,5 +42,6 @@ cargo kani
 Note this takes a significant amount of time. For C the entire run takes about 15 hours.
 ```
 python3 torust benchmark_language
-# e.g., python3 torust cpp
+# e.g., 
+python3 torust.py --aws-profile default --language c --benchmark-dir benchmark/c_transcoder/BIRTHDAY_PARADOX
 ```

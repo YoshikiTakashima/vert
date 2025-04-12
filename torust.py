@@ -187,6 +187,33 @@ def dump_result(result_file, result):
         fd.write(json.dumps(result, indent="\t"))
 
 
+def clean_main_rs(wasm_path: str):
+    """Remove previous LLM output from main.rs file"""
+    with open(wasm_path, 'r') as file:
+        content = file.read()
+    
+    # Remove everything between and including the LLM Output markers
+    while "////// LLM Output //////" in content:
+        start = content.find("////// LLM Output //////")
+        end = content.find("////// LLM Output //////", start + 1) + len("////// LLM Output //////")
+        content = content[:start] + content[end:]
+        
+    while "////// bolero harness //////" in content:
+        start = content.find("////// bolero harness //////")
+        end = content.find("////// bolero harness //////", start + 1) + len("////// bolero harness //////")
+        content = content[:start] + content[end:]
+    while "////// kani harness //////" in content:
+        start = content.find("////// kani harness //////")
+        end = content.find("////// kani harness //////", start + 1) + len("////// kani harness //////")
+        content = content[:start] + content[end:]
+    while "////// wasm function //////" in content:
+        start = content.find("////// wasm function //////")
+        end = content.find("////// wasm function //////", start + 1) + len("////// wasm function //////")
+        content = content[:start] + content[end:]
+    
+    with open(wasm_path, 'w') as file:
+        file.write(content)
+
 def main():
     ap = argparse.ArgumentParser(description="Evaluation for VERT")
     ap.add_argument(
@@ -288,176 +315,199 @@ def main():
         leetcode_name = package_name
 
     ###################################### 3. LLM ######################################################
+
+
     if use_claude:
-        generate_utils.build_rust_folder(rust_dir, leetcode_name)
-        llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
-        compiled_rust, rust_compiles = claude(
-            llm,
-            source_output,
-            leetcode_name,
-            rust_dir,
-            file_name,
-            number_tries,
-            file_ext,
-        )
-        if not rust_compiles:
-            print("LLM failed to produce compiling Rust")
+        llm_attempts = 0
+        max_llm_attempts = 3  # Maximum number of times to try LLM generation
+        bolero_success = False
+
+        while not bolero_success and llm_attempts < max_llm_attempts:
+            llm_attempts += 1
+            print(f"\nLLM+Bolero attempt #{llm_attempts}")
+            
+            # Clean up previous LLM output from both main.rs files
+            clean_main_rs(wasm_bolero_main)
+            clean_main_rs(wasm_kani_main)
+
+            generate_utils.build_rust_folder(rust_dir, leetcode_name)
+            llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
+            compiled_rust, rust_compiles = claude(
+                llm,
+                source_output,
+                leetcode_name,
+                rust_dir,
+                file_name,
+                number_tries,
+                file_ext,
+            )
+            if not rust_compiles:
+                print("LLM failed to produce compiling Rust")
+                dump_result(result_file, result)
+                return
+            else:
+                result["compile"] = True
+
+            
+            ################################################################################################
+            ###################################### 4. Harness ##############################################
+            ########## 4.1 RWasm Init ############
+            rust_args_types = str(args_types)[1:-1]
+            rust_args_types = (
+                rust_args_types.replace("unsigned int", "u32")
+                .replace("int", "i32")
+                .replace("float", "f32")
+                .replace("i32 []", "[i32;2]")
+                .replace("f32 []", "[f32;2]")
+                .replace("double", "f32")
+                .replace("float", "f32")
+                .replace("long", "i32")
+                .replace("i32 [i32]", "[i32;2]")
+                .replace("string", "String")
+                .replace("&[f32;2]", "[i32;2]")
+                .replace("[f32;2]", "[i32;2]")
+            )
+            rust_fn_out_type = (
+                fn_out_type.replace("unsigned int", "u32")
+                .replace("unsigned", "u32")
+                .replace("int", "i32")
+                .replace("i32 []", "Vec<i32>")
+                .replace("double", "f32")
+                .replace("float", "f32")
+                .replace("long", "i32")
+                .replace("string", "String")
+            )
+            if rust_fn_out_type == "i32" and "-> f32" in compiled_rust:
+                compiled_rust = compiled_rust.replace("-> f32", "-> i32")
+            if rust_fn_out_type == "i32" and "-> u32" in compiled_rust:
+                compiled_rust = compiled_rust.replace("-> u32", "-> i32")
+
+            wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
+            wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
+            rwasm_arg_declaration = ""
+            rwasm_harness_args = ""
+            arg_string = ""
+            bolero_argstring = ""
+            bolero_arg_unsafe = "unsafe {\n"
+            kani_arg_string = ""
+            string_bolero_harness = ""
+            string_ending_bracket = ""
+            for i, arg_type in enumerate(args_types):
+                if "[]" in arg_type:
+                    arg_string += f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
+                    kani_arg_string += (
+                        f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
+                    )
+                    bolero_argstring += f"PARAM_{i+1},"
+                    bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+                elif "string" in arg_type:
+                    string_bolero_harness = (
+                        f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
+                    )
+                    string_ending_bracket = "}"
+                    arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                    bolero_argstring += f"PARAM_{i+1},"
+                    bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
+                    kani_arg_string += f"PARAM_{i+1}[0],"
+
+                else:
+                    arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                    kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
+                    bolero_argstring += f"PARAM_{i+1},"
+                    bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+
+            arg_string = "(" + arg_string[:-1] + ")"
+            kani_arg_string = "(" + kani_arg_string[:-1] + ")"
+            bolero_argstring = "(" + bolero_argstring[:-1] + ")"
+            bolero_arg_unsafe += "\n\t\t}"
+            ##########################################
+            ########## 4.2 Bolero Harness ############
+
+            bolero_import = "\nuse bolero::check;\n#[test]"
+            bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
+                "'", ""
+            )
+            bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n\t{string_ending_bracket}}});\n}}"
+            final_bolero_harness = (
+                "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body + "\n////// bolero harness //////\n"
+            )
+            ########################################
+            ########## 4.3 Kani Harness ############
+
+            kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
+            kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
+            kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
+            final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + kani_func_decl + kani_func_body + "\n////// kani harness //////\n"
+            #######################################
+            
+            bolero_output = wasm_function + compiled_rust + final_bolero_harness
+            kani_output = wasm_function + compiled_rust + final_kani_harness
+
+                
+
+            if "String" in rust_fn_out_type:
+                bolero_output = bolero_output.replace(
+                    "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
+                )
+                kani_output = kani_output.replace(
+                    "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
+                )
+
+            with open(wasm_bolero_main, "a") as wasmfile:
+                wasmfile.write(bolero_output)
+            with open(wasm_kani_main, "a") as wasmfile:
+                wasmfile.write(kani_output)
+
+            ##############################################################################################
+            ###################################### 5. Verification ######################################
+
+            wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero/src"
+            wasm_kani_path = f"{args.benchmark_dir}/out-rwasm-mutated/src"
+
+            bolero_target_path = wasm_bolero_path + "/target"
+            kani_target_path = wasm_kani_path.replace("/src", "/target")
+            ##########################################################################################
+            ###################################### BOLERO ############################################
+            if bolero and rust_compiles:
+                print("Running bolero")
+                command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq'
+                verification_output, timeout = verification_utils.verify(
+                    wasm_bolero_path,
+                    command,
+                    f"{subdir}/bolero_out.txt",
+                    f"{subdir}/bolero_err.txt",
+                    500,
+                )
+                if not timeout:
+                    err_message = verification_output.stderr
+                    stdout_message = verification_output.stdout
+
+                    if "could not compile" in err_message:
+                        print("Bolero compilation problem")
+                        print(err_message)
+                        # dump_result(result_file, result)
+                        # return
+                    elif (
+                        "Test Failure" in err_message
+                        or "Test Failure" in stdout_message
+                        or verification_output.returncode != 0
+                    ):
+                        print(f"Bolero failed")
+                        # dump_result(result_file, result)
+                        # return
+                    else:
+                        print(f"Bolero pass")
+                        result["bolero"] = True
+                        bolero_success = True
+                else:
+                    raise Exception("Command timeout")
+        if not bolero_success:
+            print(f"Failed to generate valid code after {max_llm_attempts} attempts")
             dump_result(result_file, result)
             return
-        else:
-            result["compile"] = True
 
-        ################################################################################################
-        ###################################### 4. Harness ##############################################
-        ########## 4.1 RWasm Init ############
-        rust_args_types = str(args_types)[1:-1]
-        rust_args_types = (
-            rust_args_types.replace("unsigned int", "u32")
-            .replace("int", "i32")
-            .replace("float", "f32")
-            .replace("i32 []", "[i32;2]")
-            .replace("f32 []", "[f32;2]")
-            .replace("double", "f32")
-            .replace("float", "f32")
-            .replace("long", "i32")
-            .replace("i32 [i32]", "[i32;2]")
-            .replace("string", "String")
-            .replace("&[f32;2]", "[i32;2]")
-            .replace("[f32;2]", "[i32;2]")
-        )
-        rust_fn_out_type = (
-            fn_out_type.replace("unsigned int", "u32")
-            .replace("unsigned", "u32")
-            .replace("int", "i32")
-            .replace("i32 []", "Vec<i32>")
-            .replace("double", "f32")
-            .replace("float", "f32")
-            .replace("long", "i32")
-            .replace("string", "String")
-        )
-        if rust_fn_out_type == "i32" and "-> f32" in compiled_rust:
-            compiled_rust = compiled_rust.replace("-> f32", "-> i32")
-        if rust_fn_out_type == "i32" and "-> u32" in compiled_rust:
-            compiled_rust = compiled_rust.replace("-> u32", "-> i32")
-
-        wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
-        wasm_function = f"\n\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n\n"
-        rwasm_arg_declaration = ""
-        rwasm_harness_args = ""
-        arg_string = ""
-        bolero_argstring = ""
-        bolero_arg_unsafe = "unsafe {\n"
-        kani_arg_string = ""
-        string_bolero_harness = ""
-        string_ending_bracket = ""
-        for i, arg_type in enumerate(args_types):
-            if "[]" in arg_type:
-                arg_string += f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
-                kani_arg_string += (
-                    f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
-                )
-                bolero_argstring += f"PARAM_{i+1},"
-                bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
-            elif "string" in arg_type:
-                string_bolero_harness = (
-                    f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
-                )
-                string_ending_bracket = "}"
-                arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                bolero_argstring += f"PARAM_{i+1},"
-                bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
-                kani_arg_string += f"PARAM_{i+1}[0],"
-
-            else:
-                arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                bolero_argstring += f"PARAM_{i+1},"
-                bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
-
-        arg_string = "(" + arg_string[:-1] + ")"
-        kani_arg_string = "(" + kani_arg_string[:-1] + ")"
-        bolero_argstring = "(" + bolero_argstring[:-1] + ")"
-        bolero_arg_unsafe += "\n\t\t}"
-        ##########################################
-        ########## 4.2 Bolero Harness ############
-
-        bolero_import = "\nuse bolero::check;\n#[test]"
-        bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
-            "'", ""
-        )
-        bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n\t{string_ending_bracket}}});\n}}"
-        final_bolero_harness = (
-            "\n" + bolero_import + bolero_func_decl + bolero_func_body
-        )
-        ########################################
-        ########## 4.3 Kani Harness ############
-
-        kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
-        kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
-        kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
-        final_kani_harness = "\n" + kani_declare + kani_func_decl + kani_func_body
-        #######################################
-        bolero_output = wasm_function + compiled_rust + final_bolero_harness
-        kani_output = wasm_function + compiled_rust + final_kani_harness
-
-        if "String" in rust_fn_out_type:
-            bolero_output = bolero_output.replace(
-                "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
-            )
-            kani_output = kani_output.replace(
-                "unsafe { RESULT }", "unsafe { RESULT.to_string() }"
-            )
-
-        with open(wasm_bolero_main, "a") as wasmfile:
-            wasmfile.write(bolero_output)
-        with open(wasm_kani_main, "a") as wasmfile:
-            wasmfile.write(kani_output)
-
-    ##############################################################################################
-    ###################################### 5. Verification ######################################
-
-    wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero/src"
-    wasm_kani_path = f"{args.benchmark_dir}/out-rwasm-mutated/src"
-
-    bolero_target_path = wasm_bolero_path + "/target"
-    kani_target_path = wasm_kani_path.replace("/src", "/target")
-    ##########################################################################################
-    ###################################### BOLERO ############################################
-    if bolero and rust_compiles:
-        print("Running bolero")
-        command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq'
-        verification_output, timeout = verification_utils.verify(
-            wasm_bolero_path,
-            command,
-            f"{subdir}/bolero_out.txt",
-            f"{subdir}/bolero_err.txt",
-            500,
-        )
-        if not timeout:
-            err_message = verification_output.stderr
-            stdout_message = verification_output.stdout
-
-            if "could not compile" in err_message:
-                print("Bolero compilation problem")
-                print(err_message)
-                # dump_result(result_file, result)
-                # return
-            elif (
-                "Test Failure" in err_message
-                or "Test Failure" in stdout_message
-                or verification_output.returncode != 0
-            ):
-                print(f"Bolero failed")
-                # dump_result(result_file, result)
-                # return
-            else:
-                print(f"Bolero pass")
-                result["bolero"] = True
-        else:
-            raise Exception("Command timeout")
-
-    dump_result(result_file, result)
-    exit(0)
+        dump_result(result_file, result)
+        exit(0)
     ##########################################################################################
     ###################################### Bounded KANI ######################################
     if bounded_kani and rust_compiles and bolero_successful:

@@ -261,9 +261,8 @@ def make_cached_llm(log_directory: str, replay: bool, profile: str) -> LLMQuery:
         LLMRetry(
             Claude(
                 logging.getLogger("test"),
-                "anthropic.claude-3-sonnet-20240229-v1:0",
+                "anthropic.claude-3-5-sonnet-20240620-v1:0",
                 profile,
-                "us-west-2"
             )
         ),
         log_directory,
