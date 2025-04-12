@@ -359,6 +359,8 @@ def main():
                 .replace("float", "f32")
                 .replace("i32 []", "[i32;2]")
                 .replace("f32 []", "[f32;2]")
+                .replace("char", "u8")
+                .replace("char []", "[u8;2]")
                 .replace("double", "f32")
                 .replace("float", "f32")
                 .replace("long", "i32")
@@ -394,9 +396,9 @@ def main():
             string_ending_bracket = ""
             for i, arg_type in enumerate(args_types):
                 if "[]" in arg_type:
-                    arg_string += f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
+                    arg_string += f"[unsafe{{PARAM{i+1}}}[0].into(), unsafe{{PARAM{i+1}}}[1].into()],"
                     kani_arg_string += (
-                        f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
+                        f"[unsafe{{PARAM{i+1}}}[0].into(), unsafe{{PARAM{i+1}}}[1].into()],"
                     )
                     bolero_argstring += f"PARAM_{i+1},"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
