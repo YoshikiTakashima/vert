@@ -1,2 +1,4 @@
 benchmark/target/*
 __pycache__/*
+benchmark/**/**/out-rwasm-bolero/**
+
