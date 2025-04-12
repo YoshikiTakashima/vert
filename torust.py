@@ -87,7 +87,7 @@ def claude(
     file_path = f"{rust_dir}/src/translation.rs"
     system = "You are an expert programmer who helps rewrite code to Rust."
     lang = file_ext[1:].upper()
-    prompt=f"""
+    prompt = f"""
 <source-code>
 {source_code}
 </source-code>
@@ -181,9 +181,10 @@ Before writing the translation do the following:
         compiles,
     )
 
+
 def dump_result(result_file, result):
     with open(result_file, "w") as fd:
-        fd.write(json.dumps(result, indent='\t'))
+        fd.write(json.dumps(result, indent="\t"))
 
 
 def main():
@@ -194,16 +195,13 @@ def main():
         choices=["c", "cpp", "go"],
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
+    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
     ap.add_argument(
-        "--benchmark-dir",
-        required=True,
-        help="Path to benchmark"
-    )
-    ap.add_argument(
-    "--aws-profile",
+        "--aws-profile",
         default="dummyprofile",
-        help="AWS profile to use for credentials"
+        help="AWS profile to use for credentials",
     )
+
     args = ap.parse_args()
     language = args.language
     # home_dir = os.getcwd()
@@ -215,18 +213,13 @@ def main():
     use_claude = 1  # Generate LLM transpilation
     bolero = 1  # Bolero verification
     bounded_kani = 1  # Bounded Kani verification
-    full_kani = 1  # Full Kani verification
     number_tries = 20  # Number of tries for LLM
-    testing_on_one = False
-    test_project = "REPLACE_CHARACTER_C1_C2_C2_C1_STRING_S"
     ####################################################################################################
 
-    valid_project_count = 0
     subdir = args.benchmark_dir
     package_name = subdir.split("/")[-1]
     file = package_name + "." + language
-    # for subdir, dirs, files in os.walk(f"{file_dir}/"):
-    #     for file in files:
+
     file_path = os.path.join(subdir, file)
 
     rust_compiles = True
@@ -237,7 +230,10 @@ def main():
     wasm_kani_main = f"{args.benchmark_dir}/out-rwasm-mutated/src/main.rs"
 
     result = {
-        "project": package_name, "compile": False, "bolero": False, "bounded_kani": False, "full_kani": False
+        "project": package_name,
+        "compile": False,
+        "bolero": False,
+        "bounded_kani": False,
     }
     result_file = f"{args.benchmark_dir}/result.json"
     if os.path.exists(result_file):
@@ -356,16 +352,16 @@ def main():
         string_ending_bracket = ""
         for i, arg_type in enumerate(args_types):
             if "[]" in arg_type:
-                arg_string += (
-                    f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
-                )
+                arg_string += f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
                 kani_arg_string += (
                     f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
                 )
                 bolero_argstring += f"PARAM_{i+1},"
                 bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
             elif "string" in arg_type:
-                string_bolero_harness = f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
+                string_bolero_harness = (
+                    f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
+                )
                 string_ending_bracket = "}"
                 arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                 bolero_argstring += f"PARAM_{i+1},"
@@ -399,9 +395,7 @@ def main():
         kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
         kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
         kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
-        final_kani_harness = (
-            "\n" + kani_declare + kani_func_decl + kani_func_body
-        )
+        final_kani_harness = "\n" + kani_declare + kani_func_decl + kani_func_body
         #######################################
         bolero_output = wasm_function + compiled_rust + final_bolero_harness
         kani_output = wasm_function + compiled_rust + final_kani_harness
@@ -431,9 +425,13 @@ def main():
     ###################################### BOLERO ############################################
     if bolero and rust_compiles:
         print("Running bolero")
-        command = f"RUSTFLAGS=\"-C overflow-checks=false\" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq"
+        command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq'
         verification_output, timeout = verification_utils.verify(
-            wasm_bolero_path, command, f"{subdir}/bolero_out.txt", f"{subdir}/bolero_err.txt", 500
+            wasm_bolero_path,
+            command,
+            f"{subdir}/bolero_out.txt",
+            f"{subdir}/bolero_err.txt",
+            500,
         )
         if not timeout:
             err_message = verification_output.stderr
@@ -458,9 +456,6 @@ def main():
         else:
             raise Exception("Command timeout")
 
-        if not testing_on_one:
-            shutil.rmtree(bolero_target_path)
-
     dump_result(result_file, result)
     exit(0)
     ##########################################################################################
@@ -469,7 +464,11 @@ def main():
         print("Running Kani")
         command = "cargo kani --no-unwinding-checks --default-unwind 10"
         verification_output, timeout = verification_utils.verify(
-            wasm_kani_path, command,  f"{subdir}/kani_out.txt", f"{subdir}/kani_err.txt", all_timeout
+            wasm_kani_path,
+            command,
+            f"{subdir}/kani_out.txt",
+            f"{subdir}/kani_err.txt",
+            all_timeout,
         )
         if not timeout:
             err_message = verification_output.stderr

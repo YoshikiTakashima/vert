@@ -1,0 +1,5 @@
+pythonds
+anthropic
+boto3
+dacite
+tenacity
