@@ -1,10 +1,12 @@
 # 1. Setup
 
-## Install Rust 
+## Install Rust and Clang
 ```
 apt update
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
+apt install clang
+export PATH=/usr/local/clang/bin:$PATH
 ```
 
 ## Verification tools
@@ -13,6 +15,12 @@ cargo install -f cargo-bolero
 cargo install --locked kani-verifier
 cargo kani setup
 ```
+
+## Python requirements
+```
+pip install -r requirements.txt
+```
+
 
 # 2. Run tool with helper script
 ```
@@ -42,5 +50,6 @@ cargo kani
 Note this takes a significant amount of time. For C the entire run takes about 15 hours.
 ```
 python3 torust benchmark_language
-# e.g., python3 torust cpp
+# e.g., 
+python3 torust.py --aws-profile default --language c --llm-attempts 5 --benchmark-dir benchmark/c_transcoder/BIRTHDAY_PARADOX
 ```

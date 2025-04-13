@@ -1,0 +1,6 @@
+{
+	"project": "BIRTHDAY_PARADOX",
+	"compile": true,
+	"bolero": true,
+	"bounded_kani": false
+}
