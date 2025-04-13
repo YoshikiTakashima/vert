@@ -103,6 +103,9 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
         sp.stream_thread = threading.Thread(target=sp.stream_output)
         sp.stream_thread.start()
 
+        compilation_failed = False
+        bolero_failed = False
+        
         # Process output queue
         while True:
             item = sp.output_queue.get()
@@ -112,6 +115,10 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
             stream_type, content = item
             timestamp = datetime.now().strftime('%H:%M:%S')
             
+            # Check for failure conditions in the output
+            if "Failed to" in content or "bolero failed" in content:
+                bolero_failed = True
+            
             if stream_type == 'stdout':
                 console.print(f"[dim]{timestamp}[/dim] [green]{content}[/green]")
             else:
@@ -120,9 +127,17 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
         sp.stream_thread.join()
         return_code = sp.process.poll()
 
-        # Print completion status
-        status_color = "green" if return_code == 0 else "red"
-        status_text = "SUCCESS" if return_code == 0 else "FAILED"
+        # Determine status based on both return code and output content
+        if return_code == 0 and not bolero_failed:
+            status_color = "green"
+            status_text = "SUCCESS"
+        elif return_code == 0 and bolero_failed:
+            status_color = "yellow"
+            status_text = "COMPILED BUT NOT PASSING BOLERO"
+        else:
+            status_color = "red"
+            status_text = "FAILED"
+
         console.print(Panel(
             f"[{status_color}]Benchmark {status_text}[/{status_color}]: [yellow]{benchmark}[/yellow]\n"
             f"[dim]Return code: {return_code}[/dim]",
@@ -132,7 +147,8 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
 
         return {
             'benchmark': benchmark,
-            'success': return_code == 0,
+            'success': return_code == 0 and not bolero_failed,
+            'bolero_failed': bolero_failed,
             'return_code': return_code
         }
 
@@ -150,6 +166,7 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
     completed = 0
     failed = []
     successful = []
+    bolero_failed_list = []
 
     console.print(Panel(
         f"[bold cyan]Starting parallel execution of {total} benchmarks with {max_workers} workers[/bold cyan]",
@@ -172,6 +189,8 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
                     result = future.result()
                     if result['success']:
                         successful.append(benchmark)
+                    elif result.get('bolero_failed', False):
+                        bolero_failed_list.append(benchmark)
                     else:
                         failed.append((benchmark, result.get('error', f"Return code: {result.get('return_code')}")))
                 except Exception as e:
@@ -196,6 +215,11 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
         ", ".join(successful)
     )
     table.add_row(
+        "Compiled but Failed Bolero",
+        str(len(bolero_failed_list)),
+        ", ".join(bolero_failed_list)
+    )
+    table.add_row(
         "Failed",
         str(len(failed)),
         "\n".join(f"{b}: {e}" for b, e in failed)
@@ -208,6 +232,7 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
         border_style="cyan",
         expand=False
     ))
+
 
 benchmarks = [
     'AREA_OF_A_HEXAGON',
