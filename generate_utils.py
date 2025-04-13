@@ -203,13 +203,12 @@ class VerificationUtils:
                 .replace("int", "i32")
                 .replace("double", "f32")
                 .replace("float", "f32")
-                .replace("string", "char")
+                .replace("string", "char []")
+                .replace('char', 'u8')
             )
             param_insertion = "12"
             rwasm_arg_declaration += "static mut FETCH: bool = false;\n"
-            if "char" in arg_type:
-                param_insertion = "'a'"
-            elif "f32" in arg_type:
+            if "f32" in arg_type:
                 param_insertion = "12.0"
             if "[]" in arg_type:
                 rwasm_arg_declaration += f"static mut PARAM{i+1}: [{arg_type.replace('[]', '')}; 2] = [{param_insertion},{param_insertion}];\n"
@@ -268,11 +267,11 @@ class VerificationUtils:
                 for i, arg_type in enumerate(args_types):
                     i += 1
                     if "[]" in arg_type:
-                        unsafe_param = f"{{PARAM{i}}}[0]"
-                        unsafe_param_kani = f"PARAM{i}[0]"
-                    elif "char" in arg_type or "string" in arg_type:
-                        unsafe_param = f"{{PARAM{i} as i32}}"
-                        unsafe_param_kani = f"PARAM{i} as i32"
+                        # handled in m.memory[...
+                        continue
+                    elif "char" == arg_type:
+                        unsafe_param = f"{{PARAM{i} as u8}}"
+                        unsafe_param_kani = f"PARAM{i} as u8"
                     else:
                         unsafe_param = f"{{PARAM{i}}}"
                         unsafe_param_kani = f"PARAM{i}"
@@ -309,6 +308,27 @@ class VerificationUtils:
                 )
         kani_rust = rwasm_arg_declaration + kani_entry
         bolero_rust = rwasm_arg_declaration + bolero_entry
+
+        pattern = r'm\.memory\[(\d+\.\.\d+)]\.copy_from_slice\(&\[(.*)\]\);'
+        def substitute_arrays(original_code):
+            lines = []
+            args = [(i, e) for i, e in enumerate(args_types) if "[]" in e]
+            for line in original_code.split("\n"):
+                pmatch = re.search(pattern, line)
+                if pmatch != None and len(args) > 0:
+                    range_part = pmatch.group(1)
+                    arg = args.pop(0)
+                    param_string = f"PARAM{arg[0] + 1}"
+                    line = (
+                        f"m.memory[{range_part}]"
+                        + f".copy_from_slice(& [unsafe{{ {param_string} }}[0].to_le_bytes(), unsafe{{ {param_string} }}[1].to_le_bytes()].concat());"
+                    )
+                lines += [line]
+            return "\n".join(lines)
+
+        kani_rust = substitute_arrays(kani_rust)
+        bolero_rust = substitute_arrays(bolero_rust)
+
 
         with open(mutated_rust_path, "w") as file:
             file.write(kani_rust)
