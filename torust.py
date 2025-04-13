@@ -107,6 +107,7 @@ You are given the following rules, which should be _strictly_ followed:
 Before writing the translation do the following:
 - copy the function signature of f_gold in the <source-code> tags
 - state the number of input arguments to f_gold
+- If the output of the original program is bool, return 0 or 1 int (-> i32) output.
 - state how you will map the input and return types in f_gold to Rust
 - state the Rust signature of the translated f_gold
 </instructions>
@@ -186,17 +187,21 @@ def dump_result(result_file, result):
     with open(result_file, "w") as fd:
         fd.write(json.dumps(result, indent="\t"))
 
-def extract_param_bounds(code_string):
+def extract_param_bounds(code_string, arg_types):
     # Find the line with param0 declaration and determine type
     param_type = None
-    param_values = None
     for line in code_string.split('\n'):
         if 'param0[]' in line:
             # Determine the type from the declaration
-            if 'double param0[]' in line:
+            if 'double param0[]' in line :
                 param_type = float
-            elif 'int param0[]' in line:
+            elif 'int param0[]' in line or 'long param0[]' in line:
                 param_type = int
+            elif 'char param0[]' in line :
+                param_type = str
+                return param_type.__name__, None, None
+            else:
+                return None
             # Extract the values between curly braces
             values_str = line[line.find('{')+1:line.find('}')]
             # Convert string of values to list of appropriate type
@@ -205,14 +210,18 @@ def extract_param_bounds(code_string):
             sorted_values = sorted(values)
             n = len(sorted_values)
             q1_pos = n // 10
-            q3_pos = n - (n // 10)
+            q3_pos = n - (n // 5)
             middle_values = sorted_values[q1_pos:q3_pos]
             min_val = min(abs(x) for x in middle_values)
             max_val = max(middle_values)
-            
+
             if param_type == float:
-                min_val = round(min_val, 3)
-                max_val = round(max_val, 3)
+                if 'int' in arg_types:
+                    min_val = int(min_val)
+                    max_val = int(max_val)
+                else:
+                    min_val = round(min_val, 3)
+                    max_val = round(max_val, 3)
             if param_type == int:
                 min_val = int(min_val)
                 max_val = int(max_val)
@@ -330,8 +339,7 @@ def main():
         file_ext, args.benchmark_dir, file_name, f_filled, args_types
     )
     
-
-    constraints = extract_param_bounds(original)
+    constraints = extract_param_bounds(original, args_types)
     if constraints:
         type_name, min_bound, max_bound = constraints
     
@@ -407,8 +415,8 @@ def main():
                 .replace("float", "f32")
                 .replace("i32 []", "[i32;2]")
                 .replace("f32 []", "[f32;2]")
-                .replace("char", "u8")
                 .replace("char []", "[u8;2]")
+                .replace("char", "u8")
                 .replace("double", "f32")
                 .replace("float", "f32")
                 .replace("long", "i32")
@@ -434,8 +442,6 @@ def main():
 
             wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
             wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
-            rwasm_arg_declaration = ""
-            rwasm_harness_args = ""
             arg_string = ""
             bolero_argstring = ""
             bolero_arg_unsafe = "unsafe {\n"
@@ -444,12 +450,19 @@ def main():
             string_ending_bracket = ""
             for i, arg_type in enumerate(args_types):
                 if "[]" in arg_type:
+
                     arg_string += f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
                     kani_arg_string += (
                         f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
                     )
                     bolero_argstring += f"PARAM_{i+1},"
-                    
+                    if constraints and type(type_name) == str:
+                        if "to_digit(10)" in compiled_rust:
+                            bolero_arg_unsafe += f"\t\tif !((PARAM_{i+1}[0] as char).is_digit(10) && PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
+                        else:
+                            bolero_arg_unsafe += f"\t\tif !(PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
+
+                            
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
                 elif "string" in arg_type:
                     string_bolero_harness = (
@@ -482,7 +495,12 @@ def main():
             bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
             )
-            bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
+            ## Convert to string if char [] type
+            if constraints and type_name == str:
+                bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet input_str = String::from_utf8_lossy(unsafe {{ &PARAM1 }}).into_owned();\n\t\tlet result = {fn_name}(&input_str);\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
+            ###
+            else:
+                bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
             final_bolero_harness = (
                 "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body + "\n////// bolero harness //////\n"
             )

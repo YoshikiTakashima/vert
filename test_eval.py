@@ -4,15 +4,11 @@ from typing import List
 import sys
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from tqdm import tqdm
 import threading
 from queue import Queue
-import time
 from rich.console import Console
 from rich.panel import Panel
-from rich.live import Live
 from rich.table import Table
-from rich import print as rprint
 from rich.progress import (
     Progress,
     TextColumn,
@@ -163,7 +159,6 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
 def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) -> None:
     """Run benchmarks in parallel with progress bar."""
     total = len(benchmark_names)
-    completed = 0
     failed = []
     successful = []
     bolero_failed_list = []
@@ -259,7 +254,7 @@ benchmarks = [
 
 if __name__ == "__main__":
     try:
-        run_benchmarks_parallel(benchmarks, max_workers=3)
+        run_benchmarks_parallel(benchmarks, max_workers=5)
     except KeyboardInterrupt:
         console.print("\n[red]Script terminated by user[/red]")
         sys.exit(1)
