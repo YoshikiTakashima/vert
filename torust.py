@@ -439,9 +439,9 @@ def main():
             string_ending_bracket = ""
             for i, arg_type in enumerate(args_types):
                 if "[]" in arg_type:
-                    arg_string += f"[unsafe{{PARAM{i+1}}}[0].into(), unsafe{{PARAM{i+1}}}[1].into()],"
+                    arg_string += f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
                     kani_arg_string += (
-                        f"[unsafe{{PARAM{i+1}}}[0].into(), unsafe{{PARAM{i+1}}}[1].into()],"
+                        f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
                     )
                     bolero_argstring += f"PARAM_{i+1},"
                     
