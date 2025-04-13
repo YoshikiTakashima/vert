@@ -374,6 +374,7 @@ def main():
 
 
     if use_claude:
+        llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
         llm_attempts = 1
         max_llm_attempts = int(args.llm_attempts)
         bolero_success = False
@@ -387,7 +388,6 @@ def main():
             clean_main_rs(wasm_bolero_main)
             clean_main_rs(wasm_kani_main)
             generate_utils.build_rust_folder(rust_dir, leetcode_name)
-            llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
             compiled_rust, rust_compiles = claude(
                 llm,
                 source_output,
