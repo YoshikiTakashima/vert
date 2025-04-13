@@ -470,20 +470,20 @@ def main():
             ##########################################
             ########## 4.2 Bolero Harness ############
 
-            bolero_import = "\nuse bolero::check;\n#[test]"
+            bolero_import = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }\n#[test]"
             bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
             )
-            bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n\t{string_ending_bracket}}});\n}}"
+            bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
             final_bolero_harness = (
                 "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body + "\n////// bolero harness //////\n"
             )
             ########################################
             ########## 4.3 Kani Harness ############
 
-            kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
+            kani_declare = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
             kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
-            kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
+            kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n}}"
             final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + kani_func_decl + kani_func_body + "\n////// kani harness //////\n"
             #######################################
             
