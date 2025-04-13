@@ -43,5 +43,5 @@ Note this takes a significant amount of time. For C the entire run takes about 1
 ```
 python3 torust benchmark_language
 # e.g., 
-python3 torust.py --aws-profile default --language c --benchmark-dir benchmark/c_transcoder/BIRTHDAY_PARADOX
+python3 torust.py --aws-profile default --language c --llm-attempts 5 --benchmark-dir benchmark/c_transcoder/BIRTHDAY_PARADOX
 ```

@@ -206,6 +206,7 @@ class VerificationUtils:
                 .replace("string", "char")
             )
             param_insertion = "12"
+            rwasm_arg_declaration += "static mut FETCH: bool = false;\n"
             if "char" in arg_type:
                 param_insertion = "'a'"
             elif "f32" in arg_type:

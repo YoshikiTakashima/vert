@@ -186,6 +186,34 @@ def dump_result(result_file, result):
     with open(result_file, "w") as fd:
         fd.write(json.dumps(result, indent="\t"))
 
+def extract_param_bounds(code_string):
+    # Find the line with param0 declaration and determine type
+    param_type = None
+    param_values = None
+    for line in code_string.split('\n'):
+        if 'param0[]' in line:
+            # Determine the type from the declaration
+            if 'double param0[]' in line:
+                param_type = float
+            elif 'int param0[]' in line:
+                param_type = int
+            # Extract the values between curly braces
+            values_str = line[line.find('{')+1:line.find('}')]
+            # Convert string of values to list of appropriate type
+            values = [param_type(x.strip()) for x in values_str.split(',')]
+            # Sort the values
+            sorted_values = sorted(values)
+            n = len(sorted_values)
+            q1_pos = n // 10
+            q3_pos = n - (n // 10)
+            middle_values = sorted_values[q1_pos:q3_pos]
+            min_abs = min(abs(x) for x in middle_values)
+            max_val = max(middle_values)
+            if param_type == float:
+                min_abs = round(min_abs, 3)
+                max_val = round(max_val, 3)
+            return param_type.__name__, min_abs, max_val
+    return None  # Return None if param0[] is not found
 
 def clean_main_rs(wasm_path: str):
     """Remove previous LLM output from main.rs file"""
@@ -228,6 +256,12 @@ def main():
         default="dummyprofile",
         help="AWS profile to use for credentials",
     )
+    ap.add_argument(
+        "--llm-attempts",
+        default=3,
+        help="Number of LLM attempts when when pbt or verification fails first try"
+    )
+    
 
     args = ap.parse_args()
     language = args.language
@@ -288,6 +322,13 @@ def main():
     source_output, original = generate_utils.c_code_process(
         file_ext, args.benchmark_dir, file_name, f_filled, args_types
     )
+    
+
+    constraints = extract_param_bounds(original)
+    if constraints:
+        type_name, min_bound, max_bound = constraints
+    
+    
 
     ###################################### 2. set up wasm file #########################################
     cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}")
@@ -318,18 +359,18 @@ def main():
 
 
     if use_claude:
-        llm_attempts = 0
-        max_llm_attempts = 3  # Maximum number of times to try LLM generation
+        llm_attempts = 1
+        max_llm_attempts = int(args.llm_attempts)
         bolero_success = False
 
-        while not bolero_success and llm_attempts < max_llm_attempts:
-            llm_attempts += 1
+        while not bolero_success and llm_attempts <= max_llm_attempts:
+            
             print(f"\nLLM+Bolero attempt #{llm_attempts}")
+            llm_attempts += 1
             
             # Clean up previous LLM output from both main.rs files
             clean_main_rs(wasm_bolero_main)
             clean_main_rs(wasm_kani_main)
-
             generate_utils.build_rust_folder(rust_dir, leetcode_name)
             llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
             compiled_rust, rust_compiles = claude(
@@ -383,7 +424,7 @@ def main():
                 compiled_rust = compiled_rust.replace("-> u32", "-> i32")
 
             wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
-            wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
+            wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
             rwasm_arg_declaration = ""
             rwasm_harness_args = ""
             arg_string = ""
@@ -399,6 +440,7 @@ def main():
                         f"[unsafe{{PARAM{i+1}}}[0], unsafe{{PARAM{i+1}}}[1]],"
                     )
                     bolero_argstring += f"PARAM_{i+1},"
+                    
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
                 elif "string" in arg_type:
                     string_bolero_harness = (
@@ -407,6 +449,7 @@ def main():
                     string_ending_bracket = "}"
                     arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
+                    
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
                     kani_arg_string += f"PARAM_{i+1}[0],"
 
@@ -414,6 +457,8 @@ def main():
                     arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
+                    # Add min max constraints from prior test cases
+                    bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} && PARAM{i+1} <= {max_bound}) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
