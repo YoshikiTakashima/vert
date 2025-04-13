@@ -238,6 +238,8 @@ def clean_main_rs(wasm_path: str):
         start = content.find("////// wasm function //////")
         end = content.find("////// wasm function //////", start + 1) + len("////// wasm function //////")
         content = content[:start] + content[end:]
+    while "static mut FETCH: bool = false;\n" in content:
+        content = content.replace("static mut FETCH: bool = false;\n", "")
     
     with open(wasm_path, 'w') as file:
         file.write(content)
@@ -460,7 +462,8 @@ def main():
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
                     # Add min max constraints from prior test cases
-                    bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} && PARAM{i+1} <= {max_bound}) {{ return; }}\n"
+                    if constraints:
+                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} && PARAM{i+1} <= {max_bound}) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
