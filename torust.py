@@ -207,12 +207,17 @@ def extract_param_bounds(code_string):
             q1_pos = n // 10
             q3_pos = n - (n // 10)
             middle_values = sorted_values[q1_pos:q3_pos]
-            min_abs = min(abs(x) for x in middle_values)
+            min_val = min(abs(x) for x in middle_values)
             max_val = max(middle_values)
+            
             if param_type == float:
-                min_abs = round(min_abs, 3)
+                min_val = round(min_val, 3)
                 max_val = round(max_val, 3)
-            return param_type.__name__, min_abs, max_val
+            if param_type == int:
+                min_val = int(min_val)
+                max_val = int(max_val)
+
+            return param_type.__name__, min_val, max_val
     return None  # Return None if param0[] is not found
 
 def clean_main_rs(wasm_path: str):
