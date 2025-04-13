@@ -1,0 +1,73 @@
+# DISCLAIMER
+This artifact is not intended for producation use. We recommend using this artifact in a sandboxed environment, such as the provided docker container.
+By default, the aritfact can __not__ incur cost by quering a 3rd party LLM provider, however, if you configure the arifact with a LLM provider's API keys, you __will__ incur $ cost when running the artifact.
+
+# Contents
+This artifact contains the following:
+- instructions for reproducing our results (in this README)
+- a docker container with the runtime environment to run our code (vert.tar)
+- the artifacts used to create the docker container (Dockerfile, requirements.txt, and .aws/ folder)
+- the code used in our experiments (in the vert/ directory)
+- the benchmark C, C++, and Go code we translated (in the vert/benchmarks/ directory)
+- each benchmark directory contains the following:
+	- the input source program, which is a .c/.cpp/.go file named after the benchmark
+	- the logged LLM inputs and outputs in the prompt_log/ directory
+	- the translation produced by our tool in the file translation/src/translation.rs
+	- all other files are intermediate files produced during translation
+
+# Requirements
+The only requirements for running our artifact is Docker.
+It is also assumed you are using a unix environment.
+
+# Setup
+First, load the provided container with the command:
+
+docker load -i vert.tar
+
+Next, start up the docker container in an interactive shell.
+You will need to mount the contents of this artifact to the /mnt folder in the container.
+Run the following command from the some directory as this README.
+
+sudo docker run -it -v $( pwd ):/mnt vert:latest
+
+In the docker shell, navigate to the vert/ directory:
+
+cd /mnt/vert
+
+Next, test that translation is working by running the below command. The command below will run translation end-to-end, and will replay logged llm responses from the cache.
+
+python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS --replay-cache
+
+# Reproducing Our Results
+This artifact can replicate the Claude-2 section of Table 1 without the need for querying a real LLM. In addition, the artifact supports using Anthropic Claude LLMs hosted on Amazon Bedrock out of the box. Adding support for a other LLMs hosted locally or by other 3rd party LLM providers can be done by extending the LLMQuery base class in llm.py. The Claude implementation can be used as a reference.
+
+Reproducing the entire Claude-2 section in Table 1 takes 40+ hours when running each experiment sequentially, so we provide two reproducation scripts: run_small.sh and run_all.sh. The first reproduces the entire Claude-2 results, and second reproduces a subset of our benchmarks. You can run small script as shown below:
+
+bash run_small.sh
+
+This script will take 1-2 hours to complete and requires:
+- 1GB of free disk space
+- Ideally 4 CPU free cores
+- 8GB RAM
+
+Running this script should produce the following table:
+
+XXXXX
+XXXXX
+XXXXX
+
+While running experiments can be done in parallel, we do not recommend doing so unless you have substantial compute and free disk space. Compiled Rust binaries take a significant amount of space (100+ MB each), and translation produces multuple binaries. Running a single benchmark produces 500+ MB of compiled Rust binaries.
+
+# Documentation
+The main entry point for translation is the script torust.py. This script takes the following arguments:
+--langauge <c,cpp,go>: (required) 
+--benchmark-dir <benchmark/some/benchmark>: (required) The path to the directory containing the benchmark. See documentation below for the required contents of this directory.
+--replay-cache: (optional)
+--aws-profile <some-aws-profile>: (optional)
+
+## Benchmark Directory
+The benchmark directory expects a specific format for it's contents. Assuming you call torust.py as follows:
+
+python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS
+
+The torust.py scripts expects a single file benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS.c to exist.
