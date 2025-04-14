@@ -12,7 +12,6 @@ This artifact contains the following:
 	- the input source program, which is a .c/.cpp/.go file named after the benchmark
 	- the logged LLM inputs and outputs in the prompt_log/ directory
 	- the translation produced by our tool in the file translation/src/translation.rs
-	- all other files are intermediate files produced during translation
 
 # Requirements
 The only requirements for running our artifact is Docker.
@@ -38,9 +37,12 @@ Next, test that translation is working by running the below command. The command
 python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS --replay-cache
 
 # Reproducing Our Results
-This artifact can replicate the Claude-2 section of Table 1 without the need for querying a real LLM. In addition, the artifact supports using Anthropic Claude LLMs hosted on Amazon Bedrock out of the box. Adding support for a other LLMs hosted locally or by other 3rd party LLM providers can be done by extending the LLMQuery base class in llm.py. The Claude implementation can be used as a reference.
+This artifact can replicate the Claude-2 section of Table 1. It does not support the other LLMs (StarCoder, CodaLLaMA, and Transcoder-IR) reported in our paper out of the box. This is because these LLMs must be run locally and hence require significant compute resources. Typically, they require a hardware-specific implementation. However, our artifact can be extended to support these and orther LLMs with relative ease by extending the LLMQuery base class in llm.py. The Claude implementation can be used as a reference. The other LLMs can be found at the following links:
+- https://github.com/facebookresearch/CodeGen/blob/main/docs/TransCoder-IR.md
+- https://github.com/meta-llama/codellama
+- https://github.com/bigcode-project/starcoder
 
-Reproducing the entire Claude-2 section in Table 1 takes 40+ hours when running each experiment sequentially, so we provide two reproducation scripts: run_small.sh and run_all.sh. The first reproduces the entire Claude-2 results, and second reproduces a subset of our benchmarks. You can run small script as shown below:
+The Claude-2 results can be reproduced without querying a real LLM. This is accomplished by replaying the logged llm outputs included in this artifact. Reproducing the entire Claude-2 section in Table 1 takes 40+ hours when running each experiment sequentially, so we provide two reproducation scripts: run_small.sh and run_all.sh. The first reproduces the entire Claude-2 results, and second reproduces a subset of our benchmarks. You can run the small script as shown below:
 
 bash run_small.sh
 
