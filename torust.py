@@ -173,7 +173,6 @@ Before writing the translation do the following:
                 .replace("usize", "u32")
                 .replace("[i32;10]", "[i32;2]")
                 .replace("&[i32", "[i32")
-                .replace("&str", "[char;2]")
             )
     rust_output = "\n".join(rust_output_split)
 
@@ -410,7 +409,7 @@ def main():
             else:
                 result["compile"] = True
 
-            
+            compiled_rust_fn_line = [l for l in compiled_rust.split("\n") if " f_gold" in l][0]
             ################################################################################################
             ###################################### 4. Harness ##############################################
             ########## 4.1 RWasm Init ############
@@ -456,11 +455,14 @@ def main():
             string_ending_bracket = ""
             for i, arg_type in enumerate(args_types):
                 if "[]" in arg_type:
-
-                    arg_string += f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
-                    kani_arg_string += (
-                        f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
-                    )
+                    general_arg_string = f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
+                    if "&str" in compiled_rust_fn_line or "String" in compiled_rust_fn_line:
+                        general_arg_string = general_arg_string[:-1] + ".iter().collect::<String>()," 
+                        general_arg_string = general_arg_string.replace(" as _", " as char")
+                        if "&str" in compiled_rust_fn_line:
+                            general_arg_string = "&" + general_arg_string
+                    arg_string +=  general_arg_string
+                    kani_arg_string += general_arg_string
                     bolero_argstring += f"PARAM_{i+1},"
                     if constraints and type(type_name) == str:
                         if "to_digit(10)" in compiled_rust:
