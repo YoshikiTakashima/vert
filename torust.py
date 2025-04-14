@@ -474,13 +474,6 @@ def main():
                     arg_string +=  general_arg_string
                     kani_arg_string += general_arg_string
                     bolero_argstring += f"PARAM_{i+1},"
-                    if constraints and type(type_name) == str:
-                        if "to_digit(10)" in compiled_rust:
-                            bolero_arg_unsafe += f"\t\tif !((PARAM_{i+1}[0] as char).is_digit(10) && PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
-                        else:
-                            bolero_arg_unsafe += f"\t\tif !(PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
-
-                            
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
                 elif "string" in arg_type:
                     string_bolero_harness = (
@@ -497,14 +490,11 @@ def main():
                     arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
-                    # Add min max constraints from prior test cases
-                    if constraints and min_bound and max_bound:
-                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= ({min_bound} as _) && PARAM{i+1} <= ({max_bound} as _)) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
             kani_arg_string = "(" + kani_arg_string[:-1] + ")"
-            bolero_argstring = "(" + bolero_argstring[:-1] + ")"
+            bolero_argstring = "(" + bolero_argstring + ")"
             bolero_arg_unsafe += "\n\t\t}"
             ##########################################
             ########## 4.2 Bolero Harness ############
@@ -513,9 +503,20 @@ def main():
             
             # Bolero input generator
             if constraints and min_bound and max_bound:
-                generator = f"with_generator(({min_bound}..{max_bound}, {min_bound}..{max_bound}))"
+                inner_generator = ""
+                for i, arg_type in enumerate(args_types):
+                    subgen = f"{min_bound}..{max_bound}"
+                    if "[]" in arg_type:
+                        subgen = f"[{min_bound}..{max_bound}, {min_bound}..{max_bound}]"
+                        if  "&str" in compiled_rust_fn_line or "String" in compiled_rust_fn_line:
+                            subgen = "[('A' as u8)..('Z' as u8 + 1), ('A' as u8)..('Z' as u8 + 1)]"
+                            if "to_digit(10)" in compiled_rust:
+                                subgen = "[('0' as u8)..('9' as u8 + 1), ('0' as u8)..('9' as u8 + 1)]"
+                    inner_generator += subgen + ","
+                        
+                generator = f"with_generator(({inner_generator}))"
             else:
-                generator = f"with_type::<({rust_args_types})>()"
+                generator = f"with_type::<({rust_args_types},)>()"
                 
             bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().{generator}.cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
