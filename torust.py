@@ -173,6 +173,7 @@ Before writing the translation do the following:
                 .replace("usize", "u32")
                 .replace("[i32;10]", "[i32;2]")
                 .replace("&[i32", "[i32")
+                .replace("&str", "[char;2]")
             )
     rust_output = "\n".join(rust_output_split)
 
@@ -480,7 +481,7 @@ def main():
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
                     # Add min max constraints from prior test cases
-                    if constraints:
+                    if constraints and min_bound and max_bound:
                         bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} && PARAM{i+1} <= {max_bound}) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
