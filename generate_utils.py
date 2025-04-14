@@ -84,11 +84,12 @@ class VerificationUtils:
         mutated_list = []
 
         project_path = f"{file_dir}"
+        cpp = "++" if "iostream" in open(f"{project_path}/{filename}", "r").read() else ""
 
         filename = filename.replace(file_ext, ".c")
         file_ext = ".c"
         c_to_wasi = subprocess.run(
-            f"{wasi_path}/bin/clang -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
+            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
             shell=True,
             capture_output=True,
             text=True,
@@ -108,7 +109,7 @@ class VerificationUtils:
             raise Exception("Compile failure: " + wasi_to_rust.stderr)
 
         c_to_wasi = subprocess.run(
-            f"{wasi_path}/bin/clang -fno-exceptions --sysroot {wasi_path}/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
+            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot {wasi_path}/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
             shell=True,
             capture_output=True,
             text=True,
@@ -229,8 +230,11 @@ class VerificationUtils:
             diff_path = file_path.replace(".cpp", "_diff.txt")
         else:
             diff_path = file_path.replace(file_ext, "_diff.txt")
-        with open(diff_path, "w") as file:
-            file.write(diff)
+        try:
+            with open(diff_path, "w") as file:
+                file.write(diff)
+        except:
+            pass
 
         func_lines = []
         for line_idx, line in enumerate(mutated_rust):
@@ -707,8 +711,13 @@ class GenerateUtils:
 
     def c_code_process(self, file_ext, file_dir, file_name, f_filled, args_types):
         c_filepath = f"benchmark/c_transcoder/{file_name}/{file_name}.c"
-        with open(c_filepath, "r") as file:
-            c_output = file.read()
+        try:
+            with open(c_filepath, "r") as file:
+                c_output = file.read()
+        except:
+            c_filepath = f"benchmark/cpp_transcoder/{file_name}/{file_name}.cpp"
+            with open(c_filepath, "r") as file:
+                c_output = file.read()
         
         original_filepath = f"{file_dir}/{file_name}{file_ext}"
         with open(original_filepath, "r") as file:

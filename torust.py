@@ -333,9 +333,13 @@ def main():
         c_ext = file_ext
         c_benchmark_dir = args.benchmark_dir
     c_filepath = f"benchmark/c_transcoder/{file_name}/{file_name}.c"
-    with open(c_filepath, "r") as cfile:
-        c_output = cfile.read()
-
+    try:
+        with open(c_filepath, "r") as cfile:
+            c_output = cfile.read()
+    except:
+        c_filepath = f"benchmark/cpp_transcoder/{file_name}/{file_name}.cpp"
+        with open(c_filepath, "r") as cfile:
+            c_output = cfile.read()
     ###################################### 1. function identifiers ####################################
     (
         fn_name,
@@ -495,7 +499,7 @@ def main():
                     bolero_argstring += f"PARAM_{i+1},"
                     # Add min max constraints from prior test cases
                     if constraints and min_bound and max_bound:
-                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} && PARAM{i+1} <= {max_bound}) {{ return; }}\n"
+                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} as_ && PARAM{i+1} <= {max_bound} as _) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
