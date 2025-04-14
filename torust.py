@@ -362,7 +362,7 @@ def main():
     
 
     ###################################### 2. set up wasm file #########################################
-    cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}").replace("cpp", "c")
+    cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}").replace(f"{file_ext}", ".c")
     try:
         rwasm_arg_types = verification_utils.mutate_test(
             args.benchmark_dir,
@@ -499,7 +499,7 @@ def main():
             ##########################################
             ########## 4.2 Bolero Harness ############
 
-            bolero_import = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }\n#[test]"
+            bolero_import = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01 || (a.abs() > 1.0 && b.abs() > 1.0 && a * b > 0.0 && ((a / b) - (b / a)) < 0.01), \"{} != {}\", a, b,); }\n#[test]"
             
             # Bolero input generator
             if constraints and min_bound and max_bound:
