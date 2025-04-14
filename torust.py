@@ -268,7 +268,7 @@ def main():
         default="c",
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
-    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/CHECK_GIVEN_STRING_ROTATION_PALINDROME", help="Path to benchmark")
+    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/ADD_1_TO_A_GIVEN_NUMBER", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
         default="default",
@@ -510,7 +510,14 @@ def main():
             ########## 4.2 Bolero Harness ############
 
             bolero_import = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }\n#[test]"
-            bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().with_type::<({rust_args_types})>().cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
+            
+            # Bolero input generator
+            if constraints and min_bound and max_bound:
+                generator = f"with_generator(({min_bound}..{max_bound}, {min_bound}..{max_bound}))"
+            else:
+                generator = f"with_type::<({rust_args_types})>()"
+                
+            bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().{generator}.cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
             )
             ## Convert to string if char [] type
