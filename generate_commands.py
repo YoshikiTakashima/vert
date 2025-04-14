@@ -7,7 +7,9 @@ profiles = [
     "bpeast",
     "bpwest",
     "ayeast",
-    "aywest"
+    "aywest",
+    "huieast",
+    "huiwest"
 ]
 
 def get_profile():
@@ -24,7 +26,7 @@ def main():
 
 
     for bdir in os.listdir(benchmark_dir):
-        cmd = (f"python3 torust.py --language {lang} --benchmark-dir {benchmark_dir}/{bdir} --aws-profile {get_profile()} "
+        cmd = (f"python3 torust.py --language {lang} --benchmark-dir {benchmark_dir}/{bdir} --aws-profile {get_profile()} --llm-attempts 1 "
                f"&> {benchmark_dir}/{bdir}/log.txt")
         print(cmd)
 
