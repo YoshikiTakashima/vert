@@ -499,7 +499,7 @@ def main():
                     bolero_argstring += f"PARAM_{i+1},"
                     # Add min max constraints from prior test cases
                     if constraints and min_bound and max_bound:
-                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= {min_bound} as_ && PARAM{i+1} <= {max_bound} as _) {{ return; }}\n"
+                        bolero_arg_unsafe += f"\t\tif !(PARAM{i+1} >= ({min_bound} as _) && PARAM{i+1} <= ({max_bound} as _)) {{ return; }}\n"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
