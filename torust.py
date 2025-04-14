@@ -296,7 +296,7 @@ def main():
     use_claude = 1  # Generate LLM transpilation
     bolero = 1  # Bolero verification
     bounded_kani = 1  # Bounded Kani verification
-    number_tries = 20  # Number of tries for LLM
+    number_tries = 5  # Number of tries for LLM
     ####################################################################################################
 
     subdir = args.benchmark_dir
@@ -386,7 +386,7 @@ def main():
 
     if use_claude:
         llm = make_cached_llm(f"{subdir}/prompt_log", args.replay_cache, args.aws_profile)
-        llm_attempts = 1
+        llm_attempts = 0
         max_llm_attempts = int(args.llm_attempts)
         bolero_success = False
 
