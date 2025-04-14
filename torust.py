@@ -274,6 +274,11 @@ def main():
         help="AWS profile to use for credentials",
     )
     ap.add_argument(
+        "--replay-cache",
+        action="store_true",
+        help="Replay cached llm responses. Assumes a directory prompt_log/ exists under the specified --benchmark-dir"
+    )
+    ap.add_argument(
         "--llm-attempts",
         default=3,
         help="Number of LLM attempts when when pbt or verification fails first try"
@@ -375,7 +380,7 @@ def main():
 
 
     if use_claude:
-        llm = make_cached_llm(f"{subdir}/prompt_log", False, args.aws_profile)
+        llm = make_cached_llm(f"{subdir}/prompt_log", args.replay_cache, args.aws_profile)
         llm_attempts = 1
         max_llm_attempts = int(args.llm_attempts)
         bolero_success = False
