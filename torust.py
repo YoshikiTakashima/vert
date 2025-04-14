@@ -456,7 +456,7 @@ def main():
                 compiled_rust = compiled_rust.replace("-> u32", "-> i32")
 
             wasm_fn_name = f"{fn_name}_wasm_thread_unsafe"
-            wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
+            wasm_function = f"\n////// wasm function //////\nfn {wasm_fn_name}() -> {rust_fn_out_type} {{\n\tlet mut wasm_module = WasmModule::new();\n\twasm_module._start().unwrap();\n\tunsafe {{ RESULT }}\n}}\n////// wasm function //////\n\n"
             arg_string = ""
             bolero_argstring = ""
             bolero_arg_unsafe = "unsafe {\n"
@@ -521,12 +521,28 @@ def main():
             bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().{generator}.cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
             )
+            if "f32" in rust_fn_out_type or "f64" in rust_fn_out_type:
+                assert_stmt = f"\t\tassert_eq(result as f64, result_prime as f64);\n"
+            else:
+                assert_stmt = f"\t\tassert!(result == result_prime);\n"
+
             ## Convert to string if char [] type
             if constraints and type_name == str:
-                bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet input_str = String::from_utf8_lossy(unsafe {{ &PARAM1 }}).into_owned();\n\t\tlet result = {fn_name}(&input_str);\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
+                bolero_func_body = (f"\t\t{bolero_arg_unsafe}\n"
+                                    f"\t\tlet input_str = String::from_utf8_lossy(unsafe {{ &PARAM1 }}).into_owned();\n"
+                                    f"\t\tlet result = {fn_name}(&input_str);\n\t\tlet result_prime = {wasm_fn_name}();\n"
+                                    f"{assert_stmt}"
+                                    f"\t{string_ending_bracket}}});"
+                                    f"\n}}")
             ###
             else:
-                bolero_func_body = f"\t\t{bolero_arg_unsafe}\n\t\tlet result = {fn_name}{arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n\t{string_ending_bracket}}});\n}}"
+                bolero_func_body = (f"\t\t{bolero_arg_unsafe}\n"
+                                    f"\t\tlet result = {fn_name}{arg_string};\n"
+                                    f"\t\tlet result_prime = {wasm_fn_name}();\n"
+                                    f"{assert_stmt}"
+                                    f"\t{string_ending_bracket}}});\n"
+                                    f"}}")
+            ## Convert to string if char [] type
             final_bolero_harness = (
                 "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body + "\n////// bolero harness //////\n"
             )
