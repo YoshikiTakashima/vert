@@ -74,10 +74,7 @@ class VerificationUtils:
         file_ext,
         fn_out_type,
     ):
-        if "cpp" in file_ext:
-            cpp = "++"
-        else:
-            cpp = ""
+
         filename = file_path.split("/")[-1]
         if isinstance(args_types, str):
             args_types = args_types.split(", ")
@@ -88,11 +85,10 @@ class VerificationUtils:
 
         project_path = f"{file_dir}"
 
-        if ".go" in filename:
-            filename = filename.replace(".go", ".c")
-            file_ext = ".c"
+        filename = filename.replace(file_ext, ".c")
+        file_ext = ".c"
         c_to_wasi = subprocess.run(
-            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
+            f"{wasi_path}/bin/clang -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
             shell=True,
             capture_output=True,
             text=True,
@@ -112,7 +108,7 @@ class VerificationUtils:
             raise Exception("Compile failure: " + wasi_to_rust.stderr)
 
         c_to_wasi = subprocess.run(
-            f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot {wasi_path}/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
+            f"{wasi_path}/bin/clang -fno-exceptions --sysroot {wasi_path}/share/wasi-sysroot -o main.wasm {filename.replace(file_ext, f'_mutated{file_ext}')}",
             shell=True,
             capture_output=True,
             text=True,
@@ -151,12 +147,6 @@ class VerificationUtils:
         original_rust_path = project_path + "/out-rwasm-original/src/main.rs"
         mutated_rust_path = project_path + "/out-rwasm-mutated/src/main.rs"
         bolero_rust_path = project_path + "/out-rwasm-bolero/src/main.rs"
-        # bolero_cargo = project_path + "/out-rwasm-bolero/Cargo.toml"
-        # with open(bolero_cargo, "r") as file:
-        #     content = file.read()
-        # if '\n[dev-dependencies]\nbolero = "0.10.0"' not in content:
-        #     with open(bolero_cargo, "a") as file:
-        #         file.write('\n[dev-dependencies]\nbolero = "0.10.0"')
 
         with open(original_rust_path, "r") as file:
             original_rust = file.readlines()
@@ -235,7 +225,10 @@ class VerificationUtils:
         )
 
         diff = "\n".join(diff_list)
-        diff_path = file_path.replace(file_ext, "_diff.txt")
+        if ".cpp" in file_path:
+            diff_path = file_path.replace(".cpp", "_diff.txt")
+        else:
+            diff_path = file_path.replace(file_ext, "_diff.txt")
         with open(diff_path, "w") as file:
             file.write(diff)
 
@@ -335,6 +328,20 @@ class VerificationUtils:
         with open(bolero_rust_path, "w") as file:
             file.write(bolero_rust)
         subprocess.run(f"chmod -R a+rw {project_path}", shell=True)
+        
+        path_wasm = os.path.join(file_dir, filename)
+        path_mutated = os.path.join(file_dir, filename.replace(file_ext, f'_mutated{file_ext}'))
+        if os.path.exists(path_wasm):
+            os.remove(path_wasm)
+        if os.path.exists(path_mutated):    
+            os.remove(path_mutated)
+        path_wasm = path_wasm.replace(".c", ".cpp")
+        path_mutated = path_mutated.replace(".c", ".cpp")
+        if os.path.exists(path_wasm):
+            os.remove(path_wasm)
+        if os.path.exists(path_mutated):    
+            os.remove(path_mutated)
+        
         return rwasm_arg_types
 
 
@@ -665,18 +672,47 @@ class GenerateUtils:
         str_args_names = ", ".join(fn_args_names)
         return fn_name, fn_args_types, str_args_names, return_type, fn_line
 
-    def c_code_process(self, file_ext, file_dir, file_name, f_filled, args_types):
 
-        if ".go" in file_ext:
-            file_ext = ".c"
-            
-        if "go_transcoder" in file_dir:
-            c_file_dir = file_dir.replace("go_transcoder", "c_transcoder")
-        else:
-            c_file_dir = file_dir
-        c_filepath = f"{c_file_dir}/{file_name}{file_ext}"
+    def code_cleanup(self, source_output):
+        original = source_output
+        target_lines = []
+        is_block_comment = False
+        main_line = 9999
+        for i, line in enumerate(source_output.split("\n")):
+            if "#include" in line or "# include" in line:
+                target_lines.append(line)
+                continue
+            is_comment, is_block_comment = self.check_comment(
+                line.strip(), is_block_comment
+            )
+            if "f_filled" in line:
+                continue
+            if " main(" in line:
+                main_line = i
+                continue
+            if not is_comment and not is_block_comment and i < main_line:
+                target_lines.append(line)
+
+        source_output = "\n".join(target_lines)
+        source_output = (
+            source_output.replace("bool f_gold", "int f_gold")
+            .replace("true", "1")
+            .replace("false", "0")
+            .replace("long int", "int")
+            .replace("long int f_gold", "int f_gold")
+            .replace("double f_gold", "float f_gold")
+            .replace("string &", "string")
+        )
+        return original, source_output
+
+    def c_code_process(self, file_ext, file_dir, file_name, f_filled, args_types):
+        c_filepath = f"benchmark/c_transcoder/{file_name}/{file_name}.c"
         with open(c_filepath, "r") as file:
             c_output = file.read()
+        
+        original_filepath = f"{file_dir}/{file_name}{file_ext}"
+        with open(original_filepath, "r") as file:
+            source_output = file.read()
 
         imports = """#include <stdio.h>
 #include <math.h>
@@ -773,42 +809,18 @@ void sort (int arr [ ], int n) {qsort (arr, n, sizeof(int), cmpfunc);}\n"""
             with open(c_filepath, "w") as file:
                 file.write(c_output)
 
-        original = c_output
-        target_lines = []
-        is_block_comment = False
-        main_line = 9999
-        for i, line in enumerate(c_output.split("\n")):
-            if "#include" in line or "# include" in line:
-                target_lines.append(line)
-                continue
-            is_comment, is_block_comment = self.check_comment(
-                line.strip(), is_block_comment
-            )
-            if "f_filled" in line:
-                continue
-            if " main(" in line:
-                main_line = i
-                continue
-            if not is_comment and not is_block_comment and i < main_line:
-                target_lines.append(line)
-
-        c_output = "\n".join(target_lines)
-        c_output = (
-            c_output.replace("bool f_gold", "int f_gold")
-            .replace("true", "1")
-            .replace("false", "0")
-            .replace("long int", "int")
-            .replace("long int f_gold", "int f_gold")
-            .replace("double f_gold", "float f_gold")
-            .replace("string &", "string")
-        )
+        
+        
+        original, source_output = self.code_cleanup(source_output)
+        c_original, c_output = self.code_cleanup(c_output)
+        
         src_filepath = f"{file_dir}"
         c_filepath_processed = f"{src_filepath}/{file_name}_processed{file_ext}"
-        c_filepath_wasm = f"{src_filepath}/{file_name}_towasm{file_ext}"
-        c_filepath_wasm_mutated = f"{src_filepath}/{file_name}_towasm_mutated{file_ext}"
+        c_filepath_wasm = f"{src_filepath}/{file_name}_towasm.c"
+        c_filepath_wasm_mutated = f"{src_filepath}/{file_name}_towasm_mutated.c"
 
         with open(c_filepath_processed, "w") as file:
-            processed_output = c_output.replace(helper_funcs, "")
+            processed_output = source_output.replace(helper_funcs, "")
             file.write(processed_output)
 
         with open(c_filepath_wasm, "w") as file:
@@ -840,4 +852,4 @@ void sort (int arr [ ], int n) {qsort (arr, n, sizeof(int), cmpfunc);}\n"""
             file.write(wasm_output)
 
         subprocess.run(f"chmod -R a+rw {src_filepath}", shell=True)
-        return processed_output, original
+        return processed_output, c_original

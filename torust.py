@@ -110,6 +110,7 @@ Before writing the translation do the following:
 - If the output of the original program is bool, return 0 or 1 int (-> i32) output.
 - state how you will map the input and return types in f_gold to Rust
 - state the Rust signature of the translated f_gold
+- For GO lang and str inputs, use str: &str instead of str: &[u8]
 </instructions>
     """
     # rust_input = (
@@ -264,10 +265,10 @@ def main():
         "--language",
         # required=True,
         choices=["c", "cpp", "go"],
-        default="go",
+        default="c",
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
-    ap.add_argument("--benchmark-dir", default="benchmark/go_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
+    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/CHECK_GIVEN_STRING_ROTATION_PALINDROME", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
         default="default",
@@ -280,7 +281,7 @@ def main():
     )
     ap.add_argument(
         "--llm-attempts",
-        default=3,
+        default=2,
         help="Number of LLM attempts when when pbt or verification fails first try"
     )
     
@@ -292,7 +293,6 @@ def main():
     rust_dir = f"{args.benchmark_dir}/translation"
 
     ###################################### Controls which portion to run ######################################
-    entry_point = 1  # Compiles rwasm folders and locates entry point
     use_claude = 1  # Generate LLM transpilation
     bolero = 1  # Bolero verification
     bounded_kani = 1  # Bounded Kani verification
@@ -332,7 +332,7 @@ def main():
     else:
         c_ext = file_ext
         c_benchmark_dir = args.benchmark_dir
-    c_filepath = f"{c_benchmark_dir}/{file_name}{c_ext}"
+    c_filepath = f"benchmark/c_transcoder/{file_name}/{file_name}.c"
     with open(c_filepath, "r") as cfile:
         c_output = cfile.read()
 
@@ -347,35 +347,34 @@ def main():
     f_filled = fn_line.replace("{", "{}").replace("f_gold", "f_filled")
     ####################################################################################################
 
-    source_output, original = generate_utils.c_code_process(
+    source_output, original_code = generate_utils.c_code_process(
         file_ext, args.benchmark_dir, file_name, f_filled, args_types
     )
     
-    constraints = extract_param_bounds(original, args_types)
+    constraints = extract_param_bounds(original_code, args_types)
     if constraints:
         type_name, min_bound, max_bound = constraints
     
     
 
     ###################################### 2. set up wasm file #########################################
-    cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}")
-    if entry_point:
-        try:
-            rwasm_arg_types = verification_utils.mutate_test(
-                args.benchmark_dir,
-                package_name,
-                cwasm_path,
-                fn_name,
-                args_types,
-                file_ext,
-                fn_out_type,
-            )
+    cwasm_path = file_path.replace(file_ext, f"_towasm{file_ext}").replace("cpp", "c")
+    try:
+        rwasm_arg_types = verification_utils.mutate_test(
+            args.benchmark_dir,
+            package_name,
+            cwasm_path,
+            fn_name,
+            args_types,
+            file_ext,
+            fn_out_type,
+        )
 
-        except Exception as e:
-            print("Source file failed to compile:", e)
-            traceback.print_exc()
-            dump_result(result_file, result)
-            return
+    except Exception as e:
+        print("Source file failed to compile:", e)
+        traceback.print_exc()
+        dump_result(result_file, result)
+        return
     ####################################################################################################
 
     leetcode_name = "_".join(package_name.split("_")[1:])
@@ -531,7 +530,6 @@ def main():
             bolero_output = wasm_function + compiled_rust + final_bolero_harness
             kani_output = wasm_function + compiled_rust + final_kani_harness
 
-                
 
             if "String" in rust_fn_out_type:
                 bolero_output = bolero_output.replace(
