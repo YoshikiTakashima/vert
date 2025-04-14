@@ -549,13 +549,14 @@ def main():
             ########################################
             ########## 4.3 Kani Harness ############
 
-            kani_declare = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(10)]"
+            #kani_declare = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(0)]"
+            kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(0)]"
             kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
             kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq(result as f64, result_prime as f64);\n}}"
-            final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + kani_func_decl + kani_func_body + "\n////// kani harness //////\n"
+            final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + bolero_func_decl.replace("bolero_wasm_eq", "kani_wasm_eq") + bolero_func_body + "\n////// kani harness //////\n"
             #######################################
             
-            bolero_output = wasm_function + compiled_rust + final_bolero_harness
+            bolero_output = wasm_function + compiled_rust + final_bolero_harness + "\n" + final_kani_harness
             kani_output = wasm_function + compiled_rust + final_kani_harness
 
 
@@ -599,16 +600,16 @@ def main():
                     if "could not compile" in err_message:
                         print("Bolero compilation problem")
                         print(err_message)
-                        # dump_result(result_file, result)
-                        # return
+                        dump_result(result_file, result)
+                        return
                     elif (
                         "Test Failure" in err_message
                         or "Test Failure" in stdout_message
                         or verification_output.returncode != 0
                     ):
                         print(f"Bolero failed")
-                        # dump_result(result_file, result)
-                        # return
+                        dump_result(result_file, result)
+                        return
                     else:
                         print(f"Bolero pass")
                         result["bolero"] = True
@@ -620,15 +621,15 @@ def main():
             dump_result(result_file, result)
             return
 
-        dump_result(result_file, result)
-        exit(0)
     ##########################################################################################
     ###################################### Bounded KANI ######################################
     if bounded_kani and rust_compiles and bolero_successful:
         print("Running Kani")
-        command = "cargo kani --no-unwinding-checks --default-unwind 10"
+        #command = "cargo kani --no-unwinding-checks --default-unwind 10"
+        command = "cargo bolero test --engine kani  kani_wasm_eq"
         verification_output, timeout = verification_utils.verify(
-            wasm_kani_path,
+            #wasm_kani_path,
+            wasm_bolero_path,
             command,
             f"{subdir}/kani_out.txt",
             f"{subdir}/kani_err.txt",
