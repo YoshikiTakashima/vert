@@ -269,6 +269,9 @@ class VerificationUtils:
                     elif "char" == arg_type:
                         unsafe_param = f"{{PARAM{i} as u8}}"
                         unsafe_param_kani = f"PARAM{i} as u8"
+                    elif ("double" in arg_type or "float" in arg_type) and f"v{i-1}.try_as_f64" in return_line:
+                        unsafe_param = f"{{PARAM{i} as f64}}"
+                        unsafe_param_kani = f"PARAM{i} as f64"
                     else:
                         unsafe_param = f"{{PARAM{i}}}"
                         unsafe_param_kani = f"PARAM{i}"
