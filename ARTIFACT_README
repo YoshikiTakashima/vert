@@ -6,7 +6,6 @@ By default, the aritfact can __not__ incur cost by quering a 3rd party LLM provi
 This artifact contains the following:
 - instructions for reproducing our results (in this README)
 - a docker container with the runtime environment to run our code (vert.tar)
-- the artifacts used to create the docker container (Dockerfile, requirements.txt, and .aws/ folder)
 - the code used in our experiments (in the vert/ directory)
 - the benchmark C, C++, and Go code we translated (in the vert/benchmarks/ directory)
 - each benchmark directory contains the following:
@@ -58,16 +57,73 @@ XXXXX
 
 While running experiments can be done in parallel, we do not recommend doing so unless you have substantial compute and free disk space. Compiled Rust binaries take a significant amount of space (100+ MB each), and translation produces multuple binaries. Running a single benchmark produces 500+ MB of compiled Rust binaries.
 
-# Documentation
+# Artifact Contents Documentation
+This artifact contains the code for our experiments as well as key data from our experiments. The data includes the Rust translations produced by our tool, the bolero/kani harnesses used for PBT and bounded verification, and the llm inputs and outputs for our experimental runs. Each individual benchmark has a directory under the benchmark/ directory, which contains the mentioned data for that benchmark. Details on this data is given in the "Tool Outputs" section below.
+
+# Tool Documentation
 The main entry point for translation is the script torust.py. This script takes the following arguments:
 --langauge <c,cpp,go>: (required) 
 --benchmark-dir <benchmark/some/benchmark>: (required) The path to the directory containing the benchmark. See documentation below for the required contents of this directory.
---replay-cache: (optional)
---aws-profile <some-aws-profile>: (optional)
+--replay-cache: (optional) whether to replay cached llm responses. If specified, torust.py will look for a directory called prompt_log/ under the specified --benchmark-dir which should contain cached llm inputs and outputs
+--aws-profile <some-aws-profile>: (optional) the aws profile containing credentials with access to Amazon Bedrock
 
-## Benchmark Directory
-The benchmark directory expects a specific format for it's contents. Assuming you call torust.py as follows:
+Assume we execute the following command:
 
 python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS
 
-The torust.py scripts expects a single file benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS.c to exist.
+torust.py will look for a function f_gold defined in the file benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS.c and attempt to translate it. It will produce the outputs documented below.
+
+## Tool Outputs
+torust.py will produce the following under the specified --benchmark-dir:
+
+A directory translation/ --- This directory contains a Rust project that contains the Rust translation. The tranlsation itself will be located in the file translation/src/main.rs. It will contain a translation regardless if it compiles or is equivalent.
+
+A file result.json --- This file contains translation result. Specifically it specifies if the translation (1) compiled, (2) passed bolero, and (3) passed bounded kani.
+
+A directory prompt_log/ --- This directory will contain all inputs and outputs given to the llm. It will one or more files named prompt_0, prompt_1, ... each of which contains a single input-output pair. Each file is json, which follows the schema defined by the class ReplayableSaved in llm.py. Each json contains the raw input given to the llm, any input parameters such as temperature, the output recieved from the LLM, and meta data about the response, such as tokens consumed and latency.
+
+A directory out-rwasm-bolero/ --- This directory contains a Rust project containing the bolero/kani verification harness. The main harness file is in out-rwasm-bolero/src/main.rs. At the bottom of the file is the harness itself which compares the LLM translation and the rWasm translation. In addition, the file includes the llm translation and the rWasm translation itself.
+
+.txt files containing logs of bolero and kani runs.
+
+Several other intermediate files.
+
+## Adding a New Benchmark
+Creating a new benchmark can be done by constructing a benchmark directory in the format expected by torust.py. Assuming you call torust.py as follows:
+
+python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS
+
+The torust.py scripts expects a single file benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS.c to exist. This file should contain:
+- A function to translate called f_gold
+- An empty function called f_filled with the same signature as f_gold
+- A main function that executes f_gold on a set of example inputs
+An example is given below:
+
+int f_gold ( int x ) {
+  int m = 1;
+  while ( x & m ) {
+    x = x ^ m;
+    m <<= 1;
+  }
+  x = x ^ m;
+  return x;
+}
+
+int f_filled ( int x ) {}
+
+int main(void) {
+    int n_success = 0;
+    int param0[] = {96,66,67,13,75,78,1,83,27,65};
+    for(int i = 0; i < len(param0); ++i)
+    {   
+        if(f_filled(param0[i]) == f_gold(param0[i]))
+        {   
+            n_success+=1;
+        }
+        break;
+    }
+    printf("#Results:", " ", n_success, ", ", len(param0));
+    return 0;
+}
+
+Our tool expects a variable named param0, param1, ... for each input parameter to f_gold. Each of these variables should be an array with examples of the input parameter. These parameters are used to determine input constraints for bolero and kani. This is because functions, especially in C, have implicit pre-conditions. In other words, they expect the user of the function to know that the function was not designed to handle certain inputs. For example, several C benchmarks expect that the user does not provide negative inputs, as the the function is not well-defined in this case. Without input constraints on bolero/kani, the testing/verification will fail simply because Rust crashes due overflow/underflow errors.
