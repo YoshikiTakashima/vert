@@ -387,7 +387,7 @@ def main():
 
     if use_claude:
         llm = make_cached_llm(f"{subdir}/prompt_log", args.replay_cache, args.aws_profile)
-        llm_attempts = 1
+        llm_attempts = 0
         max_llm_attempts = int(args.llm_attempts)
         bolero_success = False
 
