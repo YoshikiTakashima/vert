@@ -87,10 +87,10 @@ class VerificationUtils:
         mutated_list = []
 
         project_path = f"{file_dir}"
-        # /wasi-sdk-12.0/bin/clang++ -fno-exceptions --sysroot=/wasi-sdk-12.0/share/wasi-sysroot -o main.wasm
 
-        # print(file_path)'
-        here = os.getcwd()
+        if ".go" in filename:
+            filename = filename.replace(".go", ".c")
+            file_ext = ".c"
         c_to_wasi = subprocess.run(
             f"{wasi_path}/bin/clang{cpp} -fno-exceptions --sysroot={wasi_path}/share/wasi-sysroot -o main.wasm {filename}",
             shell=True,
@@ -666,11 +666,15 @@ class GenerateUtils:
         return fn_name, fn_args_types, str_args_names, return_type, fn_line
 
     def c_code_process(self, file_ext, file_dir, file_name, f_filled, args_types):
-        # if "cpp" in file_dir:
-        #     file_ext = ".cpp"
-        # else:
-        #     file_ext = ".c"
-        c_filepath = f"{file_dir}/{file_name}{file_ext}"
+
+        if ".go" in file_ext:
+            file_ext = ".c"
+            
+        if "go_transcoder" in file_dir:
+            c_file_dir = file_dir.replace("go_transcoder", "c_transcoder")
+        else:
+            c_file_dir = file_dir
+        c_filepath = f"{c_file_dir}/{file_name}{file_ext}"
         with open(c_filepath, "r") as file:
             c_output = file.read()
 

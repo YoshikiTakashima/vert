@@ -262,14 +262,15 @@ def main():
     ap = argparse.ArgumentParser(description="Evaluation for VERT")
     ap.add_argument(
         "--language",
-        required=True,
+        # required=True,
         choices=["c", "cpp", "go"],
+        default="go",
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
-    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
+    ap.add_argument("--benchmark-dir", default="benchmark/go_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
-        default="dummyprofile",
+        default="default",
         help="AWS profile to use for credentials",
     )
     ap.add_argument(
@@ -325,7 +326,13 @@ def main():
     file_name = file.replace(".go", "").replace(".cpp", "").replace(".c", "")
 
     f_filled = ""
-    c_filepath = f"{args.benchmark_dir}/{file_name}{file_ext}"
+    if ".go" in file_ext:
+        c_ext = ".c"
+        c_benchmark_dir = args.benchmark_dir.replace("go_transcoder", "c_transcoder")
+    else:
+        c_ext = file_ext
+        c_benchmark_dir = args.benchmark_dir
+    c_filepath = f"{c_benchmark_dir}/{file_name}{c_ext}"
     with open(c_filepath, "r") as cfile:
         c_output = cfile.read()
 

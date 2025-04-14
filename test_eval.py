@@ -16,6 +16,24 @@ from rich.progress import (
     TaskProgressColumn,
     TimeRemainingColumn,
 )
+import argparse
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Run benchmarks with customizable parameters')
+    # Arguments for run_single_benchmark
+    parser.add_argument('--aws-profile', type=str, default="default",
+                      help='AWS profile to use')
+    parser.add_argument('--language', type=str, default="go", choices=["c", "cpp", "go"],
+                      help='Programming language')
+    parser.add_argument('--llm-attempts', type=int, default=5,
+                      help='Number of LLM attempts')
+    
+    # Arguments for parallel execution
+    parser.add_argument('--max-workers', type=int, default=5,
+                      help='Maximum number of parallel workers')
+    
+    return parser.parse_args()
 
 console = Console()
 
@@ -61,16 +79,16 @@ def create_progress() -> Progress:
         expand=True
     )
 
-def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
+def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.Namespace) -> dict:
     """Run a single benchmark and return its results."""
-    base_dir = "benchmark/c_transcoder"
+    base_dir = f"benchmark/{args.language}_transcoder"
     benchmark_path = os.path.join(base_dir, benchmark)
     command = [
         "python3",
         "torust.py",
-        "--aws-profile", "default",
-        "--language", "c",
-        "--llm-attempts", "5",
+        "--aws-profile", args.aws_profile,
+        "--language", args.language,
+        "--llm-attempts", str(args.llm_attempts),
         "--benchmark-dir", benchmark_path
     ]
 
@@ -156,7 +174,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int) -> dict:
             'error': str(e)
         }
 
-def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) -> None:
+def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace) -> None:
     """Run benchmarks in parallel with progress bar."""
     total = len(benchmark_names)
     failed = []
@@ -164,7 +182,7 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
     bolero_failed_list = []
 
     console.print(Panel(
-        f"[bold cyan]Starting parallel execution of {total} benchmarks with {max_workers} workers[/bold cyan]",
+        f"[bold cyan]Starting parallel execution of {total} benchmarks with {args.max_workers} workers[/bold cyan]",
         expand=False,
         border_style="cyan"
     ))
@@ -172,9 +190,9 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
     with create_progress() as progress:
         task = progress.add_task("[cyan]Running benchmarks...", total=total)
         
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        with ProcessPoolExecutor(max_workers=args.max_workers) as executor:
             future_to_benchmark = {
-                executor.submit(run_single_benchmark, benchmark, total): benchmark
+                executor.submit(run_single_benchmark, benchmark, total, args): benchmark
                 for benchmark in benchmark_names
             }
 
@@ -196,9 +214,40 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
     # Create summary table
     table = Table(show_header=True, header_style="bold magenta")
     table.add_column("Category", style="cyan")
-    table.add_column("Count", style="green")
+    table.add_column("Count/Value", style="green")
     table.add_column("Details", style="yellow")
 
+    # Add command arguments section
+    table.add_row(
+        "Command Arguments",
+        "",
+        ""
+    )
+    table.add_row(
+        "└─ AWS Profile",
+        args.aws_profile,
+        ""
+    )
+    table.add_row(
+        "└─ Language",
+        args.language,
+        ""
+    )
+    table.add_row(
+        "└─ LLM Attempts",
+        str(args.llm_attempts),
+        ""
+    )
+    table.add_row(
+        "└─ Max Workers",
+        str(args.max_workers),
+        ""
+    )
+
+    # Add empty row for spacing
+    table.add_row("", "", "")
+
+    # Add benchmark results
     table.add_row(
         "Total Benchmarks",
         str(total),
@@ -229,32 +278,30 @@ def run_benchmarks_parallel(benchmark_names: List[str], max_workers: int = 3) ->
     ))
 
 
-benchmarks = [
-    'AREA_OF_A_HEXAGON',
-    'CHECK_NUMBER_IS_PERFECT_SQUARE_USING_ADDITIONSUBTRACTION',
-    'ADD_1_TO_A_GIVEN_NUMBER',
-    'ADD_1_TO_A_GIVEN_NUMBER_1',
-    'BELL_NUMBERS_NUMBER_OF_WAYS_TO_PARTITION_A_SET',
-    'CHECK_ARRAY_REPRESENTS_INORDER_BINARY_SEARCH_TREE_NOT',
-    'CASSINIS_IDENTITY',
-    'CHECK_IF_ALL_THE_ELEMENTS_CAN_BE_MADE_OF_SAME_PARITY_BY_INVERTING_ADJACENT_ELEMENTS',
-    'BIRTHDAY_PARADOX',
-    'AREA_SQUARE_CIRCUMSCRIBED_CIRCLE',
-    'CALCULATING_FACTORIALS_USING_STIRLING_APPROXIMATION',
-    'BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS',
-    'CEILING_IN_A_SORTED_ARRAY_1',
-    'CHECK_IF_X_CAN_GIVE_CHANGE_TO_EVERY_PERSON_IN_THE_QUEUE',
-    'CALCULATE_VOLUME_DODECAHEDRON',
-    'CEILING_IN_A_SORTED_ARRAY',
-    'BIN_PACKING_PROBLEM_MINIMIZE_NUMBER_OF_USED_BINS',
-    'CHECK_IF_A_NUMBER_IS_JUMBLED_OR_NOT',
-    'ADD_TWO_NUMBERS_WITHOUT_USING_ARITHMETIC_OPERATORS',
-    'CHECK_INTEGER_OVERFLOW_MULTIPLICATION'
-]
+def get_benchmarks(language: str) -> List[str]:
+    """Get all benchmark names from the language directory."""
+    base_dir = f"benchmark/{language}_transcoder"
+    
+    # Check if directory exists
+    if not os.path.exists(base_dir):
+        console.print(f"[red]Error: Directory {base_dir} does not exist[/red]")
+        return []
+    
+    # Get immediate subdirectories only
+    try:
+        benchmarks = [d for d in os.listdir(base_dir) 
+                     if os.path.isdir(os.path.join(base_dir, d))]
+        return sorted(benchmarks)  # Sort alphabetically for consistent ordering
+    except Exception as e:
+        console.print(f"[red]Error reading benchmarks from {base_dir}: {str(e)}[/red]")
+        return []
 
 if __name__ == "__main__":
     try:
-        run_benchmarks_parallel(benchmarks, max_workers=5)
+        args = parse_args()
+        benchmarks = get_benchmarks(args.language)
+        console.print(f"[green]Found {len(benchmarks)} benchmarks for {args.language}[/green]")
+        # run_benchmarks_parallel(benchmarks, args)
     except KeyboardInterrupt:
         console.print("\n[red]Script terminated by user[/red]")
         sys.exit(1)
