@@ -37,6 +37,12 @@ Next, test that translation is working by running the below command. The command
 
 python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS --replay-cache
 
+## Using the LLM with AWS
+The replay cache avoids calling cloud LLMs. We provide this cache so a
+subset of the artifact can be partially evaluated without cloud
+LLMs. We use Claude on AWS Bedrock. Using AWS CLI, run`aws configure`
+to add credentials. Use the `default` profile name.
+
 # Reproducing Our Results
 This artifact can replicate the Claude-2 section of Table 1. It does not support the other LLMs (StarCoder, CodaLLaMA, and Transcoder-IR) reported in our paper out of the box. This is because these LLMs must be run locally and hence require significant compute resources. Typically, they require a hardware-specific implementation. However, our artifact can be extended to support these and orther LLMs with relative ease by extending the LLMQuery base class in llm.py. The Claude implementation can be used as a reference. The other LLMs can be found at the following links:
 - https://github.com/facebookresearch/CodeGen/blob/main/docs/TransCoder-IR.md
@@ -124,7 +130,7 @@ be saved separately
 ## Reducing Disk Space
 By default, VERT saves all intermediate artifacts. We find that these
 artifacts are large. If you wish to purge the intermediate artifacts,
-you can run the following inside the `benchmarks/` directory.
+you can run the following inside the `benchmark/` directory.
 
 ```
 for b in $(ls); do for d in $(ls $b); do (ls $b/$d/result.json && rm -rf $b/$d/out-rwasm-* ) ; done; done
