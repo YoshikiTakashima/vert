@@ -268,7 +268,7 @@ def main():
         default="c",
         help="Choose source language to compile to Rust: c, cpp, or go",
     )
-    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/ADD_1_TO_A_GIVEN_NUMBER", help="Path to benchmark")
+    ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/CHECK_GIVEN_STRING_ROTATION_PALINDROME", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
         default="default",
@@ -460,6 +460,7 @@ def main():
             arg_string = ""
             bolero_argstring = ""
             bolero_arg_unsafe = "unsafe {\n"
+            bolero_arg_unsafe_mutated = bolero_arg_unsafe
             kani_arg_string = ""
             string_bolero_harness = ""
             string_ending_bracket = ""
@@ -474,7 +475,15 @@ def main():
                     arg_string +=  general_arg_string
                     kani_arg_string += general_arg_string
                     bolero_argstring += f"PARAM_{i+1},"
+                    
+                    if constraints and type(type_name) == str:
+                        if "to_digit(10)" in compiled_rust:
+                            bolero_arg_unsafe_mutated += f"\t\tif !((PARAM_{i+1}[0] as char).is_digit(10) && PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
+                        else:
+                            bolero_arg_unsafe_mutated += f"\t\tif !(PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
+                    
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+                    bolero_arg_unsafe_mutated += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
                 elif "string" in arg_type:
                     string_bolero_harness = (
                         f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
@@ -484,6 +493,7 @@ def main():
                     bolero_argstring += f"PARAM_{i+1},"
                     
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
+                    bolero_arg_unsafe_mutated += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
                     kani_arg_string += f"PARAM_{i+1}[0],"
 
                 else:
@@ -491,11 +501,13 @@ def main():
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     bolero_argstring += f"PARAM_{i+1},"
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
+                    bolero_arg_unsafe_mutated += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
 
             arg_string = "(" + arg_string[:-1] + ")"
             kani_arg_string = "(" + kani_arg_string[:-1] + ")"
             bolero_argstring = "(" + bolero_argstring + ")"
             bolero_arg_unsafe += "\n\t\t}"
+            bolero_arg_unsafe_mutated += "\n\t\t}"
             ##########################################
             ########## 4.2 Bolero Harness ############
 
@@ -534,6 +546,12 @@ def main():
                                     f"{assert_stmt}"
                                     f"\t{string_ending_bracket}}});"
                                     f"\n}}")
+                bolero_func_body_mutated = (f"\t\t{bolero_arg_unsafe_mutated}\n"
+                                    f"\t\tlet input_str = String::from_utf8_lossy(unsafe {{ &PARAM1 }}).into_owned();\n"
+                                    f"\t\tlet result = {fn_name}(&input_str);\n\t\tlet result_prime = {wasm_fn_name}();\n"
+                                    f"{assert_stmt}"
+                                    f"\t{string_ending_bracket}}});"
+                                    f"\n}}")
             ###
             else:
                 bolero_func_body = (f"\t\t{bolero_arg_unsafe}\n"
@@ -542,9 +560,18 @@ def main():
                                     f"{assert_stmt}"
                                     f"\t{string_ending_bracket}}});\n"
                                     f"}}")
+                bolero_func_body_mutated = (f"\t\t{bolero_arg_unsafe_mutated}\n"
+                                    f"\t\tlet result = {fn_name}{arg_string};\n"
+                                    f"\t\tlet result_prime = {wasm_fn_name}();\n"
+                                    f"{assert_stmt}"
+                                    f"\t{string_ending_bracket}}});\n"
+                                    f"}}")
             ## Convert to string if char [] type
             final_bolero_harness = (
                 "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body + "\n////// bolero harness //////\n"
+            )
+            final_bolero_harness_kani = (
+                "\n////// bolero harness //////" + "\n" + bolero_import + bolero_func_decl + bolero_func_body_mutated + "\n////// bolero harness //////\n"
             )
             ########################################
             ########## 4.3 Kani Harness ############
@@ -557,8 +584,7 @@ def main():
             #######################################
             
             bolero_output = wasm_function + compiled_rust + final_bolero_harness + "\n" + final_kani_harness
-            kani_output = wasm_function + compiled_rust + final_kani_harness
-
+            kani_output = wasm_function + compiled_rust + final_bolero_harness_kani  + "\n" + final_kani_harness
 
             if "String" in rust_fn_out_type:
                 bolero_output = bolero_output.replace(
