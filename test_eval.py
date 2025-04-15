@@ -30,7 +30,7 @@ def parse_args():
                       help='Number of LLM attempts')
     
     # Arguments for parallel execution
-    parser.add_argument('--max-workers', type=int, default=1,
+    parser.add_argument('--max-workers', type=int, default=3,
                       help='Maximum number of parallel workers')
     parser.add_argument('--run-all', action="store_true", help='If passed, run all the scripts.')
     
@@ -119,9 +119,9 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         sp.stream_thread = threading.Thread(target=sp.stream_output)
         sp.stream_thread.start()
 
-        compilation_failed = True
-        bolero_failed = True
-        kani_failed = True
+        compilation_failed = False
+        bolero_failed = False
+        kani_failed = False
         
         # Process output queue
         while True:
@@ -149,15 +149,21 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         return_code = sp.process.poll()
 
         # Determine status based on both return code and output content
-        if return_code == 0 and not bolero_failed:
+        if not compilation_failed and not bolero_failed:
             status_color = "green"
-            status_text = "SUCCESS"
-        elif return_code == 0 and bolero_failed:
+            status_text = "BOLERO SUCCESS"
+        elif not compilation_failed and bolero_failed:
             status_color = "yellow"
             status_text = "COMPILED BUT NOT PASSING BOLERO"
+        elif not compilation_failed and not bolero_failed and not kani_failed:
+            status_color = "green"
+            status_text = "BOLERO SUCCESS"
+        elif not compilation_failed and not bolero_failed and kani_failed:
+            status_color = "yellow"
+            status_text = "PASSING BOLERO BUT NOT PASSING KANI"
         else:
             status_color = "red"
-            status_text = "FAILED"
+            status_text = "COMPILATION FAILED"
 
         console.print(Panel(
             f"[{status_color}]Benchmark {status_text}[/{status_color}]: [yellow]{benchmark}[/yellow]\n"
