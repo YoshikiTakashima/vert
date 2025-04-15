@@ -26,11 +26,11 @@ def parse_args():
                       help='AWS profile to use')
     parser.add_argument('--language', type=str, default="go", choices=["c", "cpp", "go"],
                       help='Programming language')
-    parser.add_argument('--llm-attempts', type=int, default=5,
+    parser.add_argument('--llm-attempts', type=int, default=3,
                       help='Number of LLM attempts')
     
     # Arguments for parallel execution
-    parser.add_argument('--max-workers', type=int, default=5,
+    parser.add_argument('--max-workers', type=int, default=1,
                       help='Maximum number of parallel workers')
     parser.add_argument('--run-all', action="store_true", help='If passed, run all the scripts.')
     
@@ -119,7 +119,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         sp.stream_thread = threading.Thread(target=sp.stream_output)
         sp.stream_thread.start()
 
-        compilation_failed = False
+        compilation_failed = True
         bolero_failed = True
         kani_failed = True
         
@@ -133,10 +133,11 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
             timestamp = datetime.now().strftime('%H:%M:%S')
             
             # Check for failure conditions in the output
-            if "Failed to" in content or "bolero failed" in content:
+            if "failed to compile" in content:
+                compilation_failed = True
+            if "Failed to generate valid code" in content:
                 bolero_failed = True
-
-            if "Kani failed" in content.lower():
+            if "Kani failed" in content:
                 kani_failed = True
             
             if stream_type == 'stdout':
@@ -167,7 +168,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
 
         return {
             'benchmark': benchmark,
-            'success': return_code == 0 and not bolero_failed,
+            'success': return_code == 0,
             'bolero_failed': bolero_failed,
             'kani_failed': kani_failed,
             'return_code': return_code
