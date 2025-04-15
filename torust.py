@@ -271,7 +271,7 @@ def main():
     ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
-        default="default",
+        default="dummyprofile",
         help="AWS profile to use for credentials",
     )
     ap.add_argument(
@@ -569,7 +569,8 @@ def main():
             kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(0)]\n"
             kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
             kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
-            final_kani_harness = "\n////// kani harness //////" + kani_declare + kani_func_decl + kani_constraints + kani_func_body + "\n////// kani harness //////\n"
+            #final_kani_harness = "\n////// kani harness //////" + kani_declare + kani_func_decl + kani_constraints + kani_func_body + "\n////// kani harness //////\n"
+            final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + bolero_func_decl.replace("bolero_wasm_eq", "kani_wasm_eq") + "\n" + bolero_func_body + "\n////// kani harness //////\n"
             #######################################
             
             bolero_output = wasm_function + compiled_rust + final_bolero_harness + final_kani_harness
@@ -592,7 +593,7 @@ def main():
             ##############################################################################################
             ###################################### 5. Verification ######################################
 
-            wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero/src"
+            wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero"
             wasm_kani_path = f"{args.benchmark_dir}/out-rwasm-mutated/src"
 
             bolero_target_path = wasm_bolero_path + "/target"
@@ -641,7 +642,7 @@ def main():
     if bounded_kani and rust_compiles and bolero_successful:
         print("Running Kani")
         #command = "cargo kani --no-unwinding-checks --default-unwind 10"
-        command = "cargo bolero test --engine kani  kani_wasm_eq"
+        command = "cargo bolero test --engine kani --engine-args=\"--no-unwinding-checks --default-unwind 0\" kani_wasm_eq"
         verification_output, timeout = verification_utils.verify(
             #wasm_kani_path,
             wasm_bolero_path,
