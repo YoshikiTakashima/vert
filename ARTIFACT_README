@@ -20,7 +20,7 @@ It is also assumed you are using a unix environment.
 # Setup
 First, load the provided container with the command:
 ```bash
-docker load -i vert.tar
+sudo docker pull aidanben/torust
 ```
 
 Next, start up the docker container in an interactive shell.
@@ -50,10 +50,10 @@ takes 40+ hours when running each experiment sequentially, so we
 provide a reproducation script with a binary flag:
 `--run-all`. Passing this flag reproduces the entire Claude-2 results,
 and second reproduces a subset of our benchmarks. You can run the
-small script as shown below:
+small script as shown below. The results are printed to the terminal.
 
 ```bash
-python test_eval.py # subset replication
+python test_eval.py            # subset replication
 python test_eval.py  --run-all # multi-day multi-100GB full replication
 ```
 
@@ -62,9 +62,14 @@ This script will take 1-2 hours to complete and requires:
 - Ideally 4 CPU free cores
 - 8GB RAM
 
-The results are printed to the terminal
+While running experiments can be done in parallel, we do not recommend
+doing so unless you have substantial compute and free disk
+space. Compiled Rust binaries take a significant amount of space (100+
+MB each), and translation produces multuple binaries. Running a single
+benchmark produces 500+ MB of compiled Rust binaries.
 
-Running this script should produce the following `result.json` files.
+Running this script should produce the following `result.json` files
+at each benchmark directory.
 
 ```json
 {
@@ -84,16 +89,13 @@ find benchmark/c_transcoder/ -type f -name result.json -exec cat {} \; | grep bo
 - For other benchmarks, swap `c_transcoder` for the respective library
 - `grep true | wc -l` should be retained for all variants.
 
-## Subset Evaluation
+## Subset Evaluation (5 per Language)
 ```bash
 python test_eval.py --language "c"
 python test_eval.py --language "cpp"
 python test_eval.py --language "go"
 
-
 ```
-
-This runs a subset of 5 benchmarks each from each langauge.
 
 ## Table 1
 ```bash
@@ -109,14 +111,18 @@ python test_eval.py --run-all --language "c" --llm-attempts 3 #Few-Shot
 python test_eval.py --run-all --language "c" --llm-attempts 5 #VERT
 ```
 
-Repeat for "cpp" and "go" to replicate the whole table.
+Repeat for "cpp" and "go" to replicate the whole table. Note that
+running the same `--language` clobbers the `result.json`. Those should
+be saved separately
 
-While running experiments can be done in parallel, we do not recommend
-doing so unless you have substantial compute and free disk
-space. Compiled Rust binaries take a significant amount of space (100+
-MB each), and translation produces multuple binaries. Running a single
-benchmark produces 500+ MB of compiled Rust binaries.
+## Reducing Disk Space
+By default, VERT saves all intermediate artifacts. We find that these
+artifacts are large. If you wish to purge the intermediate artifacts,
+you can run the following inside the `benchmarks/` directory.
 
+```
+for b in $(ls); do for d in $(ls $b); do (ls $b/$d/result.json && rm -rf $b/$d/out-rwasm-* ) ; done; done
+```
 
 ## Checking Correctness of VERT
 Correctness of our evaluation results depend on `bolero`, which in
