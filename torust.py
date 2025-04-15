@@ -271,7 +271,7 @@ def main():
     ap.add_argument("--benchmark-dir", default="benchmark/c_transcoder/BIRTHDAY_PARADOX", help="Path to benchmark")
     ap.add_argument(
         "--aws-profile",
-        default="default",
+        default="dummyprofile",
         help="AWS profile to use for credentials",
     )
     ap.add_argument(
@@ -592,7 +592,7 @@ def main():
             ##############################################################################################
             ###################################### 5. Verification ######################################
 
-            wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero/src"
+            wasm_bolero_path = f"{args.benchmark_dir}/out-rwasm-bolero"
             wasm_kani_path = f"{args.benchmark_dir}/out-rwasm-mutated/src"
 
             bolero_target_path = wasm_bolero_path + "/target"
