@@ -22,7 +22,7 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser(description='Run benchmarks with customizable parameters')
     # Arguments for run_single_benchmark
-    parser.add_argument('--aws-profile', type=str, default="default",
+    parser.add_argument('--aws-profile', type=str, default="dummyprofile",
                       help='AWS profile to use')
     parser.add_argument('--language', type=str, default="go", choices=["c", "cpp", "go"],
                       help='Programming language')
@@ -269,17 +269,18 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
         ", ".join(benchmark_names)
     )
     table.add_row(
-        "Bolero successful",
-        str(len(bolero_successful)),
-        ", ".join(bolero_successful)
-    )
-    table.add_row(
-        "Compiled",
+        "Transpilation compiled",
         str(len(bolero_failed_list)),
         ", ".join(bolero_failed_list)
     )
     table.add_row(
-        "Failed Bolero",
+        "Bolero successful",
+        str(len(bolero_successful)),
+        ", ".join(bolero_successful)
+    )
+    
+    table.add_row(
+        "Bolero failed",
         str(len(failed)),
         "\n".join(f"{b}: {e}" for b, e in failed)
     )
