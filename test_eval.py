@@ -149,15 +149,12 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         return_code = sp.process.poll()
 
         # Determine status based on both return code and output content
-        if not compilation_failed and not bolero_failed:
-            status_color = "green"
-            status_text = "BOLERO SUCCESS"
-        elif not compilation_failed and bolero_failed:
+        if not compilation_failed and bolero_failed:
             status_color = "yellow"
             status_text = "COMPILED BUT NOT PASSING BOLERO"
         elif not compilation_failed and not bolero_failed and not kani_failed:
             status_color = "green"
-            status_text = "BOLERO SUCCESS"
+            status_text = "KANI and BOLERO SUCCESS"
         elif not compilation_failed and not bolero_failed and kani_failed:
             status_color = "yellow"
             status_text = "PASSING BOLERO BUT NOT PASSING KANI"
