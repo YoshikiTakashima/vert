@@ -9,10 +9,10 @@ apt install clang
 export PATH=/usr/local/clang/bin:$PATH
 ```
 
-## Verification tools
+## Checking Tools
 ```
-cargo install -f cargo-bolero
-cargo install --locked kani-verifier
+cargo install cargo-bolero --git https://github.com/YoshikiTakashima/bolero.git --branch kani-unwind-0
+cargo install --locked kani-verifier@0.55.0
 cargo kani setup
 ```
 
