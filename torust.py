@@ -615,7 +615,6 @@ def main():
 
                     if "could not compile" in err_message:
                         print("Bolero compilation problem")
-                        print(err_message)
                         dump_result(result_file, result)
                         return
                     elif (
