@@ -32,6 +32,7 @@ def parse_args():
     # Arguments for parallel execution
     parser.add_argument('--max-workers', type=int, default=5,
                       help='Maximum number of parallel workers')
+    parser.add_argument('--run-all', action="store_true", help='If passed, run all the scripts.')
     
     return parser.parse_args()
 
@@ -296,12 +297,43 @@ def get_benchmarks(language: str) -> List[str]:
         console.print(f"[red]Error reading benchmarks from {base_dir}: {str(e)}[/red]")
         return []
 
+
+SUBSET_BENCHMARKS_SMALL_EVAL = {
+    "c": [
+        "benchmark/c_transcoder/ADD_1_TO_A_GIVEN_NUMBER",
+        "benchmark/c_transcoder/ADD_TWO_NUMBERS_WITHOUT_USING_ARITHMETIC_OPERATORS",
+        "benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS",
+        "benchmark/c_transcoder/CHECK_IF_A_NUMBER_IS_POWER_OF_ANOTHER_NUMBER",
+        "benchmark/c_transcoder/CHECK_NUMBER_IS_PERFECT_SQUARE_USING_ADDITIONSUBTRACTION",
+
+    ],
+    "cpp": [
+        "benchmark/cpp_transcoder/ADD_1_TO_A_GIVEN_NUMBER",
+        "benchmark/cpp_transcoder/ADD_TWO_NUMBERS_WITHOUT_USING_ARITHMETIC_OPERATORS",
+        "benchmark/cpp_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS",
+        "benchmark/cpp_transcoder/CHECK_IF_A_NUMBER_IS_POWER_OF_ANOTHER_NUMBER",
+        "benchmark/cpp_transcoder/CHECK_NUMBER_IS_PERFECT_SQUARE_USING_ADDITIONSUBTRACTION",
+
+    ],
+    "go": [
+        "benchmark/go_transcoder/ADD_1_TO_A_GIVEN_NUMBER",
+        "benchmark/go_transcoder/ADD_TWO_NUMBERS_WITHOUT_USING_ARITHMETIC_OPERATORS",
+        "benchmark/go_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS",
+        "benchmark/go_transcoder/CHECK_IF_A_NUMBER_IS_POWER_OF_ANOTHER_NUMBER",
+        "benchmark/go_transcoder/CHECK_NUMBER_IS_PERFECT_SQUARE_USING_ADDITIONSUBTRACTION",
+    ],
+}
+
 if __name__ == "__main__":
     try:
         args = parse_args()
-        benchmarks = get_benchmarks(args.language)
+        benchmarks = (
+            get_benchmarks(args.language)
+            if args.run_all
+            else SUBSET_BENCHMARKS_SMALL_EVAL[args.language]
+        )
         console.print(f"[green]Found {len(benchmarks)} benchmarks for {args.language}[/green]")
-        # run_benchmarks_parallel(benchmarks, args)
+        #run_benchmarks_parallel(benchmarks, args)
     except KeyboardInterrupt:
         console.print("\n[red]Script terminated by user[/red]")
         sys.exit(1)

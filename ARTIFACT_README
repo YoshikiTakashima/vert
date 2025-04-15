@@ -19,19 +19,20 @@ It is also assumed you are using a unix environment.
 
 # Setup
 First, load the provided container with the command:
-
+```bash
 docker load -i vert.tar
+```
 
 Next, start up the docker container in an interactive shell.
 You will need to mount the contents of this artifact to the /mnt folder in the container.
 Run the following command from the some directory as this README.
-
+```bash
 sudo docker run -it -v $( pwd ):/mnt vert:latest
-
+```
 In the docker shell, navigate to the vert/ directory:
-
+```bash
 cd /mnt/vert
-
+```
 Next, test that translation is working by running the below command. The command below will run translation end-to-end, and will replay logged llm responses from the cache.
 
 python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS --replay-cache
@@ -42,22 +43,79 @@ This artifact can replicate the Claude-2 section of Table 1. It does not support
 - https://github.com/meta-llama/codellama
 - https://github.com/bigcode-project/starcoder
 
-The Claude-2 results can be reproduced without querying a real LLM. This is accomplished by replaying the logged llm outputs included in this artifact. Reproducing the entire Claude-2 section in Table 1 takes 40+ hours when running each experiment sequentially, so we provide two reproducation scripts: run_small.sh and run_all.sh. The first reproduces the entire Claude-2 results, and second reproduces a subset of our benchmarks. You can run the small script as shown below:
+The Claude-2 results can be reproduced without querying a real
+LLM. This is accomplished by replaying the logged llm outputs included
+in this artifact. Reproducing the entire Claude-2 section in Table 1
+takes 40+ hours when running each experiment sequentially, so we
+provide a reproducation script with a binary flag:
+`--run-all`. Passing this flag reproduces the entire Claude-2 results,
+and second reproduces a subset of our benchmarks. You can run the
+small script as shown below:
 
-bash run_small.sh
+```bash
+python test_eval.py # subset replication
+python test_eval.py  --run-all # multi-day multi-100GB full replication
+```
 
 This script will take 1-2 hours to complete and requires:
 - 1GB of free disk space
 - Ideally 4 CPU free cores
 - 8GB RAM
 
-Running this script should produce the following table:
+The results are printed to the terminal
 
-XXXXX
-XXXXX
-XXXXX
+Running this script should produce the following `result.json` files.
 
-While running experiments can be done in parallel, we do not recommend doing so unless you have substantial compute and free disk space. Compiled Rust binaries take a significant amount of space (100+ MB each), and translation produces multuple binaries. Running a single benchmark produces 500+ MB of compiled Rust binaries.
+```json
+{
+        "project": "BENCHMARK_NAME",
+        "compile": true,
+        "bolero": false,
+        "bounded_kani": false
+}
+```
+
+You can aggregate the results from the JSON files:
+- To count the number of C programs that passed bolero (Table 1 column "PBT")
+```bash
+find benchmark/c_transcoder/ -type f -name result.json -exec cat {} \; | grep bolero | grep true | wc -l
+```
+- `grep compile` and `grep bounded_kani` should be used for "Compiled" and "BMC" column.
+- For other benchmarks, swap `c_transcoder` for the respective library
+- `grep true | wc -l` should be retained for all variants.
+
+## Subset Evaluation
+```bash
+python test_eval.py --language "c"
+python test_eval.py --language "cpp"
+python test_eval.py --language "go"
+
+
+```
+
+This runs a subset of 5 benchmarks each from each langauge.
+
+## Table 1
+```bash
+python test_eval.py --run-all --language "c"   # C
+python test_eval.py --run-all --language "cpp" #CPP
+python test_eval.py --run-all --language "go"  # go
+```
+
+## Table 2
+```bash
+python test_eval.py --run-all --language "c" --llm-attempts 1 #Single-shot (Baseline)
+python test_eval.py --run-all --language "c" --llm-attempts 3 #Few-Shot
+python test_eval.py --run-all --language "c" --llm-attempts 5 #VERT
+```
+
+Repeat for "cpp" and "go" to replicate the whole table.
+
+While running experiments can be done in parallel, we do not recommend
+doing so unless you have substantial compute and free disk
+space. Compiled Rust binaries take a significant amount of space (100+
+MB each), and translation produces multuple binaries. Running a single
+benchmark produces 500+ MB of compiled Rust binaries.
 
 
 ## Checking Correctness of VERT
