@@ -565,10 +565,11 @@ def main():
             ########## 4.3 Kani Harness ############
 
             #kani_declare = "\nfn assert_eq(a: f64, b: f64) { assert!((a - b).abs() < 0.01); }#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(0)]"
+            kani_constraints = "\tunsafe{\n" + kani_constraints + "\n\t}\n"
             kani_declare = "\n#[cfg(kani)]\n#[kani::proof]\n#[kani::unwind(0)]\n"
             kani_func_decl = f"\nfn kani_wasm_eq(){{ \n"
             kani_func_body = f"\t\tlet result = {fn_name}{kani_arg_string};\n\t\tlet result_prime = {wasm_fn_name}();\n\t\tassert_eq!(result, result_prime);\n}}"
-            final_kani_harness = "\n////// kani harness //////" + "\n" + kani_declare + kani_func_decl + "\n" + kani_constraints + kani_func_body + "\n////// kani harness //////\n"
+            final_kani_harness = "\n////// kani harness //////" + kani_declare + kani_func_decl + kani_constraints + kani_func_body + "\n////// kani harness //////\n"
             #######################################
             
             bolero_output = wasm_function + compiled_rust + final_bolero_harness + final_kani_harness
@@ -653,6 +654,7 @@ def main():
         if not timeout:
             err_message = verification_output.stderr
             stdout_message = verification_output.stdout
+            print(err_message)
             if (
                 "VERIFICATION:- FAILED" in err_message
                 or "VERIFICATION:- FAILED" in stdout_message
