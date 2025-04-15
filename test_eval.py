@@ -219,9 +219,9 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
                 try:
                     result = future.result()
                     if result.get('compilation_failed', False):
-                        compilation_succesful.append(benchmark)
-                    else:
                         compilation_failed_list.append(benchmark)
+                    else:
+                        compilation_succesful.append(benchmark)
                         
                     if result.get('bolero_failed', False):
                         bolero_failed_list.append(benchmark)
