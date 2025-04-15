@@ -30,7 +30,7 @@ def parse_args():
                       help='Number of LLM attempts')
     
     # Arguments for parallel execution
-    parser.add_argument('--max-workers', type=int, default=3,
+    parser.add_argument('--max-workers', type=int, default=5,
                       help='Maximum number of parallel workers')
     parser.add_argument('--run-all', action="store_true", help='If passed, run all the scripts.')
     
@@ -174,7 +174,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
 
         return {
             'benchmark': benchmark,
-            'success': return_code == 0,
+            'compilation_failed': compilation_failed,
             'bolero_failed': bolero_failed,
             'kani_failed': kani_failed,
             'return_code': return_code
@@ -192,9 +192,11 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
     """Run benchmarks in parallel with progress bar."""
     total = len(benchmark_names)
     failed = []
+    compilation_succesful = []
+    compilation_failed_list = []
     bolero_successful = []
     bolero_failed_list = []
-    kani_success_list = []
+    kani_success = []
     kani_failed_list = []
 
     console.print(Panel(
@@ -216,18 +218,20 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
                 benchmark = future_to_benchmark[future]
                 try:
                     result = future.result()
-                    if result['success']:
-                        bolero_successful.append(benchmark)
-                    elif result.get('bolero_failed', False):
+                    if result.get('compilation_failed', False):
+                        compilation_succesful.append(benchmark)
+                    else:
+                        compilation_failed_list.append(benchmark)
+                        
+                    if result.get('bolero_failed', False):
                         bolero_failed_list.append(benchmark)
                     else:
-                        failed.append((benchmark, result.get('error', f"Return code: {result.get('return_code')}")))
+                        bolero_successful.append(benchmark)
                 
-                    # Track Kani results                        
                     if result.get('kani_failed', False):
                         kani_failed_list.append(benchmark)
                     else:
-                        kani_success_list.append(benchmark)
+                        kani_success.append(benchmark)
                 
                 except Exception as e:
                     failed.append((benchmark, str(e)))
@@ -278,34 +282,34 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
     )
     table.add_row(
         "Transpilation compiled",
-        str(len(bolero_failed_list)),
-        ", ".join(bolero_failed_list)
+        str(len(compilation_succesful)),
+        ", ".join(compilation_succesful)
+    )
+    table.add_row(
+        "Transpilation not compiled",
+        str(len(compilation_failed_list)),
+        ", ".join(compilation_failed_list)
     )
     table.add_row(
         "Bolero successful",
         str(len(bolero_successful)),
         ", ".join(bolero_successful)
     )
-    
     table.add_row(
         "Bolero failed",
-        str(len(failed)),
-        "\n".join(f"{b}: {e}" for b, e in failed)
+        str(len(bolero_failed_list)),
+        ", ".join(bolero_failed_list)
     )
-    # Add Kani results to the table
     table.add_row(
         "Kani successful",
-        str(len(kani_success_list)),
-        ", ".join(kani_success_list)
+        str(len(kani_success)),
+        ", ".join(kani_success)
     )
     table.add_row(
         "Kani failed",
         str(len(kani_failed_list)),
         ", ".join(kani_failed_list)
     )
-
-
-
     console.print("\n")
     console.print(Panel(
         table,
