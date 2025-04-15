@@ -82,8 +82,8 @@ def create_progress() -> Progress:
 
 def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.Namespace) -> dict:
     """Run a single benchmark and return its results."""
-    base_dir = f"benchmark/{args.language}_transcoder"
-    benchmark_path = os.path.join(base_dir, benchmark)
+    base_dir = f"{args.language}_transcoder"
+    benchmark_path = benchmark
     command = [
         "python3",
         "torust.py",

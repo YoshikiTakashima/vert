@@ -53,8 +53,8 @@ and second reproduces a subset of our benchmarks. You can run the
 small script as shown below. The results are printed to the terminal.
 
 ```bash
-python test_eval.py            # subset replication
-python test_eval.py  --run-all # multi-day multi-100GB full replication
+python3 test_eval.py            # subset replication
+python3 test_eval.py  --run-all # multi-day multi-100GB full replication
 ```
 
 This script will take 1-2 hours to complete and requires:
@@ -91,24 +91,24 @@ find benchmark/c_transcoder/ -type f -name result.json -exec cat {} \; | grep bo
 
 ## Subset Evaluation (5 per Language)
 ```bash
-python test_eval.py --language "c"
-python test_eval.py --language "cpp"
-python test_eval.py --language "go"
+python3 test_eval.py --language "c"
+python3 test_eval.py --language "cpp"
+python3 test_eval.py --language "go"
 
 ```
 
 ## Table 1
 ```bash
-python test_eval.py --run-all --language "c"   # C
-python test_eval.py --run-all --language "cpp" #CPP
-python test_eval.py --run-all --language "go"  # go
+python3 test_eval.py --run-all --language "c"   # C
+python3 test_eval.py --run-all --language "cpp" #CPP
+python3 test_eval.py --run-all --language "go"  # go
 ```
 
 ## Table 2
 ```bash
-python test_eval.py --run-all --language "c" --llm-attempts 1 #Single-shot (Baseline)
-python test_eval.py --run-all --language "c" --llm-attempts 3 #Few-Shot
-python test_eval.py --run-all --language "c" --llm-attempts 5 #VERT
+python3 test_eval.py --run-all --language "c" --llm-attempts 1 #Single-shot (Baseline)
+python3 test_eval.py --run-all --language "c" --llm-attempts 3 #Few-Shot
+python3 test_eval.py --run-all --language "c" --llm-attempts 5 #VERT
 ```
 
 Repeat for "cpp" and "go" to replicate the whole table. Note that
