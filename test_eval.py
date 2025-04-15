@@ -119,7 +119,8 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         sp.stream_thread.start()
 
         compilation_failed = False
-        bolero_failed = False
+        bolero_failed = True
+        kani_failed = True
         
         # Process output queue
         while True:
@@ -133,6 +134,9 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
             # Check for failure conditions in the output
             if "Failed to" in content or "bolero failed" in content:
                 bolero_failed = True
+
+            if "Kani failed" in content.lower():
+                kani_failed = True
             
             if stream_type == 'stdout':
                 console.print(f"[dim]{timestamp}[/dim] [green]{content}[/green]")
@@ -164,6 +168,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
             'benchmark': benchmark,
             'success': return_code == 0 and not bolero_failed,
             'bolero_failed': bolero_failed,
+            'kani_failed': kani_failed,
             'return_code': return_code
         }
 
@@ -179,8 +184,10 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
     """Run benchmarks in parallel with progress bar."""
     total = len(benchmark_names)
     failed = []
-    successful = []
+    bolero_successful = []
     bolero_failed_list = []
+    kani_success_list = []
+    kani_failed_list = []
 
     console.print(Panel(
         f"[bold cyan]Starting parallel execution of {total} benchmarks with {args.max_workers} workers[/bold cyan]",
@@ -202,11 +209,18 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
                 try:
                     result = future.result()
                     if result['success']:
-                        successful.append(benchmark)
+                        bolero_successful.append(benchmark)
                     elif result.get('bolero_failed', False):
                         bolero_failed_list.append(benchmark)
                     else:
                         failed.append((benchmark, result.get('error', f"Return code: {result.get('return_code')}")))
+                
+                    # Track Kani results                        
+                    if result.get('kani_failed', False):
+                        kani_failed_list.append(benchmark)
+                    else:
+                        kani_success_list.append(benchmark)
+                
                 except Exception as e:
                     failed.append((benchmark, str(e)))
 
@@ -255,20 +269,33 @@ def run_benchmarks_parallel(benchmark_names: List[str], args: argparse.Namespace
         ", ".join(benchmark_names)
     )
     table.add_row(
-        "Successful",
-        str(len(successful)),
-        ", ".join(successful)
+        "Bolero successful",
+        str(len(bolero_successful)),
+        ", ".join(bolero_successful)
     )
     table.add_row(
-        "Compiled but Failed Bolero",
+        "Compiled",
         str(len(bolero_failed_list)),
         ", ".join(bolero_failed_list)
     )
     table.add_row(
-        "Failed",
+        "Failed Bolero",
         str(len(failed)),
         "\n".join(f"{b}: {e}" for b, e in failed)
     )
+    # Add Kani results to the table
+    table.add_row(
+        "Kani successful",
+        str(len(kani_success_list)),
+        ", ".join(kani_success_list)
+    )
+    table.add_row(
+        "Kani failed",
+        str(len(kani_failed_list)),
+        ", ".join(kani_failed_list)
+    )
+
+
 
     console.print("\n")
     console.print(Panel(
@@ -333,7 +360,7 @@ if __name__ == "__main__":
             else SUBSET_BENCHMARKS_SMALL_EVAL[args.language]
         )
         console.print(f"[green]Found {len(benchmarks)} benchmarks for {args.language}[/green]")
-        #run_benchmarks_parallel(benchmarks, args)
+        run_benchmarks_parallel(benchmarks, args)
     except KeyboardInterrupt:
         console.print("\n[red]Script terminated by user[/red]")
         sys.exit(1)
