@@ -24,14 +24,14 @@ sudo docker pull aidanben/torust
 ```
 
 Next, start up the docker container in an interactive shell.
-You will need to mount the contents of this artifact to the /mnt folder in the container.
+You will need to mount the contents of this the root of this github repo to the /mnt folder in the container.
 Run the following command from the some directory as this README.
 ```bash
-sudo docker run -it -v $( pwd ):/mnt vert:latest
+sudo docker run -it -v $( pwd ):/mnt aidanben/torust:latest
 ```
-In the docker shell, navigate to the vert/ directory:
+In the docker shell, navigate to the /mnt/ directory:
 ```bash
-cd /mnt/vert
+cd /mnt
 ```
 Next, test that translation is working by running the below command. The command below will run translation end-to-end, and will replay logged llm responses from the cache.
 
