@@ -90,7 +90,8 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         "--aws-profile", args.aws_profile,
         "--language", args.language,
         "--llm-attempts", str(args.llm_attempts),
-        "--benchmark-dir", benchmark_path
+        "--benchmark-dir", benchmark_path,
+        "--replay-cache",
     ]
 
     try:

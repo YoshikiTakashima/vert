@@ -57,6 +57,12 @@ python3 test_eval.py            # subset replication
 python3 test_eval.py  --run-all # multi-day multi-100GB full replication
 ```
 
+If using your own .aws key (e.g., named "default")
+```bash
+python3 test_eval.py --aws-profile defaults       
+```
+
+
 This script will take 1-2 hours to complete and requires:
 - 1GB of free disk space
 - Ideally 4 CPU free cores
