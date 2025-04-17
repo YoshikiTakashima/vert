@@ -91,8 +91,7 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
         "--language", args.language,
         "--llm-attempts", str(args.llm_attempts),
         "--benchmark-dir", benchmark_path,
-        "--replay-cache",
-    ]
+    ] + ([] if args.run_all else ["--replay-cache"])
 
     try:
         # Create panel for this benchmark
