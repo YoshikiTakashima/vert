@@ -327,7 +327,7 @@ def get_benchmarks(language: str) -> List[str]:
     
     # Get immediate subdirectories only
     try:
-        benchmarks = [d for d in os.listdir(base_dir) 
+        benchmarks = [os.path.join(base_dir, d) for d in os.listdir(base_dir)
                      if os.path.isdir(os.path.join(base_dir, d))]
         return sorted(benchmarks)  # Sort alphabetically for consistent ordering
     except Exception as e:
