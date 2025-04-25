@@ -263,7 +263,7 @@ class VerificationUtils:
                 kani_lines = []
                 for i, arg_type in enumerate(args_types):
                     i += 1
-                    if "[]" in arg_type:
+                    if "[]" in arg_type or "string":
                         # handled in m.memory[...
                         continue
                     elif "char" == arg_type:
@@ -317,11 +317,13 @@ class VerificationUtils:
                 pmatch = re.search(pattern, line)
                 if pmatch != None and len(args) > 0:
                     range_part = pmatch.group(1)
-                    arg = args.pop(0)
-                    param_string = f"PARAM{arg[0] + 1}"
+                    inner_memory_array = ""
+                    for arg in args:
+                        param_string = f"PARAM{arg[0] + 1}"
+                        inner_memory_array += f"unsafe{{ {param_string} }}[0].to_le_bytes(), unsafe{{ {param_string} }}[1].to_le_bytes()," 
                     line = (
                         f"m.memory[{range_part}]"
-                        + f".copy_from_slice(& [unsafe{{ {param_string} }}[0].to_le_bytes(), unsafe{{ {param_string} }}[1].to_le_bytes()].concat());"
+                        + f".copy_from_slice(& [{inner_memory_array}].concat());"
                     )
                 lines += [line]
             return "\n".join(lines)

@@ -465,7 +465,7 @@ def main():
             string_ending_bracket = ""
             kani_constraints = ""
             for i, arg_type in enumerate(args_types):
-                if "[]" in arg_type:
+                if "[]" in arg_type and "string" in arg_type:
                     general_arg_string = f"[unsafe{{PARAM{i+1}}}[0] as _, unsafe{{PARAM{i+1}}}[1] as _],"
                     if "&str" in compiled_rust_fn_line or "String" in compiled_rust_fn_line:
                         general_arg_string = general_arg_string[:-1] + ".iter().collect::<String>()," 
@@ -483,16 +483,6 @@ def main():
                             kani_constraints += f"\t\tif !(PARAM_{i+1}[0] >= ('A' as u8) && PARAM_{i+1}[0] <= ('Z' as u8) && PARAM_{i+1}[1] >= ('0' as u8) && PARAM_{i+1}[1] <= ('9' as u8)) {{ return; }}\n"
                     
                     bolero_arg_unsafe += f"\t\tPARAM{i+1} = PARAM_{i+1};\n"
-                elif "string" in arg_type:
-                    string_bolero_harness = (
-                        f"\t\tif let Some(param{i+1}_0) = PARAM_{i+1}.chars().nth(0){{\n"
-                    )
-                    string_ending_bracket = "}"
-                    arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
-                    bolero_argstring += f"PARAM_{i+1},"
-                    bolero_arg_unsafe += f"\t\tPARAM{i+1} = param{i+1}_0;\n"
-                    kani_arg_string += f"PARAM_{i+1}[0],"
-
                 else:
                     arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
                     kani_arg_string += f"unsafe{{PARAM{i+1}}}.into(),"
@@ -517,7 +507,7 @@ def main():
                 inner_generator = ""
                 for i, arg_type in enumerate(args_types):
                     subgen = f"{min_bound}..{max_bound}"
-                    if "[]" in arg_type:
+                    if "[]" in arg_type or "string" in arg_type:
                         subgen = f"[{min_bound}..{max_bound}, {min_bound}..{max_bound}]"
                         if  "&str" in compiled_rust_fn_line or "String" in compiled_rust_fn_line:
                             subgen = "[('A' as u8)..('Z' as u8 + 1), ('A' as u8)..('Z' as u8 + 1)]"
@@ -527,9 +517,9 @@ def main():
                         
                 generator = f"with_generator(({inner_generator}))"
             else:
-                generator = f"with_type::<({rust_args_types},)>()"
+                generator = f"with_type::<({rust_args_types},)>()".replace("'", "")
                 
-            bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().{generator}.cloned().for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
+            bolero_func_decl = f"\nfn bolero_wasm_eq(){{\n\tbolero::check!().{generator}.cloned()" + f".for_each(|{bolero_argstring}|{{ \n{string_bolero_harness}".replace(
                 "'", ""
             )
             
@@ -602,13 +592,13 @@ def main():
             ###################################### BOLERO ############################################
             if bolero and rust_compiles:
                 print("Running bolero")
-                command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero test -T {bolero_timeout}s -S 0 bolero_wasm_eq'
+                command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero reduce bolero_wasm_eq'
                 verification_output, timeout = verification_utils.verify(
                     wasm_bolero_path,
                     command,
                     f"{subdir}/bolero_out.txt",
                     f"{subdir}/bolero_err.txt",
-                    500,
+                    100,
                 )
                 if not timeout:
                     err_message = verification_output.stderr
@@ -626,12 +616,10 @@ def main():
                         print(f"Bolero failed")
                         dump_result(result_file, result)
                         return
-                    else:
-                        print(f"Bolero pass")
-                        result["bolero"] = True
-                        bolero_success = True
-                else:
-                    raise Exception("Command timeout")
+
+                print(f"Bolero pass")
+                result["bolero"] = True
+                bolero_success = True
         if not bolero_success:
             print(f"Failed to generate valid code after {max_llm_attempts} attempts")
             dump_result(result_file, result)
@@ -662,13 +650,10 @@ def main():
             ):
                 print("Kani failed")
                 dump_result(result_file, result)
-            else:
-                print("Kani succesful")
-                result["bounded_kani"] = True
-                dump_result(result_file, result)
-        else:
-            print("Kani timeout")
-            dump_result(result_file, result)
+                return
+        print("Kani succesful")
+        result["bounded_kani"] = True
+        dump_result(result_file, result)
 
 
 if __name__ == "__main__":

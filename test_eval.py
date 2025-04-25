@@ -1,4 +1,5 @@
 import subprocess
+import json
 import os
 from typing import List
 import sys
@@ -146,6 +147,26 @@ def run_single_benchmark(benchmark: str, total_benchmarks: int, args: argparse.N
 
         sp.stream_thread.join()
         return_code = sp.process.poll()
+
+        with open(f"{benchmark_path}/result.json", "r") as resultfp:
+            result = json.load(resultfp)
+            if not result["compile"]:
+                compilation_failed = True
+                bolero_failed = True
+                kani_failed = True
+            elif not result["bolero"]:
+                compilation_failed = False
+                bolero_failed = True
+                kani_failed = True
+            elif not result["bounded_kani"]:
+                compilation_failed = False
+                bolero_failed = False
+                kani_failed = True
+            else:
+                compilation_failed = False
+                bolero_failed = False
+                kani_failed = False
+
 
         # Determine status based on both return code and output content
         if not compilation_failed and bolero_failed:
