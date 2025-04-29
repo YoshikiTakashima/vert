@@ -27,15 +27,16 @@ Next, start up the docker container in an interactive shell.
 You will need to mount the contents of this the root of this github repo to the /mnt folder in the container.
 Run the following command from the some directory as this README.
 ```bash
-sudo docker run -it -v $( pwd ):/mnt aidanben/torust:latest
+sudo docker run -it aidanben/torust:latest /bin/bash
 ```
-In the docker shell, navigate to the /mnt/ directory:
+In the docker shell, navigate to the `/vert/` directory:
 ```bash
-cd /mnt
+cd /vert
 ```
 Next, test that translation is working by running the below command. The command below will run translation end-to-end, and will replay logged llm responses from the cache.
-
+```bash
 python3 torust.py --language c --benchmark-dir benchmark/c_transcoder/BASIC_AND_EXTENDED_EUCLIDEAN_ALGORITHMS --replay-cache
+```
 
 ## Using the LLM with AWS
 The replay cache avoids calling cloud LLMs. We provide this cache so a
