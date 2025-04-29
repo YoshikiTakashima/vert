@@ -59,13 +59,16 @@ and second reproduces a subset of our benchmarks. You can run the
 small script as shown below. The results are printed to the terminal.
 
 ```bash
-python3 test_eval.py            # subset replication
-python3 test_eval.py  --run-all # multi-day multi-100GB full replication
+# subset replication: 5 benchmarks each
+python3 test_eval.py  --language "c" # also "cpp" "go"
+
+# full replication: multi-day multi-100GB, needs AWS login
+python3 test_eval.py --language LANG --run-all --aws-profile default
 ```
 
 If using your own .aws key (e.g., named "default")
 ```bash
-python3 test_eval.py --aws-profile defaults       
+python3 test_eval.py --aws-profile default
 ```
 
 This script will take 1-2 hours to complete and requires:
@@ -135,14 +138,24 @@ you can run the following inside the `benchmark/` directory.
 for b in $(ls); do for d in $(ls $b); do (ls $b/$d/result.json && rm -rf $b/$d/out-rwasm-* ) ; done; done
 ```
 
-## Checking Correctness of VERT
+## How to Run Validation Directly
 Correctness of our evaluation results depend on `bolero`, which in
 turn runs Kani Rust Verifier and libfuzzer. You may run `bolero`
-directly without our code by moving to the `out-rwasm-bolero/`
-directory of each benchmark (see "Artifact Contents Documentation")
-and running the following for each checking tool.
-- PBT with (30s timeout): `RUSTFLAGS="-C overflow-checks=false" cargo bolero test -T 30s -S 0 bolero_wasm_eq`
-- Kani: `cargo bolero test --engine kani kani_wasm_eq`
+directly without our code by moving to the
+`BENCHMARK/PATH/out-rwasm-bolero/` and running the following for each
+checking tool.
+
+- PBT with (30s timeout):
+  - Steps:
+    - `mkdir -p src/__fuzz__`.
+    - `RUSTFLAGS="-C overflow-checks=false" cargo bolero reduce bolero_wasm_eq 2>&1 1> output`
+  - Check if successful by `cat output | grep 'Test Failure'`. If it
+    doesn't match, count it as success.
+- Kani:
+  - Steps:
+    - `cargo bolero test --engine kani kani_wasm_eq 2>&1 1> output`
+  - Check if successful by `cat output | grep 'Verification
+    Failure'`. If it doesn't match, count it as success.
 
 # Artifact Contents Documentation
 This artifact contains the code for our experiments as well as key data from our experiments. The data includes the Rust translations produced by our tool, the bolero/kani harnesses used for PBT and bounded verification, and the llm inputs and outputs for our experimental runs. Each individual benchmark has a directory under the benchmark/ directory, which contains the mentioned data for that benchmark. Details on this data is given in the "Tool Outputs" section below.
