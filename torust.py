@@ -592,7 +592,7 @@ def main():
             ###################################### BOLERO ############################################
             if bolero and rust_compiles:
                 print("Running bolero")
-                command = f'RUSTFLAGS="-C overflow-checks=false" cargo bolero reduce bolero_wasm_eq'
+                command = f'mkdir -p src/__fuzz__/bolero_wasm_eq && RUSTFLAGS="-C overflow-checks=false" cargo --offline bolero reduce bolero_wasm_eq'
                 verification_output, timeout = verification_utils.verify(
                     wasm_bolero_path,
                     command,
@@ -630,7 +630,7 @@ def main():
     if bounded_kani and rust_compiles and bolero_successful:
         print("Running Kani")
         #command = "cargo kani --no-unwinding-checks --default-unwind 10"
-        command = "cargo bolero test --engine kani --engine-args=\"--no-unwinding-checks --default-unwind 0\" kani_wasm_eq"
+        command = "cargo --offline bolero test --engine kani --engine-args=\"--no-unwinding-checks --default-unwind 0\" kani_wasm_eq"
         verification_output, timeout = verification_utils.verify(
             #wasm_kani_path,
             wasm_bolero_path,

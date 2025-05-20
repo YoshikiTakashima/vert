@@ -41,6 +41,11 @@ def fix_output(o):
 
 class VerificationUtils:
     def verify(self, path_to_run, command, stdout_file, stderr_file, timeout_secs):
+        script_path = os.path.abspath(__file__)
+        script_directory = os.path.dirname(script_path)
+        subprocess.run(["cp", f"{script_directory}/Cargo.lock.global", f"{path_to_run}/Cargo.lock"])
+        subprocess.run(["mkdir", "-p", f"{path_to_run}/src/__fuzz__/bolero_wasm_eq/corpus"])
+        subprocess.run(["touch", f"{path_to_run}/src/__fuzz__/bolero_wasm_eq/corpus/empty"])
         timeout = False
         try:
             process = subprocess.run(
